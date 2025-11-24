@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct v2.0",
+  "agent_version": "OpenHands CodeAct v2.0",
+  "model": "gpt-4o-2024-11-20",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2025-11-24T19:56:00.092895",
+  "directory_name": "20251124_gpt_4o_2024_11_20"
+}

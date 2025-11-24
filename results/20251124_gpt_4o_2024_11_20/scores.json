@@ -1,0 +1,62 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 45.1,
+    "metric": "resolve_rate",
+    "total_cost": 32.55,
+    "total_runtime": 525.5,
+    "tags": [
+      "swe-bench"
+    ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 39.5,
+    "metric": "resolve_rate",
+    "total_cost": 29.75,
+    "total_runtime": 497.5,
+    "tags": [
+      "swe-bench-multimodal"
+    ]
+  },
+  {
+    "benchmark": "commit0",
+    "score": 68.9,
+    "metric": "test_pass_rate",
+    "total_cost": 44.45,
+    "total_runtime": 644.5,
+    "tags": [
+      "commit0"
+    ]
+  },
+  {
+    "benchmark": "multi-swe-bench",
+    "score": 32.8,
+    "metric": "resolve_rate",
+    "total_cost": 26.4,
+    "total_runtime": 464.0,
+    "tags": [
+      "multi-swe-bench"
+    ]
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 62.3,
+    "metric": "success_rate",
+    "total_cost": 41.15,
+    "total_runtime": 611.5,
+    "tags": [
+      "swt-bench"
+    ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 55.2,
+    "metric": "accuracy",
+    "total_cost": 37.6,
+    "total_runtime": 576.0,
+    "tags": [
+      "gaia"
+    ]
+  }
+]
