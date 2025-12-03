@@ -1,9 +1,0 @@
-{
-  "agent_name": "SWE-Agent",
-  "agent_version": "SWE-Agent",
-  "model": "claude-3-opus-20240229",
-  "openness": "closed_api_available",
-  "tool_usage": "custom_interface",
-  "submission_time": "2025-11-24T19:56:00.092922",
-  "directory_name": "20251124_claude_3_opus_20240229"
-}

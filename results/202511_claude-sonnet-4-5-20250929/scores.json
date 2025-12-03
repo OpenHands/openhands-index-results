@@ -1,0 +1,12 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 74.6,
+    "metric": "resolve_rate",
+    "total_cost": 688.13,
+    "total_runtime": 0,
+    "tags": [
+      "swe-bench"
+    ]
+  },
+]
