@@ -1,9 +1,0 @@
-{
-  "agent_name": "AutoCodeRover",
-  "agent_version": "AutoCodeRover",
-  "model": "gpt-4-turbo-2024-04-09",
-  "openness": "closed_api_available",
-  "tool_usage": "standard",
-  "submission_time": "2025-11-24T19:56:00.092908",
-  "directory_name": "20251124_gpt_4_turbo_2024_04_09"
-}

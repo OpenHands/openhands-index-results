@@ -1,9 +1,0 @@
-{
-  "agent_name": "Agentless",
-  "agent_version": "Agentless",
-  "model": "gpt-4o-mini-2024-07-18",
-  "openness": "closed_api_available",
-  "tool_usage": "standard",
-  "submission_time": "2025-11-24T19:56:00.092916",
-  "directory_name": "20251124_gpt_4o_mini_2024_07_18"
-}
