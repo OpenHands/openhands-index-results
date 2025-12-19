@@ -21,20 +21,36 @@ def load_json_with_trailing_commas(file_path: Path) -> dict | list:
     return json.loads(content)
 
 
-# Expected benchmarks from README
+# Expected benchmarks from issue #2
+# https://github.com/OpenHands/openhands-index-results/issues/2
 EXPECTED_BENCHMARKS = [
-    "swe-bench",
-    "swe-bench-multimodal",
-    "commit0",
-    "multi-swe-bench",
-    "swt-bench",
-    "gaia",
+    "swe-bench",           # SWE-Bench
+    "swe-bench-multimodal",  # SWE-Bench multimodal (#6)
+    "multi-swe-bench",     # multi-swe-bench (#7)
+    "swt-bench",           # SWT-bench (#5)
+    "commit0",             # commit-0 (#8)
+    "gaia",                # GAIA (#9)
 ]
 
-# Expected metrics based on scores.json schema
+# Expected metrics from issue #2
 EXPECTED_METRICS = [
-    "resolve_rate",
-    "success_rate",
+    "accuracy",            # accuracy
+    "cost",                # monetary cost (#3)
+    "time",                # wall clock time (#4)
+]
+
+# Expected models from issue #2
+EXPECTED_MODELS = [
+    "claude-4.5-opus",
+    "claude-4.5-sonnet",
+    "gemini-3-pro",
+    "gemini-3-flash",
+    "gpt-5.2-high-reasoning",
+    "gpt-5.2",
+    "kimi-k2-thinking",
+    "minimax-m2",
+    "deepseek-v3.2-reasoner",
+    "qwen-3-coder",
 ]
 
 
@@ -101,64 +117,113 @@ def load_results(results_dir: Path) -> dict:
     }
 
 
+def normalize_model_name(model_name: str) -> str:
+    """Normalize model name for matching against expected models."""
+    return model_name.lower().replace("_", "-").replace(" ", "-")
+
+
+# Mapping from found model names to expected model names
+# This handles variations in naming conventions
+MODEL_NAME_MAPPING = {
+    "claude-opus-4-5-20251101": "claude-4.5-opus",
+    "claude-sonnet-4-5-20250929": "claude-4.5-sonnet",
+    "gemini-3-pro-preview": "gemini-3-pro",
+    "gpt-5": "gpt-5.2",
+    "qwen3-coder-480b-a35b-instruct-fp8": "qwen-3-coder",
+}
+
+
 def calculate_progress(results: dict) -> dict:
     """Calculate progress percentage towards the 3D array goal.
 
-    Progress is calculated as:
-    - Benchmark coverage: % of expected benchmarks that have at least one result
-    - Metric coverage: % of expected metrics that have at least one result
-    - 3D coverage: % of (model x benchmark x metric) combinations filled
+    Progress is calculated based on the expected dimensions from issue #2:
+    - 6 benchmarks
+    - 3 metrics
+    - 10 models
+
+    The 3D array has 6 * 3 * 10 = 180 total cells.
 
     Returns a dict with progress details.
     """
-    models = results["models"]
-    benchmarks = results["benchmarks"]
-    metrics = results["metrics"]
+    found_models = results["models"]
+    found_benchmarks = results["benchmarks"]
+    found_metrics = results["metrics"]
     coverage = results["coverage"]
 
+    # Map found models to expected models
+    found_to_expected = {}
+    for found_model in found_models:
+        normalized = normalize_model_name(found_model)
+        if normalized in MODEL_NAME_MAPPING:
+            found_to_expected[found_model] = MODEL_NAME_MAPPING[normalized]
+
+    # Model coverage - check which expected models have any results
+    covered_models = list(set(found_to_expected.values()))
+    model_coverage = len(covered_models) / len(EXPECTED_MODELS) * 100
+
     # Benchmark coverage
-    covered_benchmarks = benchmarks.intersection(set(EXPECTED_BENCHMARKS))
-    benchmark_coverage = (
-        len(covered_benchmarks) / len(EXPECTED_BENCHMARKS) * 100
-        if EXPECTED_BENCHMARKS
-        else 0
+    covered_benchmarks = found_benchmarks.intersection(set(EXPECTED_BENCHMARKS))
+    benchmark_coverage = len(covered_benchmarks) / len(EXPECTED_BENCHMARKS) * 100
+
+    # Metric coverage - map found metrics to expected metrics
+    metric_mapping = {
+        "resolve_rate": "accuracy",
+        "success_rate": "accuracy",
+        "accuracy": "accuracy",
+        "total_cost": "cost",
+        "cost": "cost",
+        "total_runtime": "time",
+        "time": "time",
+        "runtime": "time",
+    }
+    covered_metrics = set()
+    for found_metric in found_metrics:
+        mapped = metric_mapping.get(found_metric.lower())
+        if mapped and mapped in EXPECTED_METRICS:
+            covered_metrics.add(mapped)
+    metric_coverage = len(covered_metrics) / len(EXPECTED_METRICS) * 100
+
+    # 3D array coverage (expected models x expected benchmarks x expected metrics)
+    # Total cells = 10 models * 6 benchmarks * 3 metrics = 180
+    total_expected_cells = (
+        len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
     )
 
-    # Metric coverage
-    covered_metrics = metrics.intersection(set(EXPECTED_METRICS))
-    metric_coverage = (
-        len(covered_metrics) / len(EXPECTED_METRICS) * 100 if EXPECTED_METRICS else 0
-    )
+    # Count filled cells by checking coverage
+    # Build reverse mapping: expected model -> found model
+    expected_to_found = {v: k for k, v in found_to_expected.items()}
 
-    # 3D array coverage (models x benchmarks x metrics)
-    # Calculate what percentage of the expected 3D array is filled
-    if models and EXPECTED_BENCHMARKS and EXPECTED_METRICS:
-        total_expected_cells = (
-            len(models) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
-        )
-        filled_cells = 0
-        for model in models:
+    filled_cells = 0
+    for expected_model in EXPECTED_MODELS:
+        found_model = expected_to_found.get(expected_model)
+        if found_model:
             for benchmark in EXPECTED_BENCHMARKS:
                 for metric in EXPECTED_METRICS:
-                    if coverage.get((model, benchmark, metric)):
-                        filled_cells += 1
-        array_coverage = filled_cells / total_expected_cells * 100
-    else:
-        total_expected_cells = 0
-        filled_cells = 0
-        array_coverage = 0
+                    # Check if we have data for this cell
+                    # Need to check all found metrics that map to this expected metric
+                    for found_metric, mapped_metric in metric_mapping.items():
+                        if mapped_metric == metric:
+                            if coverage.get((found_model, benchmark, found_metric)):
+                                filled_cells += 1
+                                break
 
-    # Overall progress (weighted average)
-    overall_progress = (benchmark_coverage + metric_coverage + array_coverage) / 3
+    array_coverage = filled_cells / total_expected_cells * 100 if total_expected_cells else 0
+
+    # Overall progress is the 3D array coverage (the main goal)
+    overall_progress = array_coverage
 
     return {
-        "models_count": len(models),
-        "models": sorted(models),
-        "benchmarks_found": sorted(benchmarks),
+        "models_found": sorted(found_models),
+        "models_expected": EXPECTED_MODELS,
+        "models_covered": covered_models,
+        "model_coverage_pct": round(model_coverage, 2),
+        "benchmarks_found": sorted(found_benchmarks),
         "benchmarks_expected": EXPECTED_BENCHMARKS,
+        "benchmarks_covered": sorted(covered_benchmarks),
         "benchmark_coverage_pct": round(benchmark_coverage, 2),
-        "metrics_found": sorted(metrics),
+        "metrics_found": sorted(found_metrics),
         "metrics_expected": EXPECTED_METRICS,
+        "metrics_covered": sorted(covered_metrics),
         "metric_coverage_pct": round(metric_coverage, 2),
         "array_total_cells": total_expected_cells,
         "array_filled_cells": filled_cells,
@@ -173,20 +238,26 @@ def print_progress_report(progress: dict) -> None:
     print("OpenHands Index Results - Progress Report")
     print("=" * 60)
     print()
-
-    print(f"Models found: {progress['models_count']}")
-    for model in progress["models"]:
-        print(f"  - {model}")
+    print("Target: 3D array of benchmarks × models × metrics")
+    print(f"  {len(EXPECTED_BENCHMARKS)} benchmarks × {len(EXPECTED_MODELS)} models × {len(EXPECTED_METRICS)} metrics = {progress['array_total_cells']} cells")
     print()
 
-    print(f"Benchmark Coverage: {progress['benchmark_coverage_pct']}%")
-    print(f"  Found: {progress['benchmarks_found']}")
+    print(f"Model Coverage: {progress['model_coverage_pct']}% ({len(progress['models_covered'])}/{len(EXPECTED_MODELS)})")
+    print(f"  Expected: {progress['models_expected']}")
+    print(f"  Found: {progress['models_found']}")
+    print(f"  Covered: {progress['models_covered']}")
+    print()
+
+    print(f"Benchmark Coverage: {progress['benchmark_coverage_pct']}% ({len(progress['benchmarks_covered'])}/{len(EXPECTED_BENCHMARKS)})")
     print(f"  Expected: {progress['benchmarks_expected']}")
+    print(f"  Found: {progress['benchmarks_found']}")
+    print(f"  Covered: {list(progress['benchmarks_covered'])}")
     print()
 
-    print(f"Metric Coverage: {progress['metric_coverage_pct']}%")
-    print(f"  Found: {progress['metrics_found']}")
+    print(f"Metric Coverage: {progress['metric_coverage_pct']}% ({len(progress['metrics_covered'])}/{len(EXPECTED_METRICS)})")
     print(f"  Expected: {progress['metrics_expected']}")
+    print(f"  Found: {progress['metrics_found']}")
+    print(f"  Covered: {list(progress['metrics_covered'])}")
     print()
 
     print(f"3D Array Coverage: {progress['array_coverage_pct']}%")
