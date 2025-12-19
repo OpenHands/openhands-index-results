@@ -2,7 +2,7 @@
   {
     "benchmark": "swe-bench",
     "score": 65.2,
-    "metric": "resolve_rate",
+    "metric": "accuracy",
     "total_cost": 217.00,
     "total_runtime": 0,
     "tags": [

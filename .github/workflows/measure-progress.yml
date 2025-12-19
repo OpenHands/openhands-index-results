@@ -17,6 +17,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install pydantic
+
+      - name: Validate JSON schemas
+        run: python scripts/validate_schema.py
+
       - name: Run progress measurement
         run: python scripts/measure_progress.py
 
@@ -25,11 +31,12 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
-            const output = execSync('python scripts/measure_progress.py').toString();
-            
+            const progressOutput = execSync('python scripts/measure_progress.py').toString();
+            const schemaOutput = execSync('python scripts/validate_schema.py').toString();
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '## 📊 Progress Report\n\n```\n' + output + '\n```\n\nThis report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.'
+              body: '## 📊 Progress Report\n\n```\n' + progressOutput + '\n```\n\n## ✅ Schema Validation\n\n```\n' + schemaOutput + '\n```\n\nThis report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.'
             });

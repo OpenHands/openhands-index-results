@@ -76,7 +76,7 @@ class TestLoadResults:
         model_dir.mkdir()
 
         metadata = {"model": "test-model", "agent_name": "Test Agent"}
-        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "resolve_rate"}]
+        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "total_cost": 100.0, "total_runtime": 3600}]
 
         (model_dir / "metadata.json").write_text(json.dumps(metadata))
         (model_dir / "scores.json").write_text(json.dumps(scores))
@@ -84,8 +84,12 @@ class TestLoadResults:
         results = load_results(tmp_path)
         assert "test-model" in results["models"]
         assert "swe-bench" in results["benchmarks"]
-        assert "resolve_rate" in results["metrics"]
-        assert results["coverage"][("test-model", "swe-bench", "resolve_rate")] is True
+        assert "accuracy" in results["metrics"]
+        assert "total_cost" in results["metrics"]
+        assert "total_runtime" in results["metrics"]
+        assert results["coverage"][("test-model", "swe-bench", "accuracy")] is True
+        assert results["coverage"][("test-model", "swe-bench", "total_cost")] is True
+        assert results["coverage"][("test-model", "swe-bench", "total_runtime")] is True
 
     def test_skips_invalid_json(self, tmp_path):
         """Test that invalid JSON files are skipped."""
@@ -109,6 +113,9 @@ class TestExpectedDimensions:
     def test_expected_metrics_count(self):
         """Test that we have 3 expected metrics."""
         assert len(EXPECTED_METRICS) == 3
+        assert "accuracy" in EXPECTED_METRICS
+        assert "total_cost" in EXPECTED_METRICS
+        assert "total_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
         """Test that we have 10 expected models."""
@@ -139,13 +146,17 @@ class TestCalculateProgress:
         assert progress["array_coverage_pct"] == 0.0
         assert progress["array_total_cells"] == 180
 
-    def test_known_model_mapping(self):
+    def test_known_model_with_all_metrics(self):
         """Test progress with a known model that maps to expected."""
         results = {
             "models": {"gpt-5"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"resolve_rate"},
-            "coverage": {("gpt-5", "swe-bench", "resolve_rate"): True},
+            "metrics": {"accuracy", "total_cost", "total_runtime"},
+            "coverage": {
+                ("gpt-5", "swe-bench", "accuracy"): True,
+                ("gpt-5", "swe-bench", "total_cost"): True,
+                ("gpt-5", "swe-bench", "total_runtime"): True,
+            },
         }
         progress = calculate_progress(results)
 
@@ -153,19 +164,19 @@ class TestCalculateProgress:
         assert progress["model_coverage_pct"] == 10.0
         # 1/6 benchmarks = 16.67%
         assert progress["benchmark_coverage_pct"] == 16.67
-        # resolve_rate maps to accuracy, so 1/3 metrics = 33.33%
-        assert progress["metric_coverage_pct"] == 33.33
-        # 1 cell filled out of 180 = 0.56%
-        assert progress["array_filled_cells"] == 1
-        assert progress["array_coverage_pct"] == 0.56
+        # All 3 metrics = 100%
+        assert progress["metric_coverage_pct"] == 100.0
+        # 3 cells filled out of 180 = 1.67%
+        assert progress["array_filled_cells"] == 3
+        assert progress["array_coverage_pct"] == 1.67
 
     def test_unknown_model_not_counted(self):
         """Test that unknown models do not contribute to coverage."""
         results = {
             "models": {"unknown-model-xyz"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"resolve_rate"},
-            "coverage": {("unknown-model-xyz", "swe-bench", "resolve_rate"): True},
+            "metrics": {"accuracy"},
+            "coverage": {("unknown-model-xyz", "swe-bench", "accuracy"): True},
         }
         progress = calculate_progress(results)
 
@@ -177,25 +188,22 @@ class TestCalculateProgress:
         # No cells filled because model does not map
         assert progress["array_filled_cells"] == 0
 
-    def test_metric_mapping(self):
-        """Test that metrics are correctly mapped."""
+    def test_partial_metric_coverage(self):
+        """Test partial metric coverage."""
         results = {
             "models": {"gpt-5"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"resolve_rate", "total_cost", "total_runtime"},
+            "metrics": {"accuracy"},  # Only accuracy, missing total_cost and total_runtime
             "coverage": {
-                ("gpt-5", "swe-bench", "resolve_rate"): True,
-                ("gpt-5", "swe-bench", "total_cost"): True,
-                ("gpt-5", "swe-bench", "total_runtime"): True,
+                ("gpt-5", "swe-bench", "accuracy"): True,
             },
         }
         progress = calculate_progress(results)
 
-        # All 3 metrics should be covered
-        assert progress["metric_coverage_pct"] == 100.0
-        assert set(progress["metrics_covered"]) == {"accuracy", "cost", "time"}
-        # 3 cells filled (1 model * 1 benchmark * 3 metrics)
-        assert progress["array_filled_cells"] == 3
+        # 1/3 metrics = 33.33%
+        assert progress["metric_coverage_pct"] == 33.33
+        # 1 cell filled (1 model * 1 benchmark * 1 metric)
+        assert progress["array_filled_cells"] == 1
 
 
 class TestIntegration:
@@ -227,3 +235,8 @@ class TestIntegration:
         assert "metrics_found" in progress
         assert "metrics_expected" in progress
         assert progress["array_total_cells"] == 180
+
+        # Verify actual metrics are found
+        assert "accuracy" in results["metrics"]
+        assert "total_cost" in results["metrics"]
+        assert "total_runtime" in results["metrics"]

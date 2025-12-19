@@ -34,9 +34,9 @@ EXPECTED_BENCHMARKS = [
 
 # Expected metrics from issue #2
 EXPECTED_METRICS = [
-    "accuracy",            # accuracy
-    "cost",                # monetary cost (#3)
-    "time",                # wall clock time (#4)
+    "accuracy",            # accuracy (resolve_rate)
+    "total_cost",          # monetary cost (#3)
+    "total_runtime",       # wall clock time (#4)
 ]
 
 # Expected models from issue #2
@@ -100,14 +100,25 @@ def load_results(results_dir: Path) -> dict:
         for score_entry in scores:
             benchmark = score_entry.get("benchmark")
             metric = score_entry.get("metric")
+            has_total_cost = "total_cost" in score_entry
+            has_total_runtime = "total_runtime" in score_entry
 
             if benchmark:
                 benchmarks.add(benchmark)
             if metric:
                 metrics.add(metric)
+                if benchmark:
+                    coverage[(model_name, benchmark, metric)] = True
 
-            if benchmark and metric:
-                coverage[(model_name, benchmark, metric)] = True
+            # Track total_cost and total_runtime as separate metrics
+            if has_total_cost:
+                metrics.add("total_cost")
+                if benchmark:
+                    coverage[(model_name, benchmark, "total_cost")] = True
+            if has_total_runtime:
+                metrics.add("total_runtime")
+                if benchmark:
+                    coverage[(model_name, benchmark, "total_runtime")] = True
 
     return {
         "models": models,
@@ -165,22 +176,8 @@ def calculate_progress(results: dict) -> dict:
     covered_benchmarks = found_benchmarks.intersection(set(EXPECTED_BENCHMARKS))
     benchmark_coverage = len(covered_benchmarks) / len(EXPECTED_BENCHMARKS) * 100
 
-    # Metric coverage - map found metrics to expected metrics
-    metric_mapping = {
-        "resolve_rate": "accuracy",
-        "success_rate": "accuracy",
-        "accuracy": "accuracy",
-        "total_cost": "cost",
-        "cost": "cost",
-        "total_runtime": "time",
-        "time": "time",
-        "runtime": "time",
-    }
-    covered_metrics = set()
-    for found_metric in found_metrics:
-        mapped = metric_mapping.get(found_metric.lower())
-        if mapped and mapped in EXPECTED_METRICS:
-            covered_metrics.add(mapped)
+    # Metric coverage - direct match against expected metrics
+    covered_metrics = found_metrics.intersection(set(EXPECTED_METRICS))
     metric_coverage = len(covered_metrics) / len(EXPECTED_METRICS) * 100
 
     # 3D array coverage (expected models x expected benchmarks x expected metrics)
@@ -199,13 +196,8 @@ def calculate_progress(results: dict) -> dict:
         if found_model:
             for benchmark in EXPECTED_BENCHMARKS:
                 for metric in EXPECTED_METRICS:
-                    # Check if we have data for this cell
-                    # Need to check all found metrics that map to this expected metric
-                    for found_metric, mapped_metric in metric_mapping.items():
-                        if mapped_metric == metric:
-                            if coverage.get((found_model, benchmark, found_metric)):
-                                filled_cells += 1
-                                break
+                    if coverage.get((found_model, benchmark, metric)):
+                        filled_cells += 1
 
     array_coverage = filled_cells / total_expected_cells * 100 if total_expected_cells else 0
 
