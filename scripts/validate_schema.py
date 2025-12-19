@@ -7,7 +7,6 @@ in the results directory conform to the expected schema.
 """
 
 import json
-import re
 import sys
 from datetime import datetime
 from enum import Enum
@@ -79,19 +78,16 @@ class ScoreEntry(BaseModel):
 
 
 
-def load_json_with_trailing_commas(file_path: Path) -> dict | list:
-    """Load JSON file, handling trailing commas which are technically invalid JSON."""
+def load_json(file_path: Path) -> dict | list:
+    """Load JSON file."""
     with open(file_path) as f:
-        content = f.read()
-    # Remove trailing commas before ] or }
-    content = re.sub(r",\s*([}\]])", r"\1", content)
-    return json.loads(content)
+        return json.load(f)
 
 
 def validate_metadata(file_path: Path) -> tuple[bool, str]:
     """Validate a metadata.json file against the schema."""
     try:
-        data = load_json_with_trailing_commas(file_path)
+        data = load_json(file_path)
         Metadata(**data)
         return True, "OK"
     except Exception as e:
@@ -101,7 +97,7 @@ def validate_metadata(file_path: Path) -> tuple[bool, str]:
 def validate_scores(file_path: Path) -> tuple[bool, str]:
     """Validate a scores.json file against the schema."""
     try:
-        data = load_json_with_trailing_commas(file_path)
+        data = load_json(file_path)
         if not isinstance(data, list):
             return False, "scores.json must be a list"
         for i, entry in enumerate(data):

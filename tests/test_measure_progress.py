@@ -13,41 +13,34 @@ from measure_progress import (
     EXPECTED_MODELS,
     MODEL_NAME_MAPPING,
     calculate_progress,
-    load_json_with_trailing_commas,
+    load_json,
     load_results,
     normalize_model_name,
 )
 
 
-class TestLoadJsonWithTrailingCommas:
-    """Tests for load_json_with_trailing_commas function."""
+class TestLoadJson:
+    """Tests for load_json function."""
 
     def test_valid_json(self, tmp_path):
-        """Test loading valid JSON without trailing commas."""
+        """Test loading valid JSON."""
         json_file = tmp_path / "test.json"
         json_file.write_text('{"key": "value"}')
-        result = load_json_with_trailing_commas(json_file)
+        result = load_json(json_file)
         assert result == {"key": "value"}
 
-    def test_json_with_trailing_comma_in_object(self, tmp_path):
-        """Test loading JSON with trailing comma in object."""
+    def test_valid_array(self, tmp_path):
+        """Test loading valid JSON array."""
         json_file = tmp_path / "test.json"
-        json_file.write_text('{"key": "value",}')
-        result = load_json_with_trailing_commas(json_file)
-        assert result == {"key": "value"}
-
-    def test_json_with_trailing_comma_in_array(self, tmp_path):
-        """Test loading JSON with trailing comma in array."""
-        json_file = tmp_path / "test.json"
-        json_file.write_text('[1, 2, 3,]')
-        result = load_json_with_trailing_commas(json_file)
+        json_file.write_text('[1, 2, 3]')
+        result = load_json(json_file)
         assert result == [1, 2, 3]
 
-    def test_json_with_multiple_trailing_commas(self, tmp_path):
-        """Test loading JSON with trailing commas."""
+    def test_nested_json(self, tmp_path):
+        """Test loading nested JSON."""
         json_file = tmp_path / "test.json"
-        json_file.write_text('{"items": [1, 2,], "nested": {"a": 1,},}')
-        result = load_json_with_trailing_commas(json_file)
+        json_file.write_text('{"items": [1, 2], "nested": {"a": 1}}')
+        result = load_json(json_file)
         assert result == {"items": [1, 2], "nested": {"a": 1}}
 
 

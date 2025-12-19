@@ -7,18 +7,14 @@ based on coverage of benchmarks, models, and metrics.
 """
 
 import json
-import re
 import sys
 from pathlib import Path
 
 
-def load_json_with_trailing_commas(file_path: Path) -> dict | list:
-    """Load JSON file, handling trailing commas which are technically invalid JSON."""
+def load_json(file_path: Path) -> dict | list:
+    """Load JSON file."""
     with open(file_path) as f:
-        content = f.read()
-    # Remove trailing commas before ] or }
-    content = re.sub(r",\s*([}\]])", r"\1", content)
-    return json.loads(content)
+        return json.load(f)
 
 
 # Expected benchmarks from issue #2
@@ -89,8 +85,8 @@ def load_results(results_dir: Path) -> dict:
             continue
 
         try:
-            metadata = load_json_with_trailing_commas(metadata_file)
-            scores = load_json_with_trailing_commas(scores_file)
+            metadata = load_json(metadata_file)
+            scores = load_json(scores_file)
         except (json.JSONDecodeError, IOError):
             continue
 

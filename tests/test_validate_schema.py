@@ -140,18 +140,16 @@ class TestScoreEntrySchema:
         assert valid is False
         assert "total_cost" in msg.lower()
 
-    def test_trailing_comma_handled(self, tmp_path):
-        """Test that trailing commas in JSON are handled."""
+    def test_optional_fields(self, tmp_path):
+        """Test that optional fields can be omitted."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "tags": []
+        }]
         scores_file = tmp_path / "scores.json"
-        # JSON with trailing comma (technically invalid but common)
-        scores_file.write_text('''[
-            {
-                "benchmark": "swe-bench",
-                "score": 68.8,
-                "metric": "accuracy",
-                "tags": ["swe-bench"],
-            },
-        ]''')
+        scores_file.write_text(json.dumps(scores))
 
         valid, msg = validate_scores(scores_file)
         assert valid is True
