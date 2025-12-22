@@ -1,0 +1,42 @@
+name: Measure Progress
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  measure-progress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pydantic
+
+      - name: Validate JSON schemas
+        run: python scripts/validate_schema.py
+
+      - name: Run progress measurement
+        run: python scripts/measure_progress.py
+
+      - name: Add progress report as PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const progressOutput = execSync('python scripts/measure_progress.py').toString();
+            const schemaOutput = execSync('python scripts/validate_schema.py').toString();
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## 📊 Progress Report\n\n```\n' + progressOutput + '\n```\n\n## ✅ Schema Validation\n\n```\n' + schemaOutput + '\n```\n\nThis report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.'
+            });
