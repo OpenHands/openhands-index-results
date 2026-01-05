@@ -1,0 +1,12 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 0.0,
+    "metric": "accuracy",
+    "total_cost": 0.2,
+    "average_runtime": 0.0,
+    "tags": [
+      "gaia"
+    ]
+  }
+]
