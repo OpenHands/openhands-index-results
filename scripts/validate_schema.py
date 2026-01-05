@@ -62,7 +62,11 @@ class ScoreEntry(BaseModel):
     score: float = Field(..., ge=0, le=100, description="Score value (0-100)")
     metric: Metric = Field(..., description="Metric type for the score")
     total_cost: Optional[float] = Field(None, ge=0, description="Total cost in USD")
+    # total_runtime is retained for backward compatibility; prefer average_runtime going forward.
     total_runtime: Optional[float] = Field(None, ge=0, description="Total runtime in seconds")
+    average_runtime: Optional[float] = Field(
+        None, ge=0, description="Average runtime in seconds (preferred)"
+    )
     tags: list[str] = Field(default_factory=list, description="Tags for categorization")
 
     @field_validator("tags")

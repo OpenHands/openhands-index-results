@@ -84,7 +84,7 @@ class TestScoreEntrySchema:
             "score": 68.8,
             "metric": "accuracy",
             "total_cost": 206.00,
-            "total_runtime": 3600,
+            "average_runtime": 3600,
             "tags": ["swe-bench"]
         }]
         scores_file = tmp_path / "scores.json"
@@ -185,7 +185,7 @@ class TestValidateResultsDirectory:
             "score": 68.8,
             "metric": "accuracy",
             "total_cost": 206.00,
-            "total_runtime": 0,
+            "average_runtime": 0,
             "tags": ["swe-bench"]
         }]
 

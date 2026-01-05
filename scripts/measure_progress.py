@@ -32,7 +32,8 @@ EXPECTED_BENCHMARKS = [
 EXPECTED_METRICS = [
     "accuracy",            # accuracy (resolve_rate)
     "total_cost",          # monetary cost (#3)
-    "total_runtime",       # wall clock time (#4)
+    # Prefer average_runtime, fall back to total_runtime for legacy results
+    "average_runtime",
 ]
 
 # Expected models from issue #2
@@ -97,6 +98,7 @@ def load_results(results_dir: Path) -> dict:
             benchmark = score_entry.get("benchmark")
             metric = score_entry.get("metric")
             has_total_cost = "total_cost" in score_entry
+            has_average_runtime = "average_runtime" in score_entry
             has_total_runtime = "total_runtime" in score_entry
 
             if benchmark:
@@ -111,10 +113,15 @@ def load_results(results_dir: Path) -> dict:
                 metrics.add("total_cost")
                 if benchmark:
                     coverage[(model_name, benchmark, "total_cost")] = True
-            if has_total_runtime:
-                metrics.add("total_runtime")
+            # Track runtime metrics (prefer average_runtime, include legacy total_runtime)
+            if has_average_runtime:
+                metrics.add("average_runtime")
                 if benchmark:
-                    coverage[(model_name, benchmark, "total_runtime")] = True
+                    coverage[(model_name, benchmark, "average_runtime")] = True
+            if has_total_runtime:
+                metrics.add("average_runtime")
+                if benchmark:
+                    coverage[(model_name, benchmark, "average_runtime")] = True
 
     return {
         "models": models,

@@ -69,7 +69,7 @@ class TestLoadResults:
         model_dir.mkdir()
 
         metadata = {"model": "test-model", "agent_name": "Test Agent"}
-        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "total_cost": 100.0, "total_runtime": 3600}]
+        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "total_cost": 100.0, "average_runtime": 3600}]
 
         (model_dir / "metadata.json").write_text(json.dumps(metadata))
         (model_dir / "scores.json").write_text(json.dumps(scores))
@@ -79,10 +79,10 @@ class TestLoadResults:
         assert "swe-bench" in results["benchmarks"]
         assert "accuracy" in results["metrics"]
         assert "total_cost" in results["metrics"]
-        assert "total_runtime" in results["metrics"]
+        assert "average_runtime" in results["metrics"]
         assert results["coverage"][("test-model", "swe-bench", "accuracy")] is True
         assert results["coverage"][("test-model", "swe-bench", "total_cost")] is True
-        assert results["coverage"][("test-model", "swe-bench", "total_runtime")] is True
+        assert results["coverage"][("test-model", "swe-bench", "average_runtime")] is True
 
     def test_skips_invalid_json(self, tmp_path):
         """Test that invalid JSON files are skipped."""
@@ -108,7 +108,7 @@ class TestExpectedDimensions:
         assert len(EXPECTED_METRICS) == 3
         assert "accuracy" in EXPECTED_METRICS
         assert "total_cost" in EXPECTED_METRICS
-        assert "total_runtime" in EXPECTED_METRICS
+        assert "average_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
         """Test that we have 10 expected models."""
@@ -144,11 +144,11 @@ class TestCalculateProgress:
         results = {
             "models": {"gpt-5"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy", "total_cost", "total_runtime"},
+            "metrics": {"accuracy", "total_cost", "average_runtime"},
             "coverage": {
                 ("gpt-5", "swe-bench", "accuracy"): True,
                 ("gpt-5", "swe-bench", "total_cost"): True,
-                ("gpt-5", "swe-bench", "total_runtime"): True,
+                ("gpt-5", "swe-bench", "average_runtime"): True,
             },
         }
         progress = calculate_progress(results)
@@ -186,7 +186,7 @@ class TestCalculateProgress:
         results = {
             "models": {"gpt-5"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy"},  # Only accuracy, missing total_cost and total_runtime
+            "metrics": {"accuracy"},  # Only accuracy, missing total_cost and runtime
             "coverage": {
                 ("gpt-5", "swe-bench", "accuracy"): True,
             },
@@ -232,4 +232,4 @@ class TestIntegration:
         # Verify actual metrics are found
         assert "accuracy" in results["metrics"]
         assert "total_cost" in results["metrics"]
-        assert "total_runtime" in results["metrics"]
+        assert "average_runtime" in results["metrics"]

@@ -60,7 +60,7 @@ Contains benchmark scores and performance metrics:
     "score": 45.1,
     "metric": "resolve_rate",
     "total_cost": 32.55,
-    "total_runtime": 3600,
+    "average_runtime": 3600,
     "tags": ["bug_fixing"]
   },
   ...
@@ -72,7 +72,8 @@ Contains benchmark scores and performance metrics:
 - `score`: Primary metric score (percentage or numeric value)
 - `metric`: Type of metric (e.g., "resolve_rate", "success_rate")
 - `total_cost`: Total API cost in USD
-- `total_runtime`: Total runtime in seconds (optional)
+- `average_runtime`: Average runtime in seconds (preferred; optional)
+- `total_runtime`: Legacy runtime in seconds (optional, retained for older results)
 - `tags`: Category tags for grouping (e.g., ["bug_fixing"], ["app_creation"])
 
 ### Legacy Format (Backward Compatible)
@@ -149,7 +150,7 @@ cat > results/20251124_gpt_4o_2024_11_20/scores.json << 'EOF'
     "score": 45.1,
     "metric": "resolve_rate",
     "total_cost": 32.55,
-    "total_runtime": 3600,
+    "average_runtime": 3600,
     "tags": ["bug_fixing"]
   },
   ...
