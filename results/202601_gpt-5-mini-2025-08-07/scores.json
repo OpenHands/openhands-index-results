@@ -1,0 +1,22 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 0.0,
+    "metric": "accuracy",
+    "total_cost": 0.00,
+    "total_runtime": 0,
+    "tags": [
+      "gaia"
+    ]
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 64.3,
+    "metric": "accuracy",
+    "total_cost": 0.00,
+    "total_runtime": 0,
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]
