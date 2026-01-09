@@ -3,8 +3,8 @@
     "benchmark": "commit0",
     "score": 50.0,
     "metric": "accuracy",
-    "total_cost": 0.0,
-    "total_runtime": 0.0,
+    "total_cost": 8.62,
+    "total_runtime": 1137.0,
     "tags": [
       "commit0"
     ]
