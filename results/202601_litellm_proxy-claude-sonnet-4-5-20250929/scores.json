@@ -1,0 +1,12 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 12.5,
+    "metric": "accuracy",
+    "total_cost": 42.36,
+    "average_runtime": 744.0,
+    "tags": [
+      "commit0"
+    ]
+  }
+]
