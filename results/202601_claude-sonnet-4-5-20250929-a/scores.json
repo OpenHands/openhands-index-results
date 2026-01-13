@@ -1,0 +1,12 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 100.0,
+    "metric": "accuracy",
+    "total_cost": 1.96,
+    "average_runtime": 473.0,
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]

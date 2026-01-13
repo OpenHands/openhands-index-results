@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "main",
+  "model": "claude-sonnet-4-5-20250929-a",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-13T04:19:39.063793+00:00",
+  "directory_name": "202601_claude-sonnet-4-5-20250929-a"
+}
