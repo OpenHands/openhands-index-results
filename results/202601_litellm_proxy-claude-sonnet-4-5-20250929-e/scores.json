@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 57.5,
+    "metric": "accuracy",
+    "total_cost": 0.0,
+    "average_runtime": 0.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20877687998-gpt-5-mini_litellm_proxy-gpt-5-mini-2025-08-07_26-01-10-14-52.tar.gz",
+    "tags": [
+      "commit0"
+    ]
+  }
+]
