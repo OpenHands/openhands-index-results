@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "ad6bdf65e437db842aba827879a299b0f496f349",
+  "model": "litellm_proxy/claude-sonnet-4-5-20250929-b",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-13T04:25:25.524456+00:00",
+  "directory_name": "202601_litellm_proxy-claude-sonnet-4-5-20250929-b"
+}
