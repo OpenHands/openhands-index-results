@@ -9,5 +9,16 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 58.8,
+    "metric": "accuracy",
+    "total_cost": 62.32,
+    "average_runtime": 443,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20821586318-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-20-24.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
