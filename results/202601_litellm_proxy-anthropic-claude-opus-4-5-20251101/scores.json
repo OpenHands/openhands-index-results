@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 50.0,
+    "metric": "accuracy",
+    "total_cost": 58.16,
+    "average_runtime": 826,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20798907628-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-07-23-57.tar.gz",
+    "tags": [
+      "commit0"
+    ]
+  }
+]
