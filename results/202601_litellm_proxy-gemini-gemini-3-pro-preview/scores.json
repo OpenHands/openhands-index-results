@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 18.2,
+    "metric": "accuracy",
+    "total_cost": 42.93,
+    "average_runtime": 805,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20830419642-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-09-01-19.tar.gz",
+    "tags": [
+      "commit0"
+    ]
+  }
+]
