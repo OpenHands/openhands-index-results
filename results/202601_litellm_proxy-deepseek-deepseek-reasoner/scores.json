@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 73.0,
+    "metric": "accuracy",
+    "total_cost": 0.0,
+    "average_runtime": 0.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20979850351-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-14-16-34.tar.gz",
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]
