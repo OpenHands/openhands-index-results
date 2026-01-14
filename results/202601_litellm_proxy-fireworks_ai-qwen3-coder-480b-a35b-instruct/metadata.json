@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "6a004a1d53d30fe09d9812753a57c69ec0a32036",
+  "model": "litellm_proxy/fireworks_ai/qwen3-coder-480b-a35b-instruct",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-14T19:59:25.908796+00:00",
+  "directory_name": "202601_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct"
+}
