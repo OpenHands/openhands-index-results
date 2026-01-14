@@ -9,5 +9,16 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 69.1,
+    "metric": "accuracy",
+    "total_cost": 90.85,
+    "average_runtime": 102,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20805719842-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-08-06-24.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
