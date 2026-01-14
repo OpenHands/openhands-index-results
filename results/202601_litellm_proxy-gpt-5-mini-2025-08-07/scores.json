@@ -9,5 +9,15 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 55.2,
+    "metric": "accuracy",
+    "total_cost": 0.0,
+    "average_runtime": 0.0,
+    "tags": [
+      "gaia"
+    ]
   }
 ]
