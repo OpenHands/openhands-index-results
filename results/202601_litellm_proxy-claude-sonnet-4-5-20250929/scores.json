@@ -9,16 +9,5 @@
     "tags": [
       "commit0"
     ]
-  },
-  {
-    "benchmark": "swe-bench",
-    "score": 28.8,
-    "metric": "accuracy",
-    "total_cost": 335.93,
-    "average_runtime": 256.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20576961352-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_25-12-29-21-16.tar.gz",
-    "tags": [
-      "swe-bench"
-    ]
   }
 ]
