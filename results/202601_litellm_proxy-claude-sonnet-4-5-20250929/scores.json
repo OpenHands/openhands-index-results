@@ -9,5 +9,16 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 58.8,
+    "metric": "accuracy",
+    "total_cost": 63.14,
+    "average_runtime": 138,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20782040922-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-07-15-35.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
