@@ -4,6 +4,6 @@
   "model": "litellm_proxy/claude-sonnet-4-5-20250929",
   "openness": "closed_api_available",
   "tool_usage": "standard",
-  "submission_time": "2026-01-14T20:12:58.954545+00:00",
+  "submission_time": "2026-01-14T21:03:47.502997+00:00",
   "directory_name": "202601_litellm_proxy-claude-sonnet-4-5-20250929"
 }
