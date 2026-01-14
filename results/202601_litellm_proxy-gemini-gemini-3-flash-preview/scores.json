@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 23.1,
+    "metric": "accuracy",
+    "total_cost": 0.0,
+    "average_runtime": 0.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20801217441-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-02-42.tar.gz",
+    "tags": [
+      "commit0"
+    ]
+  }
+]

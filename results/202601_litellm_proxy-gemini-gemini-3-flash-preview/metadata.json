@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "main",
+  "model": "litellm_proxy/gemini/gemini-3-flash-preview",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-14T03:54:27.278183+00:00",
+  "directory_name": "202601_litellm_proxy-gemini-gemini-3-flash-preview"
+}
