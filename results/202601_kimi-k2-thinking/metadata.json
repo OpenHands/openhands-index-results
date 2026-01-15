@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "ef1c2dce89adba7e0b814c36fd75c2625a211b5e",
+  "model": "kimi-k2-thinking",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-15T18:06:57.111911+00:00",
+  "directory_name": "202601_kimi-k2-thinking"
+}
