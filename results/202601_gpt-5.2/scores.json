@@ -8,7 +8,7 @@
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21012776641-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-03-21.tar.gz",
     "tags": [
       "swe-bench-multimodal"
-      ]
+    ]
   },
   {
     "benchmark": "swe-bench",
@@ -19,6 +19,17 @@
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21010530639-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-04-24.tar.gz",
     "tags": [
       "swe-bench"
+    ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 65.5,
+    "metric": "accuracy",
+    "total_cost": 79.77,
+    "average_runtime": 207,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21041979432-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-20-40.tar.gz",
+    "tags": [
+      "gaia"
     ]
   }
 ]
