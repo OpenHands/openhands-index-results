@@ -30,11 +30,25 @@ class ToolUsage(str, Enum):
     NONE = "none"
 
 
+class Model(str, Enum):
+    """Expected model names from issue #2."""
+    CLAUDE_4_5_OPUS = "claude-4.5-opus"
+    CLAUDE_4_5_SONNET = "claude-4.5-sonnet"
+    GEMINI_3_PRO = "gemini-3-pro"
+    GEMINI_3_FLASH = "gemini-3-flash"
+    GPT_5_2_HIGH_REASONING = "gpt-5.2-high-reasoning"
+    GPT_5_2 = "gpt-5.2"
+    KIMI_K2_THINKING = "kimi-k2-thinking"
+    MINIMAX_M2 = "minimax-m2"
+    DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
+    QWEN_3_CODER = "qwen-3-coder"
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
     agent_version: str = Field(..., description="Version of the agent")
-    model: str = Field(..., description="Model name")
+    model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")

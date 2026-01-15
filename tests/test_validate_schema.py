@@ -24,11 +24,11 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "1.0.0",
-            "model": "gpt-5",
+            "model": "gpt-5.2",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202510_gpt-5"
+            "directory_name": "202510_gpt-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -42,11 +42,11 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             # Missing agent_version
-            "model": "gpt-5",
+            "model": "gpt-5.2",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202510_gpt-5"
+            "directory_name": "202510_gpt-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -60,11 +60,11 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "1.0.0",
-            "model": "gpt-5",
+            "model": "gpt-5.2",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202510_gpt-5"
+            "directory_name": "202510_gpt-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -72,6 +72,24 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "openness" in msg.lower()
+
+    def test_invalid_model_value(self, tmp_path):
+        """Test metadata with invalid model value fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "1.0.0",
+            "model": "invalid-model-name",  # Invalid - not in Model enum
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "202510_invalid"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "model" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -168,17 +186,17 @@ class TestValidateResultsDirectory:
 
     def test_valid_result_directory(self, tmp_path):
         """Test validation of valid result directory."""
-        model_dir = tmp_path / "202510_gpt-5"
+        model_dir = tmp_path / "202510_gpt-5.2"
         model_dir.mkdir()
 
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "1.0.0",
-            "model": "gpt-5",
+            "model": "gpt-5.2",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202510_gpt-5"
+            "directory_name": "202510_gpt-5.2"
         }
         scores = [{
             "benchmark": "swe-bench",
@@ -199,7 +217,7 @@ class TestValidateResultsDirectory:
 
     def test_missing_metadata(self, tmp_path):
         """Test validation fails when metadata.json is missing."""
-        model_dir = tmp_path / "202510_gpt-5"
+        model_dir = tmp_path / "202510_gpt-5.2"
         model_dir.mkdir()
 
         scores = [{

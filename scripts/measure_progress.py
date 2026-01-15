@@ -124,22 +124,6 @@ def load_results(results_dir: Path) -> dict:
     }
 
 
-def normalize_model_name(model_name: str) -> str:
-    """Normalize model name for matching against expected models."""
-    return model_name.lower().replace("_", "-").replace(" ", "-")
-
-
-# Mapping from found model names to expected model names
-# This handles variations in naming conventions
-MODEL_NAME_MAPPING = {
-    "claude-opus-4-5-20251101": "claude-4.5-opus",
-    "claude-sonnet-4-5-20250929": "claude-4.5-sonnet",
-    "gemini-3-pro-preview": "gemini-3-pro",
-    "gpt-5": "gpt-5.2",
-    "qwen3-coder-480b-a35b-instruct-fp8": "qwen-3-coder",
-}
-
-
 def calculate_progress(results: dict) -> dict:
     """Calculate progress percentage towards the 3D array goal.
 
@@ -150,6 +134,9 @@ def calculate_progress(results: dict) -> dict:
 
     The 3D array has 6 * 3 * 10 = 180 total cells.
 
+    Model names in metadata.json must exactly match EXPECTED_MODELS
+    (enforced by schema validation).
+
     Returns a dict with progress details.
     """
     found_models = results["models"]
@@ -157,15 +144,8 @@ def calculate_progress(results: dict) -> dict:
     found_metrics = results["metrics"]
     coverage = results["coverage"]
 
-    # Map found models to expected models
-    found_to_expected = {}
-    for found_model in found_models:
-        normalized = normalize_model_name(found_model)
-        if normalized in MODEL_NAME_MAPPING:
-            found_to_expected[found_model] = MODEL_NAME_MAPPING[normalized]
-
-    # Model coverage - check which expected models have any results
-    covered_models = list(set(found_to_expected.values()))
+    # Model coverage - direct match since schema enforces valid model names
+    covered_models = [m for m in found_models if m in EXPECTED_MODELS]
     model_coverage = len(covered_models) / len(EXPECTED_MODELS) * 100
 
     # Benchmark coverage
@@ -182,18 +162,13 @@ def calculate_progress(results: dict) -> dict:
         len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
     )
 
-    # Count filled cells by checking coverage
-    # Build reverse mapping: expected model -> found model
-    expected_to_found = {v: k for k, v in found_to_expected.items()}
-
+    # Count filled cells by checking coverage directly
     filled_cells = 0
-    for expected_model in EXPECTED_MODELS:
-        found_model = expected_to_found.get(expected_model)
-        if found_model:
-            for benchmark in EXPECTED_BENCHMARKS:
-                for metric in EXPECTED_METRICS:
-                    if coverage.get((found_model, benchmark, metric)):
-                        filled_cells += 1
+    for model in EXPECTED_MODELS:
+        for benchmark in EXPECTED_BENCHMARKS:
+            for metric in EXPECTED_METRICS:
+                if coverage.get((model, benchmark, metric)):
+                    filled_cells += 1
 
     array_coverage = filled_cells / total_expected_cells * 100 if total_expected_cells else 0
 
@@ -203,7 +178,7 @@ def calculate_progress(results: dict) -> dict:
     return {
         "models_found": sorted(found_models),
         "models_expected": EXPECTED_MODELS,
-        "models_covered": covered_models,
+        "models_covered": sorted(covered_models),
         "model_coverage_pct": round(model_coverage, 2),
         "benchmarks_found": sorted(found_benchmarks),
         "benchmarks_expected": EXPECTED_BENCHMARKS,
@@ -218,6 +193,22 @@ def calculate_progress(results: dict) -> dict:
         "array_coverage_pct": round(array_coverage, 2),
         "overall_progress_pct": round(overall_progress, 2),
     }
+
+
+def generate_progress_bar(percentage: float, width: int = 11) -> str:
+    """Generate an ASCII progress bar using block characters.
+    
+    Args:
+        percentage: Progress percentage (0-100)
+        width: Number of blocks in the progress bar
+    
+    Returns:
+        String like "⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜ 19.44%"
+    """
+    filled = int(round(percentage / 100 * width))
+    empty = width - filled
+    bar = "⬛" * filled + "⬜" * empty
+    return f"{bar} {percentage}%"
 
 
 def print_progress_report(progress: dict) -> None:
@@ -255,7 +246,8 @@ def print_progress_report(progress: dict) -> None:
     print()
 
     print("=" * 60)
-    print(f"OVERALL PROGRESS: {progress['overall_progress_pct']}%")
+    progress_bar = generate_progress_bar(progress['overall_progress_pct'])
+    print(f"OVERALL PROGRESS: {progress_bar}")
     print("=" * 60)
 
 
