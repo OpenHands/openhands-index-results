@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "5734ec0",
+  "model": "litellm_proxy/openai/gpt-5.2-2025-12-11",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-15T22:06:34.099431+00:00",
+  "directory_name": "202601_litellm_proxy-openai-gpt-5.2-2025-12-11"
+}
