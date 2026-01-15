@@ -195,6 +195,22 @@ def calculate_progress(results: dict) -> dict:
     }
 
 
+def generate_progress_bar(percentage: float, width: int = 11) -> str:
+    """Generate an ASCII progress bar using block characters.
+    
+    Args:
+        percentage: Progress percentage (0-100)
+        width: Number of blocks in the progress bar
+    
+    Returns:
+        String like "⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜ 19.44%"
+    """
+    filled = int(round(percentage / 100 * width))
+    empty = width - filled
+    bar = "⬛" * filled + "⬜" * empty
+    return f"{bar} {percentage}%"
+
+
 def print_progress_report(progress: dict) -> None:
     """Print a formatted progress report."""
     print("=" * 60)
@@ -230,7 +246,8 @@ def print_progress_report(progress: dict) -> None:
     print()
 
     print("=" * 60)
-    print(f"OVERALL PROGRESS: {progress['overall_progress_pct']}%")
+    progress_bar = generate_progress_bar(progress['overall_progress_pct'])
+    print(f"OVERALL PROGRESS: {progress_bar}")
     print("=" * 60)
 
 
