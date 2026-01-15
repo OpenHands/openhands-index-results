@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 70.7,
+    "metric": "accuracy",
+    "total_cost": 620.84,
+    "average_runtime": 1222,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011487815-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-08-40.tar.gz",
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]
