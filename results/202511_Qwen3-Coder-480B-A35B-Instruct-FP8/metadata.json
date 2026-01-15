@@ -1,7 +1,7 @@
 {
   "agent_name": "OpenHands CodeAct",
   "agent_version": "54c5858",
-  "model": "Qwen3-Coder-480B-A35B-Instruct-FP8",
+  "model": "qwen-3-coder",
   "openness": "closed_api_available",
   "tool_usage": "standard",
   "submission_time": "2025-11-24T19:56:00.092865",

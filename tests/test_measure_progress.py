@@ -11,11 +11,9 @@ from measure_progress import (
     EXPECTED_BENCHMARKS,
     EXPECTED_METRICS,
     EXPECTED_MODELS,
-    MODEL_NAME_MAPPING,
     calculate_progress,
     load_json,
     load_results,
-    normalize_model_name,
 )
 
 
@@ -140,20 +138,21 @@ class TestCalculateProgress:
         assert progress["array_total_cells"] == 180
 
     def test_known_model_with_all_metrics(self):
-        """Test progress with a known model that maps to expected."""
+        """Test progress with an expected model name and all metrics."""
+        # Models must use exact expected names (enforced by schema validation)
         results = {
-            "models": {"gpt-5"},
+            "models": {"gpt-5.2"},
             "benchmarks": {"swe-bench"},
             "metrics": {"accuracy", "total_cost", "total_runtime"},
             "coverage": {
-                ("gpt-5", "swe-bench", "accuracy"): True,
-                ("gpt-5", "swe-bench", "total_cost"): True,
-                ("gpt-5", "swe-bench", "total_runtime"): True,
+                ("gpt-5.2", "swe-bench", "accuracy"): True,
+                ("gpt-5.2", "swe-bench", "total_cost"): True,
+                ("gpt-5.2", "swe-bench", "total_runtime"): True,
             },
         }
         progress = calculate_progress(results)
 
-        # gpt-5 maps to gpt-5.2, so 1/10 models = 10%
+        # gpt-5.2 is an expected model, so 1/10 models = 10%
         assert progress["model_coverage_pct"] == 10.0
         # 1/6 benchmarks = 16.67%
         assert progress["benchmark_coverage_pct"] == 16.67
@@ -164,7 +163,11 @@ class TestCalculateProgress:
         assert progress["array_coverage_pct"] == 1.67
 
     def test_unknown_model_not_counted(self):
-        """Test that unknown models do not contribute to coverage."""
+        """Test that unknown models do not contribute to model coverage or filled cells.
+        
+        Note: In practice, unknown models are rejected by schema validation.
+        This test verifies the progress calculation behavior.
+        """
         results = {
             "models": {"unknown-model-xyz"},
             "benchmarks": {"swe-bench"},
@@ -173,22 +176,23 @@ class TestCalculateProgress:
         }
         progress = calculate_progress(results)
 
-        # Unknown model does not map to any expected model
+        # Unknown model is not in EXPECTED_MODELS
         assert progress["model_coverage_pct"] == 0.0
         # But benchmark and metric coverage still count
         assert progress["benchmark_coverage_pct"] == 16.67
         assert progress["metric_coverage_pct"] == 33.33
-        # No cells filled because model does not map
+        # No cells filled because model is not in expected list
         assert progress["array_filled_cells"] == 0
 
     def test_partial_metric_coverage(self):
         """Test partial metric coverage."""
+        # Models must use exact expected names (enforced by schema validation)
         results = {
-            "models": {"gpt-5"},
+            "models": {"gpt-5.2"},
             "benchmarks": {"swe-bench"},
             "metrics": {"accuracy"},  # Only accuracy, missing total_cost and total_runtime
             "coverage": {
-                ("gpt-5", "swe-bench", "accuracy"): True,
+                ("gpt-5.2", "swe-bench", "accuracy"): True,
             },
         }
         progress = calculate_progress(results)
