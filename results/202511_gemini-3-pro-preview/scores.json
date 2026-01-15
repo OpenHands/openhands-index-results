@@ -4,7 +4,7 @@
     "score": 70.4,
     "metric": "accuracy",
     "total_cost": 1157.72,
-    "total_runtime": 0,
+    "average_runtime": 0,
     "tags": [
       "swe-bench"
     ]
