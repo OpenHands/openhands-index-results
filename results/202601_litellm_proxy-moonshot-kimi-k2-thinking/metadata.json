@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "ef1c2dc",
+  "model": "litellm_proxy/moonshot/kimi-k2-thinking",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-15T00:35:12.800925+00:00",
+  "directory_name": "202601_litellm_proxy-moonshot-kimi-k2-thinking"
+}
