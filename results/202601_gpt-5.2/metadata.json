@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "ef1c2dce89aadba7e0b814c36fd75c2625a211b5e",
+  "agent_version": "v1.8.3",
   "model": "gpt-5.2",
   "openness": "closed_api_available",
   "tool_usage": "standard",

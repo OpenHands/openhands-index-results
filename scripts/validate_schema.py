@@ -7,6 +7,7 @@ in the results directory conform to the expected schema.
 """
 
 import json
+import re
 import sys
 from datetime import datetime
 from enum import Enum
@@ -14,6 +15,8 @@ from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
+
+SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 
 
 class Openness(str, Enum):
@@ -65,12 +68,23 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
-    agent_version: str = Field(..., description="Version of the agent")
+    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
+
+    @field_validator("agent_version")
+    @classmethod
+    def validate_agent_version(cls, v: str) -> str:
+        """Ensure agent_version is a valid semantic version starting with 'v'."""
+        if not SEMVER_PATTERN.match(v):
+            raise ValueError(
+                f"agent_version must be a valid semantic version starting with 'v' "
+                f"(e.g., 'v1.0.0'), got '{v}'"
+            )
+        return v
 
     @field_validator("openness")
     @classmethod

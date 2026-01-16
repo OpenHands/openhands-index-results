@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "ccf4b2589a3b18009fb66014df216485f20597b0",
+  "agent_version": "v1.8.0",
   "model": "claude-4.5-opus",
   "openness": "closed_api_available",
   "tool_usage": "standard",
