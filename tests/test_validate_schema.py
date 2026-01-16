@@ -173,7 +173,7 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
-            "total_cost": 206.00,
+            "cost_per_problem": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
             "tags": ["swe-bench"]
         }]
@@ -215,12 +215,12 @@ class TestScoreEntrySchema:
         assert "score" in msg.lower()
 
     def test_negative_cost(self, tmp_path):
-        """Test score entry with negative cost fails validation."""
+        """Test score entry with negative cost_per_problem fails validation."""
         scores = [{
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
-            "total_cost": -100.0,  # Invalid - negative
+            "cost_per_problem": -0.5,  # Invalid - negative
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -228,7 +228,7 @@ class TestScoreEntrySchema:
 
         valid, msg = validate_scores(scores_file)
         assert valid is False
-        assert "total_cost" in msg.lower()
+        assert "cost_per_problem" in msg.lower()
 
     def test_optional_fields(self, tmp_path):
         """Test that optional fields can be omitted."""
@@ -274,7 +274,7 @@ class TestValidateResultsDirectory:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
-            "total_cost": 206.00,
+            "cost_per_problem": 0.412,  # Cost per problem in USD
             "average_runtime": 0,
             "tags": ["swe-bench"]
         }]

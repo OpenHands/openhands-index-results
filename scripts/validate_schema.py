@@ -122,7 +122,7 @@ class ScoreEntry(BaseModel):
     benchmark: Benchmark = Field(..., description="Benchmark name")
     score: float = Field(..., ge=0, le=100, description="Score value (0-100)")
     metric: Metric = Field(..., description="Metric type for the score")
-    total_cost: Optional[float] = Field(None, ge=0, description="Total cost in USD")
+    cost_per_problem: Optional[float] = Field(None, ge=0, description="Average cost per problem in USD")
     average_runtime: Optional[float] = Field(None, ge=0, description="Average runtime per instance in seconds")
     tags: list[str] = Field(default_factory=list, description="Tags for categorization")
 
@@ -134,8 +134,6 @@ class ScoreEntry(BaseModel):
             if not tag or not isinstance(tag, str):
                 raise ValueError(f"Invalid tag: {tag}")
         return v
-
-
 
 
 
