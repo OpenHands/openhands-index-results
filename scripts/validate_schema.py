@@ -44,6 +44,24 @@ class Model(str, Enum):
     QWEN_3_CODER = "qwen-3-coder"
 
 
+# Mapping of models to their correct openness classification
+# Open-weights models have publicly available model weights
+# Closed API models only provide API access without weight availability
+MODEL_OPENNESS_MAP: dict[Model, Openness] = {
+    Model.CLAUDE_4_5_OPUS: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_2_HIGH_REASONING: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
+    Model.KIMI_K2_THINKING: Openness.CLOSED_API_AVAILABLE,
+    Model.MINIMAX_M2: Openness.CLOSED_API_AVAILABLE,
+    # Open-weights models
+    Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
+    Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+}
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
@@ -53,6 +71,20 @@ class Metadata(BaseModel):
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
+
+    @field_validator("openness")
+    @classmethod
+    def validate_openness_matches_model(cls, v: Openness, info) -> Openness:
+        """Ensure openness matches the expected value for the model."""
+        model = info.data.get("model")
+        if model and model in MODEL_OPENNESS_MAP:
+            expected_openness = MODEL_OPENNESS_MAP[model]
+            if v != expected_openness:
+                raise ValueError(
+                    f"Model '{model.value}' should have openness '{expected_openness.value}', "
+                    f"but got '{v.value}'"
+                )
+        return v
 
 
 class Benchmark(str, Enum):
