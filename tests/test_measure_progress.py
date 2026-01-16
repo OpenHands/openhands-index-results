@@ -67,7 +67,7 @@ class TestLoadResults:
         model_dir.mkdir()
 
         metadata = {"model": "test-model", "agent_name": "Test Agent"}
-        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "cost_per_problem": 0.2, "average_runtime": 3600}]
+        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "cost_per_instance": 0.2, "average_runtime": 3600}]
 
         (model_dir / "metadata.json").write_text(json.dumps(metadata))
         (model_dir / "scores.json").write_text(json.dumps(scores))
@@ -76,10 +76,10 @@ class TestLoadResults:
         assert "test-model" in results["models"]
         assert "swe-bench" in results["benchmarks"]
         assert "accuracy" in results["metrics"]
-        assert "cost_per_problem" in results["metrics"]
+        assert "cost_per_instance" in results["metrics"]
         assert "average_runtime" in results["metrics"]
         assert results["coverage"][("test-model", "swe-bench", "accuracy")] is True
-        assert results["coverage"][("test-model", "swe-bench", "cost_per_problem")] is True
+        assert results["coverage"][("test-model", "swe-bench", "cost_per_instance")] is True
         assert results["coverage"][("test-model", "swe-bench", "average_runtime")] is True
 
     def test_skips_invalid_json(self, tmp_path):
@@ -105,7 +105,7 @@ class TestExpectedDimensions:
         """Test that we have 3 expected metrics."""
         assert len(EXPECTED_METRICS) == 3
         assert "accuracy" in EXPECTED_METRICS
-        assert "cost_per_problem" in EXPECTED_METRICS
+        assert "cost_per_instance" in EXPECTED_METRICS
         assert "average_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
@@ -143,10 +143,10 @@ class TestCalculateProgress:
         results = {
             "models": {"gpt-5.2"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy", "cost_per_problem", "average_runtime"},
+            "metrics": {"accuracy", "cost_per_instance", "average_runtime"},
             "coverage": {
                 ("gpt-5.2", "swe-bench", "accuracy"): True,
-                ("gpt-5.2", "swe-bench", "cost_per_problem"): True,
+                ("gpt-5.2", "swe-bench", "cost_per_instance"): True,
                 ("gpt-5.2", "swe-bench", "average_runtime"): True,
             },
         }
@@ -235,5 +235,5 @@ class TestIntegration:
 
         # Verify actual metrics are found
         assert "accuracy" in results["metrics"]
-        assert "cost_per_problem" in results["metrics"]
+        assert "cost_per_instance" in results["metrics"]
         assert "average_runtime" in results["metrics"]

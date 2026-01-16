@@ -8,7 +8,7 @@
     "tags": [
       "gaia"
     ],
-    "cost_per_problem": 0.0611
+    "cost_per_instance": 0.0611
   },
   {
     "benchmark": "commit0",
@@ -19,6 +19,6 @@
     "tags": [
       "commit0"
     ],
-    "cost_per_problem": 0.0344
+    "cost_per_instance": 0.0344
   }
 ]

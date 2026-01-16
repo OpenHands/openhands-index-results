@@ -8,6 +8,6 @@
     "tags": [
       "swe-bench"
     ],
-    "cost_per_problem": 1.2244
+    "cost_per_instance": 1.2244
   }
 ]
