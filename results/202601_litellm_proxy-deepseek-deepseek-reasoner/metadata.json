@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "6a004a1d53d30fe09d9812753a57c69ec0a32036",
+  "agent_version": "v1.8.2",
   "model": "deepseek-v3.2-reasoner",
   "openness": "closed_api_available",
   "tool_usage": "standard",
