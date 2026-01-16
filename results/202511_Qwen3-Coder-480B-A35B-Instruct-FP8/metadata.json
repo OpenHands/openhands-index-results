@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "54c5858",
+  "agent_version": "v1.1.0",
   "model": "qwen-3-coder",
   "openness": "closed_api_available",
   "tool_usage": "standard",

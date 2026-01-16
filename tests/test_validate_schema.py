@@ -23,7 +23,7 @@ class TestMetadataSchema:
         """Test valid metadata passes validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
-            "agent_version": "1.0.0",
+            "agent_version": "v1.0.0",
             "model": "gpt-5.2",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
@@ -59,7 +59,7 @@ class TestMetadataSchema:
         """Test metadata with invalid openness value fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
-            "agent_version": "1.0.0",
+            "agent_version": "v1.0.0",
             "model": "gpt-5.2",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
@@ -77,7 +77,7 @@ class TestMetadataSchema:
         """Test metadata with invalid model value fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
-            "agent_version": "1.0.0",
+            "agent_version": "v1.0.0",
             "model": "invalid-model-name",  # Invalid - not in Model enum
             "openness": "closed_api_available",
             "tool_usage": "standard",
@@ -90,6 +90,78 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "model" in msg.lower()
+
+    def test_valid_semantic_version(self, tmp_path):
+        """Test metadata with valid semantic version passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.8.2",
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "202510_gpt-5.2"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_invalid_semantic_version_commit_hash(self, tmp_path):
+        """Test metadata with commit hash instead of semantic version fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "54c5858",  # Invalid - commit hash
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "202510_gpt-5.2"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "agent_version" in msg.lower()
+
+    def test_invalid_semantic_version_no_v_prefix(self, tmp_path):
+        """Test metadata with semantic version without 'v' prefix fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "1.0.0",  # Invalid - missing 'v' prefix
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "202510_gpt-5.2"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "agent_version" in msg.lower()
+
+    def test_invalid_semantic_version_branch_name(self, tmp_path):
+        """Test metadata with branch name instead of semantic version fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "main",  # Invalid - branch name
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "202510_gpt-5.2"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "agent_version" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -191,7 +263,7 @@ class TestValidateResultsDirectory:
 
         metadata = {
             "agent_name": "OpenHands CodeAct",
-            "agent_version": "1.0.0",
+            "agent_version": "v1.0.0",
             "model": "gpt-5.2",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
