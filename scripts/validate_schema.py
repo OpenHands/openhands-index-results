@@ -51,15 +51,16 @@ class Model(str, Enum):
 # Open-weights models have publicly available model weights
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
+    # Closed API models
     Model.CLAUDE_4_5_OPUS: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_HIGH_REASONING: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
-    Model.KIMI_K2_THINKING: Openness.CLOSED_API_AVAILABLE,
-    Model.MINIMAX_M2: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
+    Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
+    Model.MINIMAX_M2: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
 }
