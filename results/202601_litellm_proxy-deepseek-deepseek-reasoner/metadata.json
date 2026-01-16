@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "1.0.0",
+  "model": "litellm_proxy/deepseek-deepseek-reasoner",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-16T21:07:41.793376+00:00",
+  "directory_name": "202601_litellm_proxy-deepseek-deepseek-reasoner"
+}
