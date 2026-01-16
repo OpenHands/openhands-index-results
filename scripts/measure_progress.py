@@ -31,7 +31,7 @@ EXPECTED_BENCHMARKS = [
 # Expected metrics from issue #2
 EXPECTED_METRICS = [
     "accuracy",            # accuracy (resolve_rate)
-    "cost_per_problem",    # monetary cost per problem (#3)
+    "cost_per_instance",    # monetary cost per problem (#3)
     "average_runtime",     # wall clock time (#4)
 ]
 
@@ -96,7 +96,7 @@ def load_results(results_dir: Path) -> dict:
         for score_entry in scores:
             benchmark = score_entry.get("benchmark")
             metric = score_entry.get("metric")
-            has_cost_per_problem = "cost_per_problem" in score_entry
+            has_cost_per_instance = "cost_per_instance" in score_entry
             has_average_runtime = "average_runtime" in score_entry
 
             if benchmark:
@@ -106,11 +106,11 @@ def load_results(results_dir: Path) -> dict:
                 if benchmark:
                     coverage[(model_name, benchmark, metric)] = True
 
-            # Track cost_per_problem and average_runtime as separate metrics
-            if has_cost_per_problem:
-                metrics.add("cost_per_problem")
+            # Track cost_per_instance and average_runtime as separate metrics
+            if has_cost_per_instance:
+                metrics.add("cost_per_instance")
                 if benchmark:
-                    coverage[(model_name, benchmark, "cost_per_problem")] = True
+                    coverage[(model_name, benchmark, "cost_per_instance")] = True
             if has_average_runtime:
                 metrics.add("average_runtime")
                 if benchmark:

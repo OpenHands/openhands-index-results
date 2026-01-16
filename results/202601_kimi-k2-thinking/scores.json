@@ -8,7 +8,7 @@
     "tags": [
       "swe-bench"
     ],
-    "cost_per_problem": 1.2417
+    "cost_per_instance": 1.2417
   },
   {
     "benchmark": "commit0",
@@ -18,6 +18,6 @@
     "tags": [
       "commit0"
     ],
-    "cost_per_problem": 2.0074
+    "cost_per_instance": 2.0074
   }
 ]

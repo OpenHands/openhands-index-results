@@ -8,7 +8,7 @@
     "tags": [
       "swe-bench-multimodal"
     ],
-    "cost_per_problem": 2.2653
+    "cost_per_instance": 2.2653
   },
   {
     "benchmark": "commit0",
@@ -19,7 +19,7 @@
     "tags": [
       "commit0"
     ],
-    "cost_per_problem": 1.077
+    "cost_per_instance": 1.077
   },
   {
     "benchmark": "gaia",
@@ -30,6 +30,6 @@
     "tags": [
       "gaia"
     ],
-    "cost_per_problem": 0.5473
+    "cost_per_instance": 0.5473
   }
 ]
