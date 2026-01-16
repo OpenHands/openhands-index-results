@@ -1,5 +1,16 @@
 [
   {
+    "benchmark": "gaia",
+    "score": 50.3,
+    "metric": "accuracy",
+    "total_cost": 10.15,
+    "average_runtime": 466,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21070491317-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-16-16-39.tar.gz",
+    "tags": [
+      "gaia"
+    ]
+  },
+  {
     "benchmark": "commit0",
     "score": 33.3,
     "metric": "accuracy",
