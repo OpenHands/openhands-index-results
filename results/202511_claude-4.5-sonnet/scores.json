@@ -3,10 +3,10 @@
     "benchmark": "swe-bench",
     "score": 74.6,
     "metric": "accuracy",
-    "total_cost": 688.13,
     "average_runtime": 0,
     "tags": [
       "swe-bench"
-    ]
+    ],
+    "cost_per_problem": 1.3763
   }
 ]

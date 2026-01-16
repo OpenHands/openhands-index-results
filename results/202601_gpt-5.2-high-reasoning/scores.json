@@ -3,11 +3,11 @@
     "benchmark": "commit0",
     "score": 25.0,
     "metric": "accuracy",
-    "total_cost": 13.72,
     "average_runtime": 344.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21054081859-gpt-5-2-hi_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-16-04-19.tar.gz",
     "tags": [
       "commit0"
-    ]
+    ],
+    "cost_per_problem": 0.2541
   }
 ]

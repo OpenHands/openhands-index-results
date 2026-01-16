@@ -3,21 +3,21 @@
     "benchmark": "swe-bench",
     "score": 70.7,
     "metric": "accuracy",
-    "total_cost": 620.84,
     "average_runtime": 1222,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011487815-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-08-40.tar.gz",
     "tags": [
       "swe-bench"
-    ]
+    ],
+    "cost_per_problem": 1.2417
   },
   {
     "benchmark": "commit0",
     "score": 18.8,
     "metric": "accuracy",
-    "total_cost": 108.4,
     "average_runtime": 2314.0,
     "tags": [
       "commit0"
-    ]
+    ],
+    "cost_per_problem": 2.0074
   }
 ]

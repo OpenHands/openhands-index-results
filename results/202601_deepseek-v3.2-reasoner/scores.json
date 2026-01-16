@@ -3,22 +3,22 @@
     "benchmark": "gaia",
     "score": 50.3,
     "metric": "accuracy",
-    "total_cost": 10.15,
     "average_runtime": 466,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21070491317-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-16-16-39.tar.gz",
     "tags": [
       "gaia"
-    ]
+    ],
+    "cost_per_problem": 0.0611
   },
   {
     "benchmark": "commit0",
     "score": 33.3,
     "metric": "accuracy",
-    "total_cost": 1.86,
     "average_runtime": 1505,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20981821017-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-14-07-15.tar.gz",
     "tags": [
       "commit0"
-    ]
+    ],
+    "cost_per_problem": 0.0344
   }
 ]
