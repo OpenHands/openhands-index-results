@@ -7,6 +7,7 @@ in the results directory conform to the expected schema.
 """
 
 import json
+import re
 import sys
 from datetime import datetime
 from enum import Enum
@@ -14,6 +15,8 @@ from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
+
+SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 
 
 class Openness(str, Enum):
@@ -44,15 +47,59 @@ class Model(str, Enum):
     QWEN_3_CODER = "qwen-3-coder"
 
 
+# Mapping of models to their correct openness classification
+# Open-weights models have publicly available model weights
+# Closed API models only provide API access without weight availability
+MODEL_OPENNESS_MAP: dict[Model, Openness] = {
+    # Closed API models
+    Model.CLAUDE_4_5_OPUS: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_2_HIGH_REASONING: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
+    # Open-weights models
+    Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
+    Model.MINIMAX_M2: Openness.OPEN_WEIGHTS,
+    Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
+    Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+}
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
-    agent_version: str = Field(..., description="Version of the agent")
+    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
+
+    @field_validator("agent_version")
+    @classmethod
+    def validate_agent_version(cls, v: str) -> str:
+        """Ensure agent_version is a valid semantic version starting with 'v'."""
+        if not SEMVER_PATTERN.match(v):
+            raise ValueError(
+                f"agent_version must be a valid semantic version starting with 'v' "
+                f"(e.g., 'v1.0.0'), got '{v}'"
+            )
+        return v
+
+    @field_validator("openness")
+    @classmethod
+    def validate_openness_matches_model(cls, v: Openness, info) -> Openness:
+        """Ensure openness matches the expected value for the model."""
+        model = info.data.get("model")
+        if model and model in MODEL_OPENNESS_MAP:
+            expected_openness = MODEL_OPENNESS_MAP[model]
+            if v != expected_openness:
+                raise ValueError(
+                    f"Model '{model.value}' should have openness '{expected_openness.value}', "
+                    f"but got '{v.value}'"
+                )
+        return v
 
 
 class Benchmark(str, Enum):

@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "c2fa7370",
+  "agent_version": "v1.2.0",
   "model": "gemini-3-pro",
   "openness": "closed_api_available",
   "tool_usage": "standard",
