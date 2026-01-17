@@ -8,5 +8,27 @@
       "swe-bench"
     ],
     "cost_per_instance": 1.3763
+  },
+  {
+    "benchmark": "commit0",
+    "score": 12.5,
+    "metric": "accuracy",
+    "average_runtime": 744.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20864634656-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-09-21-31.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "cost_per_instance": 0.7844
+  },
+  {
+    "benchmark": "gaia",
+    "score": 58.8,
+    "metric": "accuracy",
+    "average_runtime": 138,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20782040922-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-07-15-35.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "cost_per_instance": 0.3804
   }
 ]
