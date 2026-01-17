@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.8.0",
+  "model": "gemini-3-flash",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-17T16:57:18.609250+00:00",
+  "directory_name": "202601_gemini-3-flash"
+}
