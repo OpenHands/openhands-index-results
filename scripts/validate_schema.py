@@ -17,6 +17,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, field_validator
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
+DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
 
 
 class Openness(str, Enum):
@@ -98,6 +99,27 @@ class Metadata(BaseModel):
                 raise ValueError(
                     f"Model '{model.value}' should have openness '{expected_openness.value}', "
                     f"but got '{v.value}'"
+                )
+        return v
+
+    @field_validator("directory_name")
+    @classmethod
+    def validate_directory_name(cls, v: str, info) -> str:
+        """Ensure directory_name follows the format {version}_{model_name}."""
+        if not DIRECTORY_NAME_PATTERN.match(v):
+            raise ValueError(
+                f"directory_name must follow the format '{{version}}_{{model_name}}' "
+                f"(e.g., 'v1.8.3_claude-4.5-sonnet'), got '{v}'"
+            )
+        # Validate that directory_name matches agent_version and model
+        agent_version = info.data.get("agent_version")
+        model = info.data.get("model")
+        if agent_version and model:
+            expected_dir_name = f"{agent_version}_{model.value}"
+            if v != expected_dir_name:
+                raise ValueError(
+                    f"directory_name '{v}' does not match expected format "
+                    f"'{{agent_version}}_{{model}}' = '{expected_dir_name}'"
                 )
         return v
 

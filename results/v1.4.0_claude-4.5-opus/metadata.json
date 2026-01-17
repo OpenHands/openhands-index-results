@@ -1,9 +1,9 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "v1.8.3",
+  "agent_version": "v1.4.0",
   "model": "claude-4.5-opus",
   "openness": "closed_api_available",
   "tool_usage": "standard",
-  "submission_time": "2026-01-15T21:54:45.442941+00:00",
-  "directory_name": "202601_claude-4.5-opus"
+  "submission_time": "2025-11-24T19:56:00.092865",
+  "directory_name": "v1.4.0_claude-4.5-opus"
 }
