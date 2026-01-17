@@ -31,5 +31,15 @@
       "gaia"
     ],
     "cost_per_instance": 0.5473
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 77.6,
+    "metric": "accuracy",
+    "average_runtime": 0,
+    "tags": [
+      "swe-bench"
+    ],
+    "cost_per_instance": 1.9591
   }
 ]
