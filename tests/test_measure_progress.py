@@ -63,7 +63,7 @@ class TestLoadResults:
 
     def test_single_model_single_benchmark(self, tmp_path):
         """Test loading single model with single benchmark."""
-        model_dir = tmp_path / "202511_test-model"
+        model_dir = tmp_path / "v1.0.0_test-model"
         model_dir.mkdir()
 
         metadata = {"model": "test-model", "agent_name": "Test Agent"}
@@ -84,7 +84,7 @@ class TestLoadResults:
 
     def test_skips_invalid_json(self, tmp_path):
         """Test that invalid JSON files are skipped."""
-        model_dir = tmp_path / "202511_invalid-model"
+        model_dir = tmp_path / "v1.0.0_invalid-model"
         model_dir.mkdir()
 
         (model_dir / "metadata.json").write_text("not valid json {{{")

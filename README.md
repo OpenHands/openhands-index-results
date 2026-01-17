@@ -10,16 +10,16 @@ Results are organized in the `results/` directory with the following structure:
 
 ```
 results/
-├── YYYYMMDD_model_name/
+├── {version}_{model_name}/
 │   ├── metadata.json
 │   └── scores.json
 ```
 
 #### Directory Naming Convention
 
-Each agent directory follows the format: `YYYYMMDD_model_name/`
-- `YYYYMMDD`: Submission date (e.g., `20251124`)
-- `model_name`: Underscored version of the LLM model name (e.g., `gpt_4o_2024_11_20`)
+Each agent directory follows the format: `{version}_{model_name}/`
+- `{version}`: Agent version (semantic version starting with 'v', e.g., `v1.8.3`)
+- `{model_name}`: LLM model name (e.g., `claude-4.5-sonnet`, `gpt-5.2`)
 
 #### metadata.json
 
@@ -28,11 +28,12 @@ Contains agent metadata and configuration:
 ```json
 {
   "agent_name": "OpenHands CodeAct v2.0",
-  "agent_version": "1.0.0",
-  "model": "gpt-4o-2024-11-20",
+  "agent_version": "v1.8.3",
+  "model": "claude-4.5-sonnet",
   "openness": "closed_api_available",
   "tool_usage": "standard",
-  "submission_time": "2025-11-24T19:56:00.092895"
+  "submission_time": "2025-11-24T19:56:00.092895",
+  "directory_name": "v1.8.3_claude-4.5-sonnet"
 }
 ```
 
@@ -119,7 +120,7 @@ Results are grouped into 5 main categories on the leaderboard:
 
 To add new benchmark results:
 
-1. Create a directory following the naming convention: `results/YYYYMMDD_model_name/`
+1. Create a directory following the naming convention: `results/{version}_{model_name}/`
 2. Add `metadata.json` with agent configuration
 3. Add `scores.json` with benchmark results
 4. Commit and push to the repository
@@ -127,28 +128,29 @@ To add new benchmark results:
 Example:
 ```bash
 # Create directory
-mkdir -p results/20251124_gpt_4o_2024_11_20/
+mkdir -p results/v1.8.3_claude-4.5-sonnet/
 
 # Add metadata
-cat > results/20251124_gpt_4o_2024_11_20/metadata.json << 'EOF'
+cat > results/v1.8.3_claude-4.5-sonnet/metadata.json << 'EOF'
 {
   "agent_name": "OpenHands CodeAct v2.0",
-  "agent_version": "1.0.0",
-  "model": "gpt-4o-2024-11-20",
+  "agent_version": "v1.8.3",
+  "model": "claude-4.5-sonnet",
   "openness": "closed_api_available",
   "tool_usage": "standard",
-  "submission_time": "2025-11-24T19:56:00.092895"
+  "submission_time": "2025-11-24T19:56:00.092895",
+  "directory_name": "v1.8.3_claude-4.5-sonnet"
 }
 EOF
 
 # Add scores
-cat > results/20251124_gpt_4o_2024_11_20/scores.json << 'EOF'
+cat > results/v1.8.3_claude-4.5-sonnet/scores.json << 'EOF'
 [
   {
     "benchmark": "swe-bench",
     "score": 45.1,
-    "metric": "resolve_rate",
-    "total_cost": 32.55,
+    "metric": "accuracy",
+    "cost_per_instance": 0.412,
     "average_runtime": 3600,
     "tags": ["bug_fixing"]
   },
@@ -157,8 +159,8 @@ cat > results/20251124_gpt_4o_2024_11_20/scores.json << 'EOF'
 EOF
 
 # Commit and push
-git add results/20251124_gpt_4o_2024_11_20/
-git commit -m "Add results for OpenHands CodeAct v2.0 with GPT-4o"
+git add results/v1.8.3_claude-4.5-sonnet/
+git commit -m "Add results for OpenHands CodeAct v1.8.3 with Claude 4.5 Sonnet"
 git push origin main
 ```
 
