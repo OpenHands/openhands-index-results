@@ -1,14 +1,14 @@
 [
   {
     "benchmark": "commit0",
-    "score": 27.3,
+    "score": 18.8,
     "metric": "accuracy",
+    "average_instance_cost": 0.82,
     "average_runtime": 580,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20798907628-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-01-39.tar.gz",
     "tags": [
       "commit0"
-    ],
-    "cost_per_instance": 0.2435
+    ]
   },
   {
     "benchmark": "gaia",
