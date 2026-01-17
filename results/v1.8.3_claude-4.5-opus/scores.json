@@ -25,12 +25,12 @@
     "benchmark": "gaia",
     "score": 69.1,
     "metric": "accuracy",
-    "average_runtime": 102,
+    "cost_per_instance": 0.55,
+    "average_runtime": 97.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20805719842-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-08-06-24.tar.gz",
     "tags": [
       "gaia"
-    ],
-    "cost_per_instance": 0.5473
+    ]
   },
   {
     "benchmark": "swe-bench",
