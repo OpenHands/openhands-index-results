@@ -1,14 +1,14 @@
 [
   {
     "benchmark": "swe-bench",
-    "score": 70.7,
+    "score": 69.2,
     "metric": "accuracy",
-    "average_runtime": 1222,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011487815-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-08-40.tar.gz",
+    "cost_per_instance": 2.0,
+    "average_runtime": 1325.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21078698262-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-17-16-26.tar.gz",
     "tags": [
       "swe-bench"
-    ],
-    "cost_per_instance": 1.2417
+    ]
   },
   {
     "benchmark": "commit0",
