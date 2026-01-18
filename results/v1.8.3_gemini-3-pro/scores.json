@@ -19,8 +19,7 @@
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20830419642-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-09-01-19.tar.gz",
     "tags": [
       "commit0"
-    ],
-    "cost_per_instance": 0.795
+    ]
   },
   {
     "benchmark": "gaia",
