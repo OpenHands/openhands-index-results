@@ -1,14 +1,14 @@
 [
   {
     "benchmark": "swe-bench",
-    "score": 70.9,
+    "score": 70.6,
     "metric": "accuracy",
-    "average_runtime": 343,
+    "cost_per_instance": 0.95,
+    "average_runtime": 343.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011486666-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-07-43.tar.gz",
     "tags": [
       "swe-bench"
-    ],
-    "cost_per_instance": 0.9513
+    ]
   },
   {
     "benchmark": "commit0",
