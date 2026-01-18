@@ -31,5 +31,16 @@
     "tags": [
       "gaia"
     ]
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 9.4,
+    "metric": "accuracy",
+    "cost_per_instance": 0.05,
+    "average_runtime": 28.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21099910194-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-18-00-49.tar.gz",
+    "tags": [
+      "swe-bench"
+    ]
   }
 ]
