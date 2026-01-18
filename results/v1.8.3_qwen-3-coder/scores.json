@@ -9,5 +9,16 @@
     "tags": [
       "swe-bench-multimodal"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 33.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.28,
+    "average_runtime": 197.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21093373009-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-12-54.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
