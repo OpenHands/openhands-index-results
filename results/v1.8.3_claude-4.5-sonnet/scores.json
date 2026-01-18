@@ -31,5 +31,16 @@
     "tags": [
       "gaia"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 22.5,
+    "metric": "accuracy",
+    "cost_per_instance": 1.77,
+    "average_runtime": 893.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21115061696-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-18-19-23.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
   }
 ]
