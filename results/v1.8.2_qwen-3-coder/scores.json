@@ -3,12 +3,12 @@
     "benchmark": "swe-bench",
     "score": 62.4,
     "metric": "accuracy",
-    "average_runtime": 654,
+    "cost_per_instance": 1.26,
+    "average_runtime": 680.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20979851181-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-09-02.tar.gz",
     "tags": [
       "swe-bench"
-    ],
-    "cost_per_instance": 1.2244
+    ]
   },
   {
     "benchmark": "commit0",
