@@ -9,5 +9,27 @@
     "tags": [
       "swe-bench-multimodal"
     ]
+  },
+  {
+    "benchmark": "commit0",
+    "score": 18.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.82,
+    "average_runtime": 399.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20798907628-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-01-39.tar.gz",
+    "tags": [
+      "commit0"
+    ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 58.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.38,
+    "average_runtime": 398.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20821586318-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-20-24.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
