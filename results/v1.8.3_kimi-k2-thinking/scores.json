@@ -19,5 +19,16 @@
       "commit0"
     ],
     "cost_per_instance": 2.0074
+  },
+  {
+    "benchmark": "gaia",
+    "score": 43.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.65,
+    "average_runtime": 279.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21093372341-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-17-13-03.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
