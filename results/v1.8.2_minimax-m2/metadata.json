@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.8.2",
+  "model": "minimax-m2",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-18T20:22:58.323970+00:00",
+  "directory_name": "v1.8.2_minimax-m2"
+}
