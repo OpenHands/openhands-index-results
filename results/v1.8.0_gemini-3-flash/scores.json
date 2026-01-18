@@ -1,24 +1,24 @@
 [
   {
     "benchmark": "commit0",
-    "score": 27.3,
+    "score": 18.8,
     "metric": "accuracy",
-    "average_runtime": 580,
+    "cost_per_instance": 0.82,
+    "average_runtime": 399.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20798907628-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-01-39.tar.gz",
     "tags": [
       "commit0"
-    ],
-    "cost_per_instance": 0.2435
+    ]
   },
   {
     "benchmark": "gaia",
     "score": 58.8,
     "metric": "accuracy",
-    "average_runtime": 443,
+    "cost_per_instance": 0.38,
+    "average_runtime": 398.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20821586318-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-20-24.tar.gz",
     "tags": [
       "gaia"
-    ],
-    "cost_per_instance": 0.3754
+    ]
   }
 ]
