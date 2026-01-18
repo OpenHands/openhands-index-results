@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 4.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.77,
+    "average_runtime": 638.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21050497786-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-16-20-21.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
+  }
+]
