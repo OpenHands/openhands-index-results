@@ -24,11 +24,11 @@
     "benchmark": "gaia",
     "score": 58.8,
     "metric": "accuracy",
-    "average_runtime": 138,
+    "cost_per_instance": 0.38,
+    "average_runtime": 126.0,
     "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20782040922-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-07-15-35.tar.gz",
     "tags": [
       "gaia"
-    ],
-    "cost_per_instance": 0.3804
+    ]
   }
 ]
