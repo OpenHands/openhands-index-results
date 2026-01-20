@@ -41,5 +41,16 @@
       "swe-bench"
     ],
     "cost_per_instance": 1.9591
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 68.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.98,
+    "average_runtime": 488.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21146174206-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-19-23-25.tar.gz",
+    "tags": [
+      "swt-bench"
+    ]
   }
 ]
