@@ -42,5 +42,16 @@
     "tags": [
       "swe-bench-multimodal"
     ]
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 47.3,
+    "metric": "accuracy",
+    "cost_per_instance": 1.39,
+    "average_runtime": 1253.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21173239168-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-21-08-11.tar.gz",
+    "tags": [
+      "swt-bench"
+    ]
   }
 ]
