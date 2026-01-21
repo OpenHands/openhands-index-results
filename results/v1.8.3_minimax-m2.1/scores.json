@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 40.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.74,
+    "average_runtime": 641.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21225856759-minimax-m2_litellm_proxy-minimax-MiniMax-M2-1_26-01-21-23-35.tar.gz",
+    "tags": [
+      "gaia"
+    ]
+  }
+]
