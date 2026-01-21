@@ -128,7 +128,6 @@ class Benchmark(str, Enum):
     """Expected benchmark names."""
     SWE_BENCH = "swe-bench"
     SWE_BENCH_MULTIMODAL = "swe-bench-multimodal"
-    MULTI_SWE_BENCH = "multi-swe-bench"
     SWT_BENCH = "swt-bench"
     COMMIT0 = "commit0"
     GAIA = "gaia"
