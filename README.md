@@ -82,7 +82,6 @@ The `1.0.0-dev1/` directory contains the original benchmark-centric JSONL files:
 - `swe-bench.jsonl`
 - `swe-bench-multimodal.jsonl`
 - `commit0.jsonl`
-- `multi-swe-bench.jsonl`
 - `swt-bench.jsonl`
 - `gaia.jsonl`
 
@@ -97,9 +96,6 @@ This format is maintained for backward compatibility.
 ### App Creation
 - **Commit0**: Building applications from scratch based on specifications
 
-### Frontend Development
-- **Multi-SWE-Bench**: Full-stack web development tasks
-
 ### Test Generation
 - **SWT-Bench**: Generating comprehensive test suites
 
@@ -108,13 +104,12 @@ This format is maintained for backward compatibility.
 
 ## Benchmark Categories
 
-Results are grouped into 5 main categories on the leaderboard:
+Results are grouped into 4 main categories on the leaderboard:
 
 1. **Bug Fixing**: SWE-Bench, SWE-Bench-Multimodal
 2. **App Creation**: Commit0
-3. **Frontend Development**: Multi-SWE-Bench
-4. **Test Generation**: SWT-Bench
-5. **Information Gathering**: GAIA
+3. **Test Generation**: SWT-Bench
+4. **Information Gathering**: GAIA
 
 ## Adding New Results
 

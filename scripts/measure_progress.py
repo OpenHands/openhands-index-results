@@ -2,8 +2,8 @@
 """
 Measure progress towards the 3D array goal (benchmarks x models x metrics).
 
-This script analyzes the results directory and calculates progress percentage
-based on coverage of benchmarks, models, and metrics.
+This script analyzes the results directory and reports missing combinations
+of models, benchmarks, and metrics.
 """
 
 import json
@@ -22,7 +22,6 @@ def load_json(file_path: Path) -> dict | list:
 EXPECTED_BENCHMARKS = [
     "swe-bench",           # SWE-Bench
     "swe-bench-multimodal",  # SWE-Bench multimodal (#6)
-    "multi-swe-bench",     # multi-swe-bench (#7)
     "swt-bench",           # SWT-bench (#5)
     "commit0",             # commit-0 (#8)
     "gaia",                # GAIA (#9)
@@ -124,130 +123,89 @@ def load_results(results_dir: Path) -> dict:
     }
 
 
-def calculate_progress(results: dict) -> dict:
-    """Calculate progress percentage towards the 3D array goal.
+def find_missing_combinations(results: dict) -> dict:
+    """Find missing model+benchmark pairs.
 
-    Progress is calculated based on the expected dimensions from issue #2:
-    - 6 benchmarks
-    - 3 metrics
-    - 10 models
+    A model+benchmark pair is only considered complete if ALL metrics are present.
 
-    The 3D array has 6 * 3 * 10 = 180 total cells.
-
-    Model names in metadata.json must exactly match EXPECTED_MODELS
-    (enforced by schema validation).
-
-    Returns a dict with progress details.
+    Returns a dict with:
+    - missing_pairs: dict mapping model -> list of (benchmark, missing_metrics) tuples
+    - total_pairs: total expected model+benchmark pairs
+    - complete_pairs: number of pairs with all metrics present
     """
-    found_models = results["models"]
-    found_benchmarks = results["benchmarks"]
-    found_metrics = results["metrics"]
     coverage = results["coverage"]
 
-    # Model coverage - direct match since schema enforces valid model names
-    covered_models = [m for m in found_models if m in EXPECTED_MODELS]
-    model_coverage = len(covered_models) / len(EXPECTED_MODELS) * 100
-
-    # Benchmark coverage
-    covered_benchmarks = found_benchmarks.intersection(set(EXPECTED_BENCHMARKS))
-    benchmark_coverage = len(covered_benchmarks) / len(EXPECTED_BENCHMARKS) * 100
-
-    # Metric coverage - direct match against expected metrics
-    covered_metrics = found_metrics.intersection(set(EXPECTED_METRICS))
-    metric_coverage = len(covered_metrics) / len(EXPECTED_METRICS) * 100
-
-    # 3D array coverage (expected models x expected benchmarks x expected metrics)
-    # Total cells = 10 models * 6 benchmarks * 3 metrics = 180
-    total_expected_cells = (
-        len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
-    )
-
-    # Count filled cells by checking coverage directly
-    filled_cells = 0
+    missing_pairs = {}
+    complete_pairs = 0
+    
     for model in EXPECTED_MODELS:
         for benchmark in EXPECTED_BENCHMARKS:
+            # Check which metrics are missing for this model+benchmark pair
+            missing_metrics = []
             for metric in EXPECTED_METRICS:
-                if coverage.get((model, benchmark, metric)):
-                    filled_cells += 1
+                if not coverage.get((model, benchmark, metric)):
+                    missing_metrics.append(metric)
+            
+            if not missing_metrics:
+                # All metrics present - pair is complete
+                complete_pairs += 1
+            else:
+                # Some metrics missing - track what's missing
+                if model not in missing_pairs:
+                    missing_pairs[model] = []
+                missing_pairs[model].append((benchmark, missing_metrics))
 
-    array_coverage = filled_cells / total_expected_cells * 100 if total_expected_cells else 0
-
-    # Overall progress is the 3D array coverage (the main goal)
-    overall_progress = array_coverage
+    total_pairs = len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS)
 
     return {
-        "models_found": sorted(found_models),
-        "models_expected": EXPECTED_MODELS,
-        "models_covered": sorted(covered_models),
-        "model_coverage_pct": round(model_coverage, 2),
-        "benchmarks_found": sorted(found_benchmarks),
-        "benchmarks_expected": EXPECTED_BENCHMARKS,
-        "benchmarks_covered": sorted(covered_benchmarks),
-        "benchmark_coverage_pct": round(benchmark_coverage, 2),
-        "metrics_found": sorted(found_metrics),
-        "metrics_expected": EXPECTED_METRICS,
-        "metrics_covered": sorted(covered_metrics),
-        "metric_coverage_pct": round(metric_coverage, 2),
-        "array_total_cells": total_expected_cells,
-        "array_filled_cells": filled_cells,
-        "array_coverage_pct": round(array_coverage, 2),
-        "overall_progress_pct": round(overall_progress, 2),
+        "missing_pairs": missing_pairs,
+        "total_pairs": total_pairs,
+        "complete_pairs": complete_pairs,
     }
 
 
 def generate_progress_bar(percentage: float, width: int = 11) -> str:
-    """Generate an ASCII progress bar using block characters.
-    
-    Args:
-        percentage: Progress percentage (0-100)
-        width: Number of blocks in the progress bar
-    
-    Returns:
-        String like "⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜ 19.44%"
-    """
+    """Generate an ASCII progress bar using block characters."""
     filled = int(round(percentage / 100 * width))
     empty = width - filled
     bar = "⬛" * filled + "⬜" * empty
     return f"{bar} {percentage}%"
 
 
-def print_progress_report(progress: dict) -> None:
-    """Print a formatted progress report."""
+def print_progress_report(missing: dict) -> None:
+    """Print a formatted progress report showing missing model+benchmark pairs."""
+    total = missing["total_pairs"]
+    complete = missing["complete_pairs"]
+    progress_pct = round(complete / total * 100, 2) if total else 0
+
     print("=" * 60)
     print("OpenHands Index Results - Progress Report")
     print("=" * 60)
     print()
-    print("Target: 3D array of benchmarks × models × metrics")
-    print(f"  {len(EXPECTED_BENCHMARKS)} benchmarks × {len(EXPECTED_MODELS)} models × {len(EXPECTED_METRICS)} metrics = {progress['array_total_cells']} cells")
+    print("Target: Complete all model × benchmark pairs")
+    print(f"  {len(EXPECTED_MODELS)} models × {len(EXPECTED_BENCHMARKS)} benchmarks = {total} pairs")
+    print(f"  (each pair requires all {len(EXPECTED_METRICS)} metrics: {', '.join(EXPECTED_METRICS)})")
     print()
 
-    print(f"Model Coverage: {progress['model_coverage_pct']}% ({len(progress['models_covered'])}/{len(EXPECTED_MODELS)})")
-    print(f"  Expected: {progress['models_expected']}")
-    print(f"  Found: {progress['models_found']}")
-    print(f"  Covered: {progress['models_covered']}")
-    print()
-
-    print(f"Benchmark Coverage: {progress['benchmark_coverage_pct']}% ({len(progress['benchmarks_covered'])}/{len(EXPECTED_BENCHMARKS)})")
-    print(f"  Expected: {progress['benchmarks_expected']}")
-    print(f"  Found: {progress['benchmarks_found']}")
-    print(f"  Covered: {list(progress['benchmarks_covered'])}")
-    print()
-
-    print(f"Metric Coverage: {progress['metric_coverage_pct']}% ({len(progress['metrics_covered'])}/{len(EXPECTED_METRICS)})")
-    print(f"  Expected: {progress['metrics_expected']}")
-    print(f"  Found: {progress['metrics_found']}")
-    print(f"  Covered: {list(progress['metrics_covered'])}")
-    print()
-
-    print(f"3D Array Coverage: {progress['array_coverage_pct']}%")
-    print(
-        f"  Filled cells: {progress['array_filled_cells']} / {progress['array_total_cells']}"
-    )
-    print()
+    # Missing pairs - grouped by model
+    if missing["missing_pairs"]:
+        incomplete_count = total - complete
+        print(f"Incomplete Pairs ({incomplete_count}):")
+        
+        for model in EXPECTED_MODELS:
+            if model in missing["missing_pairs"]:
+                print(f"  {model}:")
+                for benchmark, missing_metrics in missing["missing_pairs"][model]:
+                    if set(missing_metrics) == set(EXPECTED_METRICS):
+                        print(f"    - {benchmark} (all metrics)")
+                    else:
+                        print(f"    - {benchmark} ({', '.join(missing_metrics)})")
+        print()
 
     print("=" * 60)
-    progress_bar = generate_progress_bar(progress['overall_progress_pct'])
+    progress_bar = generate_progress_bar(progress_pct)
     print(f"OVERALL PROGRESS: {progress_bar}")
+    print(f"  Complete: {complete} / {total} pairs")
     print("=" * 60)
 
 
@@ -267,11 +225,9 @@ def main():
         sys.exit(1)
 
     results = load_results(results_dir)
-    progress = calculate_progress(results)
-    print_progress_report(progress)
+    missing = find_missing_combinations(results)
+    print_progress_report(missing)
 
-    # Return non-zero exit code if progress is below threshold (optional)
-    # This could be used to fail CI if progress regresses
     return 0
 
 
