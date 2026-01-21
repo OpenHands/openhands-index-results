@@ -40,7 +40,6 @@ class Model(str, Enum):
     CLAUDE_4_5_SONNET = "claude-4.5-sonnet"
     GEMINI_3_PRO = "gemini-3-pro"
     GEMINI_3_FLASH = "gemini-3-flash"
-    GPT_5_2_HIGH_REASONING = "gpt-5.2-high-reasoning"
     GPT_5_2 = "gpt-5.2"
     KIMI_K2_THINKING = "kimi-k2-thinking"
     MINIMAX_M2 = "minimax-m2"
@@ -57,7 +56,6 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
-    Model.GPT_5_2_HIGH_REASONING: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,

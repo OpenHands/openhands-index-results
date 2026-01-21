@@ -40,7 +40,6 @@ EXPECTED_MODELS = [
     "claude-4.5-sonnet",
     "gemini-3-pro",
     "gemini-3-flash",
-    "gpt-5.2-high-reasoning",
     "gpt-5.2",
     "kimi-k2-thinking",
     "minimax-m2",
