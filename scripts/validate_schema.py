@@ -42,7 +42,7 @@ class Model(str, Enum):
     GEMINI_3_FLASH = "gemini-3-flash"
     GPT_5_2 = "gpt-5.2"
     KIMI_K2_THINKING = "kimi-k2-thinking"
-    MINIMAX_M2 = "minimax-m2"
+    MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
 
@@ -59,7 +59,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
-    Model.MINIMAX_M2: Openness.OPEN_WEIGHTS,
+    Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
 }
