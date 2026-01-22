@@ -5,7 +5,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.69,
     "average_runtime": 1117.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21012776641-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-03-21.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21012776641-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-03-21.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ]
@@ -16,7 +16,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.86,
     "average_runtime": 476.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21010530639-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-04-24.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21010530639-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-04-24.tar.gz",
     "tags": [
       "swe-bench"
     ]
@@ -27,7 +27,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.48,
     "average_runtime": 189.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21041979432-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-20-40.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21041979432-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-15-20-40.tar.gz",
     "tags": [
       "gaia"
     ]
@@ -38,7 +38,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.71,
     "average_runtime": 397.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21008947912-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-14-23-44.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21008947912-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-14-23-44.tar.gz",
     "tags": [
       "commit0"
     ]
@@ -49,7 +49,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.56,
     "average_runtime": 347.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21146218648-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-19-23-58.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21146218648-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-19-23-58.tar.gz",
     "tags": [
       "swt-bench"
     ]

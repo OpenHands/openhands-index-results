@@ -5,7 +5,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.95,
     "average_runtime": 343.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011486666-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-07-43.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21011486666-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-07-43.tar.gz",
     "tags": [
       "swe-bench"
     ]
@@ -16,7 +16,7 @@
     "metric": "accuracy",
     "cost_per_instance": 2.68,
     "average_runtime": 554.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20830419642-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-09-01-19.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-20830419642-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-09-01-19.tar.gz",
     "tags": [
       "commit0"
     ]
@@ -27,7 +27,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.14,
     "average_runtime": 63.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21011520577-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-01-50.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21011520577-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-01-50.tar.gz",
     "tags": [
       "gaia"
     ]
@@ -38,7 +38,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.01,
     "average_runtime": 386.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21186630675-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-21-07-16.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21186630675-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-21-07-16.tar.gz",
     "tags": [
       "swt-bench"
     ]
@@ -49,7 +49,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.74,
     "average_runtime": 877.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21225330367-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-22-01-24.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21225330367-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-22-01-24.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ]

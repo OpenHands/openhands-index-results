@@ -5,7 +5,7 @@
     "metric": "accuracy",
     "cost_per_instance": 2.45,
     "average_runtime": 1498.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21095153140-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-18-30.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21095153140-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-18-30.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ]
@@ -16,7 +16,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.28,
     "average_runtime": 197.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21093373009-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-12-54.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21093373009-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-12-54.tar.gz",
     "tags": [
       "gaia"
     ]
@@ -27,7 +27,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.26,
     "average_runtime": 680.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20979851181-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-09-02.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-20979851181-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-09-02.tar.gz",
     "tags": [
       "swe-bench"
     ]
@@ -38,7 +38,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.79,
     "average_runtime": 924.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-20981821017-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-06-17.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-20981821017-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-06-17.tar.gz",
     "tags": [
       "commit0"
     ]
@@ -49,7 +49,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.97,
     "average_runtime": 626.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21179579508-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-21-01-51.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21179579508-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-21-01-51.tar.gz",
     "tags": [
       "swt-bench"
     ]
