@@ -33,17 +33,6 @@
     ]
   },
   {
-    "benchmark": "swe-bench-multimodal",
-    "score": 10.8,
-    "metric": "accuracy",
-    "cost_per_instance": 4.01,
-    "average_runtime": 2444.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21047727106-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-16-09-04.tar.gz",
-    "tags": [
-      "swe-bench-multimodal"
-    ]
-  },
-  {
     "benchmark": "swt-bench",
     "score": 47.3,
     "metric": "accuracy",

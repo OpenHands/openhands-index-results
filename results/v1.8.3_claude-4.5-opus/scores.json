@@ -1,16 +1,5 @@
 [
   {
-    "benchmark": "swe-bench-multimodal",
-    "score": 26.5,
-    "metric": "accuracy",
-    "cost_per_instance": 2.55,
-    "average_runtime": 694.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21039823837-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-15-21-09.tar.gz",
-    "tags": [
-      "swe-bench-multimodal"
-    ]
-  },
-  {
     "benchmark": "commit0",
     "score": 37.5,
     "metric": "accuracy",
