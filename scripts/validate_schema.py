@@ -136,6 +136,9 @@ class Metric(str, Enum):
     ACCURACY = "accuracy"
 
 
+FULL_ARCHIVE_URL_PREFIX = "https://results.eval.all-hands.dev/"
+
+
 class ScoreEntry(BaseModel):
     """Schema for individual score entries in scores.json."""
     benchmark: Benchmark = Field(..., description="Benchmark name")
@@ -143,7 +146,18 @@ class ScoreEntry(BaseModel):
     metric: Metric = Field(..., description="Metric type for the score")
     cost_per_instance: Optional[float] = Field(None, ge=0, description="Average cost per problem in USD")
     average_runtime: Optional[float] = Field(None, ge=0, description="Average runtime per instance in seconds")
+    full_archive: Optional[str] = Field(None, description="URL to the full evaluation archive")
     tags: list[str] = Field(default_factory=list, description="Tags for categorization")
+
+    @field_validator("full_archive")
+    @classmethod
+    def validate_full_archive(cls, v: Optional[str]) -> Optional[str]:
+        """Ensure full_archive URL starts with the expected CDN prefix."""
+        if v is not None and not v.startswith(FULL_ARCHIVE_URL_PREFIX):
+            raise ValueError(
+                f"full_archive must begin with '{FULL_ARCHIVE_URL_PREFIX}', got '{v}'"
+            )
+        return v
 
     @field_validator("tags")
     @classmethod
