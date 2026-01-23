@@ -20,5 +20,16 @@
     "tags": [
       "gaia"
     ]
+  },
+  {
+    "benchmark": "commit0",
+    "score": 97.3,
+    "metric": "accuracy",
+    "cost_per_instance": 0.12,
+    "average_runtime": 1411.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-20981821017-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-14-07-15.tar.gz",
+    "tags": [
+      "commit0"
+    ]
   }
 ]
