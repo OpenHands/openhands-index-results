@@ -42,5 +42,16 @@
     "tags": [
       "swt-bench"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 30.4,
+    "metric": "accuracy",
+    "cost_per_instance": 1.56,
+    "average_runtime": 1499.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21276042487-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-23-11-43.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
   }
 ]
