@@ -9,5 +9,16 @@
     "tags": [
       "swe-bench"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 50.3,
+    "metric": "accuracy",
+    "cost_per_instance": 0.06,
+    "average_runtime": 427.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21070491317-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-16-16-39.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
