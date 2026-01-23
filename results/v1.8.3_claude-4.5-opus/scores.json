@@ -41,5 +41,16 @@
     "tags": [
       "swt-bench"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 25.5,
+    "metric": "accuracy",
+    "cost_per_instance": 2.74,
+    "average_runtime": 712.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21275300173-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-23-07-23.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
   }
 ]
