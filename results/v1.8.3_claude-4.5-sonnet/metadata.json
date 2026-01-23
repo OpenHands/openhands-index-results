@@ -4,6 +4,6 @@
   "model": "claude-4.5-sonnet",
   "openness": "closed_api_available",
   "tool_usage": "standard",
-  "submission_time": "2026-01-20T14:27:22.859900+00:00",
+  "submission_time": "2026-01-23T15:45:33.868320+00:00",
   "directory_name": "v1.8.3_claude-4.5-sonnet"
 }
