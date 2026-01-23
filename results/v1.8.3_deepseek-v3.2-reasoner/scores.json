@@ -1,16 +1,5 @@
 [
   {
-    "benchmark": "swe-bench-multimodal",
-    "score": 2.0,
-    "metric": "accuracy",
-    "cost_per_instance": 0.28,
-    "average_runtime": 2282.0,
-    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-21226684010-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-22-03-07.tar.gz",
-    "tags": [
-      "swe-bench-multimodal"
-    ]
-  },
-  {
     "benchmark": "swe-bench",
     "score": 57.6,
     "metric": "accuracy",
