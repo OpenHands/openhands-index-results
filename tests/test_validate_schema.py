@@ -299,6 +299,55 @@ class TestScoreEntrySchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_full_archive_url(self, tmp_path):
+        """Test score entry with valid full_archive URL passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench"]
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_invalid_full_archive_url_wrong_prefix(self, tmp_path):
+        """Test score entry with full_archive URL not starting with CDN prefix fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-12345.tar.gz",
+            "tags": ["swe-bench"]
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "full_archive" in msg.lower()
+        assert "results.eval.all-hands.dev" in msg
+
+    def test_full_archive_url_none_is_valid(self, tmp_path):
+        """Test score entry with full_archive set to null passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "full_archive": None,
+            "tags": ["swe-bench"]
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
 
 class TestValidateResultsDirectory:
     """Tests for validate_results_directory function."""
