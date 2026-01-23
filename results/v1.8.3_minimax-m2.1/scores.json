@@ -31,16 +31,5 @@
     "tags": [
       "commit0"
     ]
-  },
-  {
-    "benchmark": "swe-bench-multimodal",
-    "score": 14.7,
-    "metric": "accuracy",
-    "cost_per_instance": 1.59,
-    "average_runtime": 1352.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21226358849-minimax-m2_litellm_proxy-minimax-MiniMax-M2-1_26-01-22-02-44.tar.gz",
-    "tags": [
-      "swe-bench-multimodal"
-    ]
   }
 ]
