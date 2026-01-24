@@ -23,10 +23,10 @@
   },
   {
     "benchmark": "commit0",
-    "score": 63.3,
+    "score": 75.0,
     "metric": "accuracy",
-    "cost_per_instance": 1.24,
-    "average_runtime": 826.0,
+    "cost_per_instance": 1.98,
+    "average_runtime": 1321.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21219066409-minimax-m2_litellm_proxy-minimax-MiniMax-M2-1_26-01-21-19-53.tar.gz",
     "tags": [
       "commit0"
