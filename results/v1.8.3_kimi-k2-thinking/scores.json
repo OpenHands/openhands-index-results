@@ -12,10 +12,10 @@
   },
   {
     "benchmark": "commit0",
-    "score": 18.8,
+    "score": 84.3,
     "metric": "accuracy",
-    "cost_per_instance": 6.78,
-    "average_runtime": 2314.0,
+    "cost_per_instance": 10.84,
+    "average_runtime": 3703.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21008948105-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-00-35.tar.gz",
     "tags": [
       "commit0"
