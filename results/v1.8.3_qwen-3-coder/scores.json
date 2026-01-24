@@ -23,7 +23,7 @@
   },
   {
     "benchmark": "commit0",
-    "score": 4.4,
+    "score": 12.3,
     "metric": "accuracy",
     "cost_per_instance": 1.79,
     "average_runtime": 924.0,
