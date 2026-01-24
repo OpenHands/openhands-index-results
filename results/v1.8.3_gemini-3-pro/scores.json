@@ -23,11 +23,11 @@
   },
   {
     "benchmark": "gaia",
-    "score": 10.9,
+    "score": 44.2,
     "metric": "accuracy",
-    "cost_per_instance": 0.14,
-    "average_runtime": 63.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21011520577-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-15-01-50.tar.gz",
+    "cost_per_instance": 1.5,
+    "average_runtime": 1775.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21272815800-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-24-00-30.tar.gz",
     "tags": [
       "gaia"
     ]
