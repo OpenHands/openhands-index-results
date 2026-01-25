@@ -44,13 +44,22 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 27.5,
-    "metric": "accuracy",
+    "score": 41.2,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 2.54,
     "average_runtime": 671.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21323385943-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-25-04-21.tar.gz",
     "tags": [
       "swe-bench-multimodal"
-    ]
+    ],
+    "component_scores": {
+      "solveable_accuracy": 41.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 27.5,
+      "solveable_resolved": 28,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    }
   }
 ]
