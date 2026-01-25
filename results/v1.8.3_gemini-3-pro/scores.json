@@ -42,5 +42,16 @@
     "tags": [
       "swt-bench"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 24.5,
+    "metric": "accuracy",
+    "cost_per_instance": 1.46,
+    "average_runtime": 710.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21320838747-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-24-22-39.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
   }
 ]
