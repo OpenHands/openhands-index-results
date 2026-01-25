@@ -1,10 +1,10 @@
 [
   {
     "benchmark": "commit0",
-    "score": 31.4,
+    "score": 13.7,
     "metric": "accuracy",
-    "cost_per_instance": 0.82,
-    "average_runtime": 399.0,
+    "cost_per_instance": 1.31,
+    "average_runtime": 638.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-20798907628-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-01-39.tar.gz",
     "tags": [
       "commit0"
