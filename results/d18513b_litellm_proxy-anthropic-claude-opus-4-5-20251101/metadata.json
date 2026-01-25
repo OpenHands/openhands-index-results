@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "d18513b",
+  "model": "litellm_proxy/anthropic/claude-opus-4-5-20251101",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-25T12:30:46.052887+00:00",
+  "directory_name": "d18513b_litellm_proxy-anthropic-claude-opus-4-5-20251101"
+}
