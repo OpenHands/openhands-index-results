@@ -45,13 +45,22 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 24.5,
-    "metric": "accuracy",
+    "score": 36.8,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 1.46,
     "average_runtime": 710.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21320838747-gemini-3-p_litellm_proxy-gemini-gemini-3-pro-preview_26-01-24-22-39.tar.gz",
     "tags": [
       "swe-bench-multimodal"
-    ]
+    ],
+    "component_scores": {
+      "solveable_accuracy": 36.8,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 24.5,
+      "solveable_resolved": 25,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    }
   }
 ]

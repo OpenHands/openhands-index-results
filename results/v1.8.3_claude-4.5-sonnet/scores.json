@@ -45,13 +45,22 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 25.5,
-    "metric": "accuracy",
+    "score": 36.8,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 1.89,
     "average_runtime": 787.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21318221216-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-24-19-46.tar.gz",
     "tags": [
       "swe-bench-multimodal"
-    ]
+    ],
+    "component_scores": {
+      "solveable_accuracy": 36.8,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 25.5,
+      "solveable_resolved": 25,
+      "solveable_total": 68,
+      "unsolveable_resolved": 1,
+      "unsolveable_total": 34
+    }
   }
 ]
