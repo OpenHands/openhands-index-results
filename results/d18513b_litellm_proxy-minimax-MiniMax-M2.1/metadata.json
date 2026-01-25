@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "d18513b",
+  "model": "litellm_proxy/minimax/MiniMax-M2.1",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-25T12:32:19.829479+00:00",
+  "directory_name": "d18513b_litellm_proxy-minimax-MiniMax-M2.1"
+}
