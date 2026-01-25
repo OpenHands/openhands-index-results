@@ -134,6 +134,7 @@ class Benchmark(str, Enum):
 class Metric(str, Enum):
     """Expected metric names for the score field."""
     ACCURACY = "accuracy"
+    SOLVEABLE_ACCURACY = "solveable_accuracy"
 
 
 FULL_ARCHIVE_URL_PREFIX = "https://results.eval.all-hands.dev/"
