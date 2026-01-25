@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 25.5,
+    "metric": "accuracy",
+    "cost_per_instance": 1.89,
+    "average_runtime": 787.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21318221216-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-24-19-46.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
+  }
+]
