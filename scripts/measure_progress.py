@@ -28,9 +28,11 @@ EXPECTED_BENCHMARKS = [
 ]
 
 # Expected metrics from issue #2
+# Note: "score" represents any primary score metric (accuracy, solveable_accuracy, etc.)
+# The actual metric name is stored in the "metric" field of each score entry
 EXPECTED_METRICS = [
-    "accuracy",            # accuracy (resolve_rate)
-    "cost_per_instance",    # monetary cost per problem (#3)
+    "score",               # primary score (accuracy, solveable_accuracy, etc.)
+    "cost_per_instance",   # monetary cost per problem (#3)
     "average_runtime",     # wall clock time (#4)
 ]
 
@@ -93,16 +95,18 @@ def load_results(results_dir: Path) -> dict:
 
         for score_entry in scores:
             benchmark = score_entry.get("benchmark")
-            metric = score_entry.get("metric")
+            has_score = "score" in score_entry and "metric" in score_entry
             has_cost_per_instance = "cost_per_instance" in score_entry
             has_average_runtime = "average_runtime" in score_entry
 
             if benchmark:
                 benchmarks.add(benchmark)
-            if metric:
-                metrics.add(metric)
+
+            # Track "score" if both score and metric fields exist
+            if has_score:
+                metrics.add("score")
                 if benchmark:
-                    coverage[(model_name, benchmark, metric)] = True
+                    coverage[(model_name, benchmark, "score")] = True
 
             # Track cost_per_instance and average_runtime as separate metrics
             if has_cost_per_instance:
