@@ -45,13 +45,22 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 20.6,
-    "metric": "accuracy",
+    "score": 30.9,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 2.77,
     "average_runtime": 1571.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21320837315-gpt-5-2_litellm_proxy-openai-gpt-5-2-2025-12-11_26-01-25-04-55.tar.gz",
     "tags": [
       "swe-bench-multimodal"
-    ]
+    ],
+    "component_scores": {
+      "solveable_accuracy": 30.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 20.6,
+      "solveable_resolved": 21,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    }
   }
 ]
