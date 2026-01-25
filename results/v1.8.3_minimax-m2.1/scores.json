@@ -42,5 +42,25 @@
     "tags": [
       "swt-bench"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 16.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 1.26,
+    "average_runtime": 1417.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21324690733-minimax-m2_litellm_proxy-minimax-MiniMax-M2-1_26-01-25-06-38.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 16.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 10.8,
+      "solveable_resolved": 11,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    }
   }
 ]
