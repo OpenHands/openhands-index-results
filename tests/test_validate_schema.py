@@ -229,6 +229,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": ["swe-bench"]
         }]
         scores_file = tmp_path / "scores.json"
@@ -244,6 +245,8 @@ class TestScoreEntrySchema:
             "benchmark": "invalid-benchmark",  # Invalid
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -259,6 +262,8 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": 150.0,  # Invalid - > 100
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -274,6 +279,8 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": -10.0,  # Invalid - negative
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -290,6 +297,7 @@ class TestScoreEntrySchema:
             "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": -0.5,  # Invalid - negative
+            "average_runtime": 300,
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -306,6 +314,7 @@ class TestScoreEntrySchema:
             "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0,  # Invalid - must be > 0
+            "average_runtime": 300,
             "tags": []
         }]
         scores_file = tmp_path / "scores.json"
@@ -321,6 +330,7 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
             "average_runtime": 0,  # Invalid - must be > 0
             "tags": []
         }]
@@ -337,6 +347,7 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
             "average_runtime": -100,  # Invalid - negative
             "tags": []
         }]
@@ -348,12 +359,14 @@ class TestScoreEntrySchema:
         assert "average_runtime" in msg.lower()
 
     def test_optional_fields(self, tmp_path):
-        """Test that optional fields can be omitted."""
+        """Test that optional fields (tags) can be omitted."""
         scores = [{
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
-            "tags": []
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -362,12 +375,46 @@ class TestScoreEntrySchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_missing_cost_per_instance(self, tmp_path):
+        """Test score entry without cost_per_instance fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "average_runtime": 300,
+            "tags": []
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "cost_per_instance" in msg.lower()
+
+    def test_missing_average_runtime(self, tmp_path):
+        """Test score entry without average_runtime fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "tags": []
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "average_runtime" in msg.lower()
+
     def test_valid_full_archive_url(self, tmp_path):
         """Test score entry with valid full_archive URL passes validation."""
         scores = [{
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": ["swe-bench"]
         }]
@@ -384,6 +431,8 @@ class TestScoreEntrySchema:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-12345.tar.gz",
             "tags": ["swe-bench"]
         }]
@@ -395,21 +444,22 @@ class TestScoreEntrySchema:
         assert "full_archive" in msg.lower()
         assert "results.eval.all-hands.dev" in msg
 
-    def test_full_archive_url_none_is_valid(self, tmp_path):
-        """Test score entry with full_archive set to null passes validation."""
+    def test_missing_full_archive(self, tmp_path):
+        """Test score entry without full_archive fails validation."""
         scores = [{
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
-            "full_archive": None,
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
             "tags": ["swe-bench"]
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
 
         valid, msg = validate_scores(scores_file)
-        assert valid is True
-        assert msg == "OK"
+        assert valid is False
+        assert "full_archive" in msg.lower()
 
 
 class TestValidateResultsDirectory:
@@ -442,6 +492,7 @@ class TestValidateResultsDirectory:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": ["swe-bench"]
         }]
 
@@ -462,6 +513,9 @@ class TestValidateResultsDirectory:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": []
         }]
         (model_dir / "scores.json").write_text(json.dumps(scores))
