@@ -7,5 +7,6 @@
   "submission_time": "2026-01-26T15:55:37.309255+00:00",
   "directory_name": "v1.8.3_kimi-k2-thinking",
   "release_date": "2025-11-06",
-  "parameter_count": "1T (32B active)"
+  "parameter_count_b": 1000,
+  "active_parameter_count_b": 32
 }

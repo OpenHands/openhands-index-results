@@ -247,8 +247,8 @@ class TestMetadataSchema:
         assert valid is False
         assert "release_date" in msg.lower()
 
-    def test_open_weights_model_requires_parameter_count(self, tmp_path):
-        """Test that open-weights models require parameter_count."""
+    def test_open_weights_model_requires_parameter_count_b(self, tmp_path):
+        """Test that open-weights models require parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
@@ -258,17 +258,17 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
             "release_date": "2025-12-01"
-            # Missing parameter_count - should fail for open-weights model
+            # Missing parameter_count_b - should fail for open-weights model
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "parameter_count" in msg.lower()
+        assert "parameter_count_b" in msg.lower()
 
-    def test_open_weights_model_with_parameter_count(self, tmp_path):
-        """Test that open-weights models pass validation with parameter_count."""
+    def test_open_weights_model_with_parameter_count_b(self, tmp_path):
+        """Test that open-weights models pass validation with parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
@@ -278,7 +278,7 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
             "release_date": "2025-12-01",
-            "parameter_count": "685B"
+            "parameter_count_b": 685
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -287,8 +287,29 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_closed_model_without_parameter_count(self, tmp_path):
-        """Test that closed models pass validation without parameter_count."""
+    def test_open_weights_model_with_active_parameter_count_b(self, tmp_path):
+        """Test that open-weights MoE models can include active_parameter_count_b."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "kimi-k2-thinking",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_kimi-k2-thinking",
+            "release_date": "2025-11-06",
+            "parameter_count_b": 1000,
+            "active_parameter_count_b": 32
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_closed_model_without_parameter_count_b(self, tmp_path):
+        """Test that closed models pass validation without parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
@@ -298,7 +319,7 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.0.0_gpt-5.2",
             "release_date": "2025-12-11"
-            # No parameter_count - should be OK for closed model
+            # No parameter_count_b - should be OK for closed model
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))

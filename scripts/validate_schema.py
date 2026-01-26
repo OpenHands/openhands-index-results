@@ -85,7 +85,8 @@ class Metadata(BaseModel):
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
     release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
-    parameter_count: Optional[str] = Field(None, description="Model parameter count (e.g., '685B', '1T'). Required for open-weights models.")
+    parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
+    active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
 
     @field_validator("agent_version")
     @classmethod
@@ -135,10 +136,10 @@ class Metadata(BaseModel):
 
     @model_validator(mode='after')
     def validate_parameter_count_for_open_models(self):
-        """Ensure parameter_count is provided for non-closed models."""
-        if self.model not in CLOSED_MODELS and not self.parameter_count:
+        """Ensure parameter_count_b is provided for non-closed models."""
+        if self.model not in CLOSED_MODELS and self.parameter_count_b is None:
             raise ValueError(
-                f"parameter_count is required for open-weights model '{self.model.value}'"
+                f"parameter_count_b is required for open-weights model '{self.model.value}'"
             )
         return self
 
