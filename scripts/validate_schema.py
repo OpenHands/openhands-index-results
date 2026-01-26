@@ -9,12 +9,12 @@ in the results directory conform to the expected schema.
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
@@ -65,6 +65,16 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 }
 
 
+# Closed models where parameter count is not publicly known
+CLOSED_MODELS = {
+    Model.CLAUDE_4_5_OPUS,
+    Model.CLAUDE_4_5_SONNET,
+    Model.GEMINI_3_PRO,
+    Model.GEMINI_3_FLASH,
+    Model.GPT_5_2,
+}
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
@@ -74,6 +84,8 @@ class Metadata(BaseModel):
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
+    release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
+    parameter_count: Optional[str] = Field(None, description="Model parameter count (e.g., '685B', '1T'). Required for open-weights models.")
 
     @field_validator("agent_version")
     @classmethod
@@ -120,6 +132,15 @@ class Metadata(BaseModel):
                     f"'{{agent_version}}_{{model}}' = '{expected_dir_name}'"
                 )
         return v
+
+    @model_validator(mode='after')
+    def validate_parameter_count_for_open_models(self):
+        """Ensure parameter_count is provided for non-closed models."""
+        if self.model not in CLOSED_MODELS and not self.parameter_count:
+            raise ValueError(
+                f"parameter_count is required for open-weights model '{self.model.value}'"
+            )
+        return self
 
 
 class Benchmark(str, Enum):

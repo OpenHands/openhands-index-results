@@ -28,7 +28,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -46,7 +47,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -64,7 +66,8 @@ class TestMetadataSchema:
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -82,7 +85,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_invalid-model-name"
+            "directory_name": "v1.0.0_invalid-model-name",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -100,7 +104,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.8.2_gpt-5.2"
+            "directory_name": "v1.8.2_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -118,7 +123,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "54c5858_gpt-5.2"
+            "directory_name": "54c5858_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -136,7 +142,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "1.0.0_gpt-5.2"
+            "directory_name": "1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -154,7 +161,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "main_gpt-5.2"
+            "directory_name": "main_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -172,7 +180,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.8.3_claude-4.5-sonnet"
+            "directory_name": "v1.8.3_claude-4.5-sonnet",
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -190,7 +199,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202511_claude-4.5-sonnet"  # Invalid - old date format
+            "directory_name": "202511_claude-4.5-sonnet",  # Invalid - old date format
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -208,7 +218,8 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"  # Invalid - doesn't match version and model
+            "directory_name": "v1.0.0_gpt-5.2",  # Invalid - doesn't match version and model
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -216,6 +227,85 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "directory_name" in msg.lower()
+
+    def test_missing_release_date(self, tmp_path):
+        """Test metadata with missing release_date fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2"
+            # Missing release_date
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "release_date" in msg.lower()
+
+    def test_open_weights_model_requires_parameter_count(self, tmp_path):
+        """Test that open-weights models require parameter_count."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "deepseek-v3.2-reasoner",  # Open-weights model
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
+            "release_date": "2025-12-01"
+            # Missing parameter_count - should fail for open-weights model
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "parameter_count" in msg.lower()
+
+    def test_open_weights_model_with_parameter_count(self, tmp_path):
+        """Test that open-weights models pass validation with parameter_count."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "deepseek-v3.2-reasoner",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
+            "release_date": "2025-12-01",
+            "parameter_count": "685B"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_closed_model_without_parameter_count(self, tmp_path):
+        """Test that closed models pass validation without parameter_count."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "gpt-5.2",  # Closed model
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
+            # No parameter_count - should be OK for closed model
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
 
 
 class TestScoreEntrySchema:
@@ -371,14 +461,16 @@ class TestValidateResultsDirectory:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
         }
         scores = [{
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
-            "average_runtime": 0,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": ["swe-bench"]
         }]
 
@@ -399,6 +491,9 @@ class TestValidateResultsDirectory:
             "benchmark": "swe-bench",
             "score": 68.8,
             "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": []
         }]
         (model_dir / "scores.json").write_text(json.dumps(scores))
