@@ -25,7 +25,7 @@
     "benchmark": "swe-bench",
     "score": 77.6,
     "metric": "accuracy",
-    "average_runtime": 0,
+    "average_runtime": 384,
     "tags": [
       "swe-bench"
     ],
