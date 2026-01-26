@@ -42,5 +42,21 @@
     "tags": [
       "swt-bench"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 23.5,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.09,
+    "average_runtime": 1006.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21357041327-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-26-15-08.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 23.5,
+      "unsolveable_accuracy": 5.9,
+      "combined_accuracy": 17.6
+    }
   }
 ]
