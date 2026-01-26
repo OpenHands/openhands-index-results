@@ -42,5 +42,21 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 27.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.19,
+    "average_runtime": 1515.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21345780997-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-26-11-33.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 27.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 18.6
+    }
   }
 ]
