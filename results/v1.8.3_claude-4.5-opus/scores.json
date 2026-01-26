@@ -1,11 +1,11 @@
 [
   {
     "benchmark": "commit0",
-    "score": 57.5,
+    "score": 45.8,
     "metric": "accuracy",
-    "cost_per_instance": 3.64,
-    "average_runtime": 620.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-20798907628-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-07-23-57.tar.gz",
+    "cost_per_instance": 7.44,
+    "average_runtime": 792.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21324954369-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-25-03-56.tar.gz",
     "tags": [
       "commit0"
     ]
