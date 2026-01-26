@@ -225,7 +225,7 @@ class TestScoreEntrySchema:
         """Test valid score entry passes validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
@@ -242,7 +242,7 @@ class TestScoreEntrySchema:
         """Test score entry with invalid benchmark fails validation."""
         scores = [{
             "benchmark": "invalid-benchmark",  # Invalid
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "tags": []
         }]
@@ -254,10 +254,10 @@ class TestScoreEntrySchema:
         assert "benchmark" in msg.lower()
 
     def test_score_out_of_range(self, tmp_path):
-        """Test score entry with score > 1 fails validation."""
+        """Test score entry with score > 100 fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 1.5,  # Invalid - > 1
+            "score": 150.0,  # Invalid - > 100
             "metric": "accuracy",
             "tags": []
         }]
@@ -272,7 +272,7 @@ class TestScoreEntrySchema:
         """Test score entry with negative score fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": -0.1,  # Invalid - negative
+            "score": -10.0,  # Invalid - negative
             "metric": "accuracy",
             "tags": []
         }]
@@ -287,7 +287,7 @@ class TestScoreEntrySchema:
         """Test score entry with negative cost_per_instance fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": -0.5,  # Invalid - negative
             "tags": []
@@ -303,7 +303,7 @@ class TestScoreEntrySchema:
         """Test score entry with zero cost_per_instance fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0,  # Invalid - must be > 0
             "tags": []
@@ -319,7 +319,7 @@ class TestScoreEntrySchema:
         """Test score entry with zero average_runtime fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "average_runtime": 0,  # Invalid - must be > 0
             "tags": []
@@ -335,7 +335,7 @@ class TestScoreEntrySchema:
         """Test score entry with negative average_runtime fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "average_runtime": -100,  # Invalid - negative
             "tags": []
@@ -351,7 +351,7 @@ class TestScoreEntrySchema:
         """Test that optional fields can be omitted."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "tags": []
         }]
@@ -366,7 +366,7 @@ class TestScoreEntrySchema:
         """Test score entry with valid full_archive URL passes validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
             "tags": ["swe-bench"]
@@ -382,7 +382,7 @@ class TestScoreEntrySchema:
         """Test score entry with full_archive URL not starting with CDN prefix fails validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-12345.tar.gz",
             "tags": ["swe-bench"]
@@ -399,7 +399,7 @@ class TestScoreEntrySchema:
         """Test score entry with full_archive set to null passes validation."""
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "full_archive": None,
             "tags": ["swe-bench"]
@@ -438,7 +438,7 @@ class TestValidateResultsDirectory:
         }
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
@@ -460,7 +460,7 @@ class TestValidateResultsDirectory:
 
         scores = [{
             "benchmark": "swe-bench",
-            "score": 0.688,
+            "score": 68.8,
             "metric": "accuracy",
             "tags": []
         }]

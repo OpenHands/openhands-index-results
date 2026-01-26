@@ -143,7 +143,7 @@ FULL_ARCHIVE_URL_PREFIX = "https://results.eval.all-hands.dev/"
 class ScoreEntry(BaseModel):
     """Schema for individual score entries in scores.json."""
     benchmark: Benchmark = Field(..., description="Benchmark name")
-    score: float = Field(..., ge=0, le=1, description="Score value (0-1)")
+    score: float = Field(..., ge=0, le=100, description="Score value (0-100)")
     metric: Metric = Field(..., description="Metric type for the score")
     cost_per_instance: Optional[float] = Field(None, gt=0, description="Average cost per problem in USD")
     average_runtime: Optional[float] = Field(None, gt=0, description="Average runtime per instance in seconds")
