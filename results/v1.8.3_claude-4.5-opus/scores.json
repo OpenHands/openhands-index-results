@@ -1,7 +1,7 @@
 [
   {
     "benchmark": "commit0",
-    "score": 37.5,
+    "score": 0.375,
     "metric": "accuracy",
     "cost_per_instance": 4.65,
     "average_runtime": 495.0,
@@ -12,7 +12,7 @@
   },
   {
     "benchmark": "gaia",
-    "score": 69.1,
+    "score": 0.691,
     "metric": "accuracy",
     "cost_per_instance": 0.55,
     "average_runtime": 97.0,
@@ -23,9 +23,8 @@
   },
   {
     "benchmark": "swe-bench",
-    "score": 77.6,
+    "score": 0.776,
     "metric": "accuracy",
-    "average_runtime": 0,
     "tags": [
       "swe-bench"
     ],
@@ -33,7 +32,7 @@
   },
   {
     "benchmark": "swt-bench",
-    "score": 78.5,
+    "score": 0.785,
     "metric": "accuracy",
     "cost_per_instance": 1.38,
     "average_runtime": 268.0,
@@ -44,7 +43,7 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 41.2,
+    "score": 0.412,
     "metric": "solveable_accuracy",
     "cost_per_instance": 2.54,
     "average_runtime": 671.0,
@@ -53,9 +52,9 @@
       "swe-bench-multimodal"
     ],
     "component_scores": {
-      "solveable_accuracy": 41.2,
+      "solveable_accuracy": 0.412,
       "unsolveable_accuracy": 0.0,
-      "combined_accuracy": 27.5,
+      "combined_accuracy": 0.275,
       "solveable_resolved": 28,
       "solveable_total": 68,
       "unsolveable_resolved": 0,

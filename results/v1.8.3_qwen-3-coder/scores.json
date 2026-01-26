@@ -1,7 +1,7 @@
 [
   {
     "benchmark": "gaia",
-    "score": 33.9,
+    "score": 0.339,
     "metric": "accuracy",
     "cost_per_instance": 0.28,
     "average_runtime": 197.0,
@@ -12,7 +12,7 @@
   },
   {
     "benchmark": "swe-bench",
-    "score": 62.4,
+    "score": 0.624,
     "metric": "accuracy",
     "cost_per_instance": 1.26,
     "average_runtime": 680.0,
@@ -34,7 +34,7 @@
   },
   {
     "benchmark": "swt-bench",
-    "score": 34.9,
+    "score": 0.349,
     "metric": "accuracy",
     "cost_per_instance": 0.97,
     "average_runtime": 626.0,
@@ -45,7 +45,7 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 23.5,
+    "score": 0.235,
     "metric": "solveable_accuracy",
     "cost_per_instance": 2.09,
     "average_runtime": 1006.0,
@@ -54,9 +54,9 @@
       "swe-bench-multimodal"
     ],
     "component_scores": {
-      "solveable_accuracy": 23.5,
-      "unsolveable_accuracy": 5.9,
-      "combined_accuracy": 17.6
+      "solveable_accuracy": 0.235,
+      "unsolveable_accuracy": 0.059,
+      "combined_accuracy": 0.176
     }
   }
 ]
