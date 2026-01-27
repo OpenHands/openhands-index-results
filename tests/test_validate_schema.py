@@ -139,16 +139,17 @@ class TestMetadataSchema:
         assert valid is False
         assert "country" in msg.lower()
 
-    def test_invalid_model_value(self, tmp_path):
-        """Test metadata with invalid model value fails validation."""
+    def test_invalid_model_name_pattern(self, tmp_path):
+        """Test metadata with model name not matching pattern fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "invalid-model-name",  # Invalid - not in Model enum
+            "model": "123-invalid",  # Invalid - starts with number
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_invalid-model-name",
+            "directory_name": "v1.0.0_123-invalid",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -157,6 +158,72 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "model" in msg.lower()
+
+    def test_unknown_model_name_passes_validation(self, tmp_path):
+        """Test metadata with unknown but valid model name passes validation.
+        
+        This tests the fix for issue #465 - the Model enum was too restrictive.
+        Unknown models should pass validation as long as they follow the pattern.
+        """
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "new-future-model-v2.0",  # Unknown model but valid pattern
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_new-future-model-v2.0",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_unknown_open_weights_model_requires_parameter_count(self, tmp_path):
+        """Test that unknown models require parameter_count_b (assumed open-weights)."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "new-open-model",  # Unknown model, not in CLOSED_MODELS
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_new-open-model",
+            "release_date": "2025-12-11"
+            # Missing parameter_count_b - should fail for unknown model
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "parameter_count_b" in msg.lower()
+
+    def test_unknown_model_with_parameter_count_passes(self, tmp_path):
+        """Test that unknown models pass validation when parameter_count_b is provided."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "new-open-model",  # Unknown model
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_new-open-model",
+            "release_date": "2025-12-11",
+            "parameter_count_b": 70.0
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
 
     def test_valid_semantic_version(self, tmp_path):
         """Test metadata with valid semantic version passes validation."""

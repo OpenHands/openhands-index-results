@@ -18,6 +18,9 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
+# Model name pattern: alphanumeric with dots, hyphens, and underscores
+# Examples: gpt-5.2, claude-4.5-sonnet, deepseek-v3.2-reasoner, qwen-3-coder
+MODEL_NAME_PATTERN = re.compile(r'^[a-zA-Z][a-zA-Z0-9._-]*$')
 
 
 class Openness(str, Enum):
@@ -41,64 +44,53 @@ class ToolUsage(str, Enum):
     NONE = "none"
 
 
-class Model(str, Enum):
-    """Expected model names from issue #2."""
-    CLAUDE_4_5_OPUS = "claude-4.5-opus"
-    CLAUDE_4_5_SONNET = "claude-4.5-sonnet"
-    GEMINI_3_PRO = "gemini-3-pro"
-    GEMINI_3_FLASH = "gemini-3-flash"
-    GPT_5_2 = "gpt-5.2"
-    GPT_5_2_CODEX = "gpt-5.2-codex"
-    KIMI_K2_THINKING = "kimi-k2-thinking"
-    MINIMAX_M2_1 = "minimax-m2.1"
-    DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
-    QWEN_3_CODER = "qwen-3-coder"
-
-
-# Mapping of models to their correct openness classification
+# Mapping of known models to their correct openness classification
 # Open-weights models have publicly available model weights
 # Closed API models only provide API access without weight availability
-MODEL_OPENNESS_MAP: dict[Model, Openness] = {
+# Note: Unknown models are not validated against this mapping
+MODEL_OPENNESS_MAP: dict[str, Openness] = {
     # Closed API models
-    Model.CLAUDE_4_5_OPUS: Openness.CLOSED_API_AVAILABLE,
-    Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
-    Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
-    Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
-    Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
-    Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
+    "claude-4.5-opus": Openness.CLOSED_API_AVAILABLE,
+    "claude-4.5-sonnet": Openness.CLOSED_API_AVAILABLE,
+    "gemini-3-pro": Openness.CLOSED_API_AVAILABLE,
+    "gemini-3-flash": Openness.CLOSED_API_AVAILABLE,
+    "gpt-5.2": Openness.CLOSED_API_AVAILABLE,
+    "gpt-5.2-codex": Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
-    Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
-    Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
-    Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
-    Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    "kimi-k2-thinking": Openness.OPEN_WEIGHTS,
+    "minimax-m2.1": Openness.OPEN_WEIGHTS,
+    "deepseek-v3.2-reasoner": Openness.OPEN_WEIGHTS,
+    "qwen-3-coder": Openness.OPEN_WEIGHTS,
 }
 
 
-# Closed models where parameter count is not publicly known
-CLOSED_MODELS = {
-    Model.CLAUDE_4_5_OPUS,
-    Model.CLAUDE_4_5_SONNET,
-    Model.GEMINI_3_PRO,
-    Model.GEMINI_3_FLASH,
-    Model.GPT_5_2,
-    Model.GPT_5_2_CODEX,
+# Known closed models where parameter count is not publicly known
+# Note: Unknown models default to requiring parameter_count_b
+CLOSED_MODELS: set[str] = {
+    "claude-4.5-opus",
+    "claude-4.5-sonnet",
+    "gemini-3-pro",
+    "gemini-3-flash",
+    "gpt-5.2",
+    "gpt-5.2-codex",
 }
 
 
-# Mapping of models to their country of origin
-MODEL_COUNTRY_MAP: dict[Model, Country] = {
+# Mapping of known models to their country of origin
+# Note: Unknown models are not validated against this mapping
+MODEL_COUNTRY_MAP: dict[str, Country] = {
     # US models
-    Model.CLAUDE_4_5_OPUS: Country.US,
-    Model.CLAUDE_4_5_SONNET: Country.US,
-    Model.GEMINI_3_PRO: Country.US,
-    Model.GEMINI_3_FLASH: Country.US,
-    Model.GPT_5_2: Country.US,
-    Model.GPT_5_2_CODEX: Country.US,
+    "claude-4.5-opus": Country.US,
+    "claude-4.5-sonnet": Country.US,
+    "gemini-3-pro": Country.US,
+    "gemini-3-flash": Country.US,
+    "gpt-5.2": Country.US,
+    "gpt-5.2-codex": Country.US,
     # China models
-    Model.KIMI_K2_THINKING: Country.CN,
-    Model.MINIMAX_M2_1: Country.CN,
-    Model.DEEPSEEK_V3_2_REASONER: Country.CN,
-    Model.QWEN_3_CODER: Country.CN,
+    "kimi-k2-thinking": Country.CN,
+    "minimax-m2.1": Country.CN,
+    "deepseek-v3.2-reasoner": Country.CN,
+    "qwen-3-coder": Country.CN,
 }
 
 
@@ -106,7 +98,7 @@ class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
-    model: Model = Field(..., description="Model name (must be one of the expected models)")
+    model: str = Field(..., description="Model name (alphanumeric with dots, hyphens, and underscores)")
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
@@ -127,16 +119,27 @@ class Metadata(BaseModel):
             )
         return v
 
+    @field_validator("model")
+    @classmethod
+    def validate_model_name(cls, v: str) -> str:
+        """Ensure model name follows the expected pattern."""
+        if not MODEL_NAME_PATTERN.match(v):
+            raise ValueError(
+                f"model name must start with a letter and contain only alphanumeric "
+                f"characters, dots, hyphens, and underscores, got '{v}'"
+            )
+        return v
+
     @field_validator("openness")
     @classmethod
     def validate_openness_matches_model(cls, v: Openness, info) -> Openness:
-        """Ensure openness matches the expected value for the model."""
+        """Ensure openness matches the expected value for known models."""
         model = info.data.get("model")
         if model and model in MODEL_OPENNESS_MAP:
             expected_openness = MODEL_OPENNESS_MAP[model]
             if v != expected_openness:
                 raise ValueError(
-                    f"Model '{model.value}' should have openness '{expected_openness.value}', "
+                    f"Model '{model}' should have openness '{expected_openness.value}', "
                     f"but got '{v.value}'"
                 )
         return v
@@ -144,13 +147,13 @@ class Metadata(BaseModel):
     @field_validator("country")
     @classmethod
     def validate_country_matches_model(cls, v: Country, info) -> Country:
-        """Ensure country matches the expected value for the model."""
+        """Ensure country matches the expected value for known models."""
         model = info.data.get("model")
         if model and model in MODEL_COUNTRY_MAP:
             expected_country = MODEL_COUNTRY_MAP[model]
             if v != expected_country:
                 raise ValueError(
-                    f"Model '{model.value}' should have country '{expected_country.value}', "
+                    f"Model '{model}' should have country '{expected_country.value}', "
                     f"but got '{v.value}'"
                 )
         return v
@@ -168,7 +171,7 @@ class Metadata(BaseModel):
         agent_version = info.data.get("agent_version")
         model = info.data.get("model")
         if agent_version and model:
-            expected_dir_name = f"{agent_version}_{model.value}"
+            expected_dir_name = f"{agent_version}_{model}"
             if v != expected_dir_name:
                 raise ValueError(
                     f"directory_name '{v}' does not match expected format "
@@ -178,10 +181,19 @@ class Metadata(BaseModel):
 
     @model_validator(mode='after')
     def validate_parameter_count_for_open_models(self):
-        """Ensure parameter_count_b is provided for non-closed models."""
-        if self.model not in CLOSED_MODELS and self.parameter_count_b is None:
+        """Ensure parameter_count_b is provided for open-weights models.
+        
+        For known models, check against CLOSED_MODELS set.
+        For unknown models, check the openness field - if it's 'open_weights',
+        parameter_count_b is required.
+        """
+        is_known_closed = self.model in CLOSED_MODELS
+        is_declared_closed = self.openness in (Openness.CLOSED_API_AVAILABLE, Openness.CLOSED)
+        
+        # Require parameter_count_b only for open-weights models
+        if not is_known_closed and not is_declared_closed and self.parameter_count_b is None:
             raise ValueError(
-                f"parameter_count_b is required for open-weights model '{self.model.value}'"
+                f"parameter_count_b is required for open-weights model '{self.model}'"
             )
         return self
 
