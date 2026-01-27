@@ -108,11 +108,11 @@ class Metadata(BaseModel):
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
-    country: Country = Field(..., description="Country of origin for the model")
+    country: Optional[Country] = Field(None, description="Country of origin for the model (auto-derived from model if not provided)")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
-    release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
+    release_date: Optional[date] = Field(None, description="Model release date (YYYY-MM-DD)")
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
 
@@ -143,11 +143,13 @@ class Metadata(BaseModel):
 
     @field_validator("country")
     @classmethod
-    def validate_country_matches_model(cls, v: Country, info) -> Country:
-        """Ensure country matches the expected value for the model."""
+    def validate_country_matches_model(cls, v: Optional[Country], info) -> Optional[Country]:
+        """Ensure country matches the expected value for the model, or auto-derive if not provided."""
         model = info.data.get("model")
         if model and model in MODEL_COUNTRY_MAP:
             expected_country = MODEL_COUNTRY_MAP[model]
+            if v is None:
+                return expected_country
             if v != expected_country:
                 raise ValueError(
                     f"Model '{model.value}' should have country '{expected_country.value}', "

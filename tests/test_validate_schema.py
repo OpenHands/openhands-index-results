@@ -299,7 +299,7 @@ class TestMetadataSchema:
         assert "directory_name" in msg.lower()
 
     def test_missing_release_date(self, tmp_path):
-        """Test metadata with missing release_date fails validation."""
+        """Test metadata with missing release_date passes validation (release_date is optional)."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
@@ -309,14 +309,13 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.0.0_gpt-5.2"
-            # Missing release_date
+            # Missing release_date - now optional
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
 
         valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "release_date" in msg.lower()
+        assert valid is True
 
     def test_open_weights_model_requires_parameter_count_b(self, tmp_path):
         """Test that open-weights models require parameter_count_b."""
