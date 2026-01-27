@@ -21,22 +21,61 @@ jobs:
         run: pip install pydantic
 
       - name: Validate JSON schemas
-        run: python scripts/validate_schema.py
+        id: validate
+        run: |
+          set +e
+          output=$(python scripts/validate_schema.py 2>&1)
+          exit_code=$?
+          echo "output<<EOF" >> $GITHUB_OUTPUT
+          echo "$output" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          exit 0
 
       - name: Run progress measurement
-        run: python scripts/measure_progress.py
+        id: progress
+        run: |
+          set +e
+          output=$(python scripts/measure_progress.py 2>&1)
+          exit_code=$?
+          echo "output<<EOF" >> $GITHUB_OUTPUT
+          echo "$output" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          exit 0
 
-      - name: Add progress report as PR comment
-        uses: actions/github-script@v7
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
         with:
-          script: |
-            const { execSync } = require('child_process');
-            const progressOutput = execSync('python scripts/measure_progress.py').toString();
-            const schemaOutput = execSync('python scripts/validate_schema.py').toString();
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- validation-progress-report -->'
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '## 📊 Progress Report\n\n```\n' + progressOutput + '\n```\n\n## ✅ Schema Validation\n\n```\n' + schemaOutput + '\n```\n\nThis report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.'
-            });
+      - name: Create or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            <!-- validation-progress-report -->
+            ## 📊 Progress Report
+
+            ```
+            ${{ steps.progress.outputs.output }}
+            ```
+
+            ## ${{ steps.validate.outputs.exit_code == '0' && '✅' || '❌' }} Schema Validation
+
+            ```
+            ${{ steps.validate.outputs.output }}
+            ```
+
+            This report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.
+
+      - name: Fail if validation failed
+        if: steps.validate.outputs.exit_code != '0'
+        run: |
+          echo "Schema validation failed"
+          exit 1

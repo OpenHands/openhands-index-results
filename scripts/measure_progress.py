@@ -43,9 +43,11 @@ EXPECTED_MODELS = [
     "gemini-3-pro",
     "gemini-3-flash",
     "gpt-5.2",
+    "gpt-5.2-codex",
     "kimi-k2-thinking",
     "minimax-m2.1",
     "deepseek-v3.2-reasoner",
+    "nemotron",
     "qwen-3-coder",
 ]
 
@@ -123,6 +125,52 @@ def load_results(results_dir: Path) -> dict:
         "benchmarks": benchmarks,
         "metrics": metrics,
         "coverage": coverage,
+    }
+
+
+def calculate_progress(results: dict) -> dict:
+    """Calculate progress metrics for the 3D array coverage.
+
+    Returns a dict with progress percentages and counts.
+    """
+    models_found = results["models"] & set(EXPECTED_MODELS)
+    benchmarks_found = results["benchmarks"] & set(EXPECTED_BENCHMARKS)
+    metrics_found = results["metrics"] & set(EXPECTED_METRICS)
+    coverage = results["coverage"]
+
+    # Calculate coverage percentages
+    model_coverage_pct = round(len(models_found) / len(EXPECTED_MODELS) * 100, 2) if EXPECTED_MODELS else 0.0
+    benchmark_coverage_pct = round(len(benchmarks_found) / len(EXPECTED_BENCHMARKS) * 100, 2) if EXPECTED_BENCHMARKS else 0.0
+    metric_coverage_pct = round(len(metrics_found) / len(EXPECTED_METRICS) * 100, 2) if EXPECTED_METRICS else 0.0
+
+    # Calculate 3D array coverage
+    array_total_cells = len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
+    array_filled_cells = 0
+    for model in EXPECTED_MODELS:
+        for benchmark in EXPECTED_BENCHMARKS:
+            for metric in EXPECTED_METRICS:
+                if coverage.get((model, benchmark, metric)):
+                    array_filled_cells += 1
+
+    array_coverage_pct = round(array_filled_cells / array_total_cells * 100, 2) if array_total_cells else 0.0
+
+    # Overall progress is the array coverage
+    overall_progress_pct = array_coverage_pct
+
+    return {
+        "overall_progress_pct": overall_progress_pct,
+        "model_coverage_pct": model_coverage_pct,
+        "benchmark_coverage_pct": benchmark_coverage_pct,
+        "metric_coverage_pct": metric_coverage_pct,
+        "array_coverage_pct": array_coverage_pct,
+        "array_filled_cells": array_filled_cells,
+        "array_total_cells": array_total_cells,
+        "models_found": len(models_found),
+        "models_expected": len(EXPECTED_MODELS),
+        "benchmarks_found": len(benchmarks_found),
+        "benchmarks_expected": len(EXPECTED_BENCHMARKS),
+        "metrics_found": len(metrics_found),
+        "metrics_expected": len(EXPECTED_METRICS),
     }
 
 
