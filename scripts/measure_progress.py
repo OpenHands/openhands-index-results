@@ -43,6 +43,7 @@ EXPECTED_MODELS = [
     "gemini-3-pro",
     "gemini-3-flash",
     "gpt-5.2",
+    "gpt-5.2-codex",
     "kimi-k2-thinking",
     "minimax-m2.1",
     "deepseek-v3.2-reasoner",

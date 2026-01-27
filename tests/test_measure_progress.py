@@ -109,13 +109,13 @@ class TestExpectedDimensions:
         assert "average_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
-        """Test that we have 10 expected models."""
-        assert len(EXPECTED_MODELS) == 10
+        """Test that we have 11 expected models."""
+        assert len(EXPECTED_MODELS) == 11
 
     def test_total_cells(self):
-        """Test that total 3D array cells = 6 * 10 * 3 = 180."""
+        """Test that total 3D array cells = 6 * 11 * 3 = 198."""
         total = len(EXPECTED_BENCHMARKS) * len(EXPECTED_MODELS) * len(EXPECTED_METRICS)
-        assert total == 180
+        assert total == 198
 
 
 class TestCalculateProgress:
@@ -135,7 +135,7 @@ class TestCalculateProgress:
         assert progress["metric_coverage_pct"] == 0.0
         assert progress["model_coverage_pct"] == 0.0
         assert progress["array_coverage_pct"] == 0.0
-        assert progress["array_total_cells"] == 180
+        assert progress["array_total_cells"] == 198
 
     def test_known_model_with_all_metrics(self):
         """Test progress with an expected model name and all metrics."""
@@ -152,15 +152,15 @@ class TestCalculateProgress:
         }
         progress = calculate_progress(results)
 
-        # gpt-5.2 is an expected model, so 1/10 models = 10%
-        assert progress["model_coverage_pct"] == 10.0
+        # gpt-5.2 is an expected model, so 1/11 models = 9.09%
+        assert progress["model_coverage_pct"] == 9.09
         # 1/6 benchmarks = 16.67%
         assert progress["benchmark_coverage_pct"] == 16.67
         # All 3 metrics = 100%
         assert progress["metric_coverage_pct"] == 100.0
-        # 3 cells filled out of 180 = 1.67%
+        # 3 cells filled out of 198 = 1.52%
         assert progress["array_filled_cells"] == 3
-        assert progress["array_coverage_pct"] == 1.67
+        assert progress["array_coverage_pct"] == 1.52
 
     def test_unknown_model_not_counted(self):
         """Test that unknown models do not contribute to model coverage or filled cells.
@@ -231,7 +231,7 @@ class TestIntegration:
         assert "benchmarks_expected" in progress
         assert "metrics_found" in progress
         assert "metrics_expected" in progress
-        assert progress["array_total_cells"] == 180
+        assert progress["array_total_cells"] == 198
 
         # Verify actual metrics are found
         assert "accuracy" in results["metrics"]
