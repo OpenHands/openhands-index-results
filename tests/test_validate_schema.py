@@ -10,10 +10,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 from validate_schema import (
     Metadata,
     ScoreEntry,
+    format_validation_error,
     validate_metadata,
     validate_scores,
     validate_results_directory,
 )
+from pydantic import ValidationError
 
 
 class TestMetadataSchema:
@@ -729,3 +731,152 @@ class TestIntegration:
         # All files should pass validation
         assert failed == 0, f"Validation errors: {errors}"
         assert passed > 0
+
+
+class TestErrorMessageFormatting:
+    """Tests for human-readable error message formatting."""
+
+    def test_missing_field_error_message(self, tmp_path):
+        """Test that missing field errors show clear reason."""
+        metadata = {
+            "agent_name": "Test Agent",
+            # Missing agent_version, release_date, etc.
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "country": "us",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        # Check that error message clearly states the field is missing
+        assert "Field 'agent_version' is required but missing" in msg
+        assert "Field 'release_date' is required but missing" in msg
+
+    def test_invalid_enum_error_message(self, tmp_path):
+        """Test that invalid enum errors show the invalid value."""
+        metadata = {
+            "agent_name": "Test Agent",
+            "agent_version": "v1.0.0",
+            "model": "invalid-model",
+            "openness": "closed_api_available",
+            "country": "us",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_invalid-model",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        # Check that error message shows the invalid value
+        assert "Field 'model'" in msg
+        assert "got: 'invalid-model'" in msg
+
+    def test_value_constraint_error_message(self, tmp_path):
+        """Test that value constraint errors show the actual value."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 150,  # Invalid: > 100
+            "metric": "accuracy",
+            "cost_per_instance": -1,  # Invalid: <= 0
+            "average_runtime": 0,  # Invalid: <= 0
+            "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        # Check that error messages show the actual values
+        assert "Field 'score'" in msg
+        assert "got: 150" in msg
+        assert "Field 'cost_per_instance'" in msg
+        assert "got: -1" in msg
+
+    def test_custom_validator_error_message(self, tmp_path):
+        """Test that custom validator errors show clear reason."""
+        metadata = {
+            "agent_name": "Test Agent",
+            "agent_version": "invalid-version",  # Invalid: not semver
+            "model": "gpt-5.2",
+            "openness": "closed_api_available",
+            "country": "us",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "invalid-version_gpt-5.2",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        # Check that error message explains the validation rule
+        assert "Field 'agent_version'" in msg
+        assert "semantic version" in msg
+
+    def test_invalid_json_error_message(self, tmp_path):
+        """Test that invalid JSON errors show line and column."""
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text('{ "invalid": json }')
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "Invalid JSON" in msg
+        assert "line" in msg
+
+    def test_scores_entry_error_shows_entry_index(self, tmp_path):
+        """Test that scores validation errors show which entry failed."""
+        scores = [
+            {
+                "benchmark": "swe-bench",
+                "score": 50,
+                "metric": "accuracy",
+                "cost_per_instance": 0.5,
+                "average_runtime": 300,
+                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+            },
+            {
+                "benchmark": "invalid-benchmark",  # Invalid
+                "score": 50,
+                "metric": "accuracy",
+                "cost_per_instance": 0.5,
+                "average_runtime": 300,
+                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+            }
+        ]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        # Check that error message shows which entry failed
+        assert "Entry 1" in msg
+
+    def test_error_message_no_pydantic_urls(self, tmp_path):
+        """Test that error messages don't include Pydantic documentation URLs."""
+        metadata = {
+            "agent_name": "Test Agent",
+            "agent_version": "invalid",
+            "model": "invalid-model",
+            "openness": "invalid",
+            "country": "invalid",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "invalid_invalid-model",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        # Check that error message doesn't include Pydantic URLs
+        assert "https://errors.pydantic.dev" not in msg
