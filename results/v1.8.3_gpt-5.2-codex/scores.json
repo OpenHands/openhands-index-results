@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 73.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.94,
+    "average_runtime": 438.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-12-57.tar.gz",
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]
