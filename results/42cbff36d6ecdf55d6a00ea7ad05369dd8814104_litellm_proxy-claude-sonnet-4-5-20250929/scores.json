@@ -1,0 +1,13 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 0.2,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 1.0,
+    "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/swebench/litellm_proxy-claude-sonnet-4-5-20250929/21399585123/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ]
+  }
+]
