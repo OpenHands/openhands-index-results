@@ -24,7 +24,8 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",  # Must be an expected model name
+            "model": "gpt-5.2",
+            "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -44,6 +45,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             # Missing agent_version
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -63,6 +65,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -75,6 +78,46 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "openness" in msg.lower()
+
+    def test_invalid_country_value(self, tmp_path):
+        """Test metadata with invalid country value fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "gpt-5.2",
+            "country": "invalid_country",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "country" in msg.lower()
+
+    def test_country_mismatch_for_model(self, tmp_path):
+        """Test metadata with incorrect country for model fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "gpt-5.2",
+            "country": "cn",  # Should be "us" for GPT
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "country" in msg.lower()
 
     def test_invalid_model_value(self, tmp_path):
         """Test metadata with invalid model value fails validation."""
@@ -101,6 +144,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.2",
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -120,6 +164,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "54c5858",  # Invalid - commit hash
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -139,6 +184,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "1.0.0",  # Invalid - missing 'v' prefix
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -158,6 +204,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "main",  # Invalid - branch name
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -177,6 +224,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
             "model": "claude-4.5-sonnet",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -196,6 +244,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
             "model": "claude-4.5-sonnet",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -215,6 +264,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
             "model": "claude-4.5-sonnet",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -234,6 +284,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
             "model": "gpt-5.2",
+            "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -252,7 +303,8 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "deepseek-v3.2-reasoner",  # Open-weights model
+            "model": "deepseek-v3.2-reasoner",
+            "country": "cn",  # Open-weights model
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -273,6 +325,7 @@ class TestMetadataSchema:
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
             "model": "deepseek-v3.2-reasoner",
+            "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -294,6 +347,7 @@ class TestMetadataSchema:
             "agent_version": "v1.0.0",
             "model": "kimi-k2-thinking",
             "openness": "open_weights",
+            "country": "cn",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.0.0_kimi-k2-thinking",
@@ -313,7 +367,8 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",  # Closed model
+            "model": "gpt-5.2",
+            "country": "us",  # Closed model
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
@@ -478,7 +533,8 @@ class TestValidateResultsDirectory:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",  # Must be an expected model name
+            "model": "gpt-5.2",
+            "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",

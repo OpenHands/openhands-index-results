@@ -27,6 +27,13 @@ class Openness(str, Enum):
     CLOSED = "closed"
 
 
+class Country(str, Enum):
+    """Country of origin for the model."""
+    US = "us"
+    CN = "cn"
+    FR = "fr"
+
+
 class ToolUsage(str, Enum):
     """Tool usage classification."""
     STANDARD = "standard"
@@ -75,12 +82,29 @@ CLOSED_MODELS = {
 }
 
 
+# Mapping of models to their country of origin
+MODEL_COUNTRY_MAP: dict[Model, Country] = {
+    # US models
+    Model.CLAUDE_4_5_OPUS: Country.US,
+    Model.CLAUDE_4_5_SONNET: Country.US,
+    Model.GEMINI_3_PRO: Country.US,
+    Model.GEMINI_3_FLASH: Country.US,
+    Model.GPT_5_2: Country.US,
+    # China models
+    Model.KIMI_K2_THINKING: Country.CN,
+    Model.MINIMAX_M2_1: Country.CN,
+    Model.DEEPSEEK_V3_2_REASONER: Country.CN,
+    Model.QWEN_3_CODER: Country.CN,
+}
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
+    country: Country = Field(..., description="Country of origin for the model")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
@@ -109,6 +133,20 @@ class Metadata(BaseModel):
             if v != expected_openness:
                 raise ValueError(
                     f"Model '{model.value}' should have openness '{expected_openness.value}', "
+                    f"but got '{v.value}'"
+                )
+        return v
+
+    @field_validator("country")
+    @classmethod
+    def validate_country_matches_model(cls, v: Country, info) -> Country:
+        """Ensure country matches the expected value for the model."""
+        model = info.data.get("model")
+        if model and model in MODEL_COUNTRY_MAP:
+            expected_country = MODEL_COUNTRY_MAP[model]
+            if v != expected_country:
+                raise ValueError(
+                    f"Model '{model.value}' should have country '{expected_country.value}', "
                     f"but got '{v.value}'"
                 )
         return v
