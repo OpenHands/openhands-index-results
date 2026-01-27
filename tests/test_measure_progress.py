@@ -75,10 +75,10 @@ class TestLoadResults:
         results = load_results(tmp_path)
         assert "test-model" in results["models"]
         assert "swe-bench" in results["benchmarks"]
-        assert "accuracy" in results["metrics"]
+        assert "score" in results["metrics"]
         assert "cost_per_instance" in results["metrics"]
         assert "average_runtime" in results["metrics"]
-        assert results["coverage"][("test-model", "swe-bench", "accuracy")] is True
+        assert results["coverage"][("test-model", "swe-bench", "score")] is True
         assert results["coverage"][("test-model", "swe-bench", "cost_per_instance")] is True
         assert results["coverage"][("test-model", "swe-bench", "average_runtime")] is True
 
@@ -98,24 +98,26 @@ class TestExpectedDimensions:
     """Tests for expected dimensions from issue #2."""
 
     def test_expected_benchmarks_count(self):
-        """Test that we have 6 expected benchmarks."""
-        assert len(EXPECTED_BENCHMARKS) == 6
+        """Test that we have 5 expected benchmarks."""
+        assert len(EXPECTED_BENCHMARKS) == 5
 
     def test_expected_metrics_count(self):
         """Test that we have 3 expected metrics."""
         assert len(EXPECTED_METRICS) == 3
-        assert "accuracy" in EXPECTED_METRICS
+        assert "score" in EXPECTED_METRICS
         assert "cost_per_instance" in EXPECTED_METRICS
         assert "average_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
         """Test that we have 11 expected models."""
         assert len(EXPECTED_MODELS) == 11
+        assert "gpt-5.2-codex" in EXPECTED_MODELS
+        assert "nemotron" in EXPECTED_MODELS
 
     def test_total_cells(self):
-        """Test that total 3D array cells = 6 * 11 * 3 = 198."""
+        """Test that total 3D array cells = 5 * 11 * 3 = 165."""
         total = len(EXPECTED_BENCHMARKS) * len(EXPECTED_MODELS) * len(EXPECTED_METRICS)
-        assert total == 198
+        assert total == 165
 
 
 class TestCalculateProgress:
@@ -135,7 +137,7 @@ class TestCalculateProgress:
         assert progress["metric_coverage_pct"] == 0.0
         assert progress["model_coverage_pct"] == 0.0
         assert progress["array_coverage_pct"] == 0.0
-        assert progress["array_total_cells"] == 198
+        assert progress["array_total_cells"] == 165
 
     def test_known_model_with_all_metrics(self):
         """Test progress with an expected model name and all metrics."""
@@ -143,9 +145,9 @@ class TestCalculateProgress:
         results = {
             "models": {"gpt-5.2"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy", "cost_per_instance", "average_runtime"},
+            "metrics": {"score", "cost_per_instance", "average_runtime"},
             "coverage": {
-                ("gpt-5.2", "swe-bench", "accuracy"): True,
+                ("gpt-5.2", "swe-bench", "score"): True,
                 ("gpt-5.2", "swe-bench", "cost_per_instance"): True,
                 ("gpt-5.2", "swe-bench", "average_runtime"): True,
             },
@@ -154,13 +156,13 @@ class TestCalculateProgress:
 
         # gpt-5.2 is an expected model, so 1/11 models = 9.09%
         assert progress["model_coverage_pct"] == 9.09
-        # 1/6 benchmarks = 16.67%
-        assert progress["benchmark_coverage_pct"] == 16.67
+        # 1/5 benchmarks = 20%
+        assert progress["benchmark_coverage_pct"] == 20.0
         # All 3 metrics = 100%
         assert progress["metric_coverage_pct"] == 100.0
-        # 3 cells filled out of 198 = 1.52%
+        # 3 cells filled out of 165 = 1.82%
         assert progress["array_filled_cells"] == 3
-        assert progress["array_coverage_pct"] == 1.52
+        assert progress["array_coverage_pct"] == 1.82
 
     def test_unknown_model_not_counted(self):
         """Test that unknown models do not contribute to model coverage or filled cells.
@@ -171,15 +173,15 @@ class TestCalculateProgress:
         results = {
             "models": {"unknown-model-xyz"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy"},
-            "coverage": {("unknown-model-xyz", "swe-bench", "accuracy"): True},
+            "metrics": {"score"},
+            "coverage": {("unknown-model-xyz", "swe-bench", "score"): True},
         }
         progress = calculate_progress(results)
 
         # Unknown model is not in EXPECTED_MODELS
         assert progress["model_coverage_pct"] == 0.0
         # But benchmark and metric coverage still count
-        assert progress["benchmark_coverage_pct"] == 16.67
+        assert progress["benchmark_coverage_pct"] == 20.0
         assert progress["metric_coverage_pct"] == 33.33
         # No cells filled because model is not in expected list
         assert progress["array_filled_cells"] == 0
@@ -190,9 +192,9 @@ class TestCalculateProgress:
         results = {
             "models": {"gpt-5.2"},
             "benchmarks": {"swe-bench"},
-            "metrics": {"accuracy"},  # Only accuracy, missing total_cost and average_runtime
+            "metrics": {"score"},  # Only score, missing cost_per_instance and average_runtime
             "coverage": {
-                ("gpt-5.2", "swe-bench", "accuracy"): True,
+                ("gpt-5.2", "swe-bench", "score"): True,
             },
         }
         progress = calculate_progress(results)
@@ -231,9 +233,9 @@ class TestIntegration:
         assert "benchmarks_expected" in progress
         assert "metrics_found" in progress
         assert "metrics_expected" in progress
-        assert progress["array_total_cells"] == 198
+        assert progress["array_total_cells"] == 165
 
         # Verify actual metrics are found
-        assert "accuracy" in results["metrics"]
+        assert "score" in results["metrics"]
         assert "cost_per_instance" in results["metrics"]
         assert "average_runtime" in results["metrics"]
