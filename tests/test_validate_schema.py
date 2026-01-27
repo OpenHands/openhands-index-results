@@ -39,6 +39,26 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_gpt_5_2_codex(self, tmp_path):
+        """Test valid metadata for gpt-5.2-codex passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "gpt-5.2-codex",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "v1.0.0_gpt-5.2-codex",
+            "release_date": "2025-12-11"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
