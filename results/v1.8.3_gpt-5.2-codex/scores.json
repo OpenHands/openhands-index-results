@@ -1,5 +1,16 @@
 [
   {
+    "benchmark": "swe-bench-multimodal",
+    "score": 22.5,
+    "metric": "accuracy",
+    "cost_per_instance": 2.97,
+    "average_runtime": 1434.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21383028167-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-09-13.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ]
+  },
+  {
     "benchmark": "gaia",
     "score": 70.9,
     "metric": "accuracy",
