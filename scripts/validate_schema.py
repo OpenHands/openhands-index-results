@@ -9,12 +9,12 @@ in the results directory conform to the expected schema.
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
@@ -25,6 +25,13 @@ class Openness(str, Enum):
     OPEN_WEIGHTS = "open_weights"
     CLOSED_API_AVAILABLE = "closed_api_available"
     CLOSED = "closed"
+
+
+class Country(str, Enum):
+    """Country of origin for the model."""
+    US = "us"
+    CN = "cn"
+    FR = "fr"
 
 
 class ToolUsage(str, Enum):
@@ -65,15 +72,45 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 }
 
 
+# Closed models where parameter count is not publicly known
+CLOSED_MODELS = {
+    Model.CLAUDE_4_5_OPUS,
+    Model.CLAUDE_4_5_SONNET,
+    Model.GEMINI_3_PRO,
+    Model.GEMINI_3_FLASH,
+    Model.GPT_5_2,
+}
+
+
+# Mapping of models to their country of origin
+MODEL_COUNTRY_MAP: dict[Model, Country] = {
+    # US models
+    Model.CLAUDE_4_5_OPUS: Country.US,
+    Model.CLAUDE_4_5_SONNET: Country.US,
+    Model.GEMINI_3_PRO: Country.US,
+    Model.GEMINI_3_FLASH: Country.US,
+    Model.GPT_5_2: Country.US,
+    # China models
+    Model.KIMI_K2_THINKING: Country.CN,
+    Model.MINIMAX_M2_1: Country.CN,
+    Model.DEEPSEEK_V3_2_REASONER: Country.CN,
+    Model.QWEN_3_CODER: Country.CN,
+}
+
+
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: str = Field(..., description="Name of the agent")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
+    country: Country = Field(..., description="Country of origin for the model")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
+    release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
+    parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
+    active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
 
     @field_validator("agent_version")
     @classmethod
@@ -100,6 +137,20 @@ class Metadata(BaseModel):
                 )
         return v
 
+    @field_validator("country")
+    @classmethod
+    def validate_country_matches_model(cls, v: Country, info) -> Country:
+        """Ensure country matches the expected value for the model."""
+        model = info.data.get("model")
+        if model and model in MODEL_COUNTRY_MAP:
+            expected_country = MODEL_COUNTRY_MAP[model]
+            if v != expected_country:
+                raise ValueError(
+                    f"Model '{model.value}' should have country '{expected_country.value}', "
+                    f"but got '{v.value}'"
+                )
+        return v
+
     @field_validator("directory_name")
     @classmethod
     def validate_directory_name(cls, v: str, info) -> str:
@@ -120,6 +171,15 @@ class Metadata(BaseModel):
                     f"'{{agent_version}}_{{model}}' = '{expected_dir_name}'"
                 )
         return v
+
+    @model_validator(mode='after')
+    def validate_parameter_count_for_open_models(self):
+        """Ensure parameter_count_b is provided for non-closed models."""
+        if self.model not in CLOSED_MODELS and self.parameter_count_b is None:
+            raise ValueError(
+                f"parameter_count_b is required for open-weights model '{self.model.value}'"
+            )
+        return self
 
 
 class Benchmark(str, Enum):
