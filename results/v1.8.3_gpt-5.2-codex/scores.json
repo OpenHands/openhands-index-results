@@ -42,5 +42,16 @@
     "tags": [
       "commit0"
     ]
+   },
+   { 
+    "benchmark": "swt-bench",
+    "score": 62.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.66,
+    "average_runtime": 343.0,
+    "full_archive": "https://results.eval.all-hands.dev/",
+    "tags": [
+      "swt-bench"
+    ]
   }
 ]
