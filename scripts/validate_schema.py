@@ -86,6 +86,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
+    NEMOTRON = "nemotron"
 
 
 # Mapping of models to their correct openness classification
@@ -99,6 +100,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
+    Model.NEMOTRON: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
@@ -115,6 +117,7 @@ CLOSED_MODELS = {
     Model.GEMINI_3_FLASH,
     Model.GPT_5_2,
     Model.GPT_5_2_CODEX,
+    Model.NEMOTRON,
 }
 
 
@@ -127,6 +130,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
+    Model.NEMOTRON: Country.US,
     # China models
     Model.KIMI_K2_THINKING: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
