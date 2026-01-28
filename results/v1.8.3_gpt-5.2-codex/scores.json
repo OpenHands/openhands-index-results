@@ -33,14 +33,15 @@
     ]
    },
    { 
-    "benchmark": "commit0",
-    "score": 62.5,
+    "benchmark": "swt-bench",
+    "score": 59.3,
     "metric": "accuracy",
-    "cost_per_instance": 2.5,
-    "average_runtime": 838.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21371494522-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-26-23-13.tar.gz",
+    "cost_per_instance": 0.66,
+    "average_runtime": 343.0,
+    "full_archive": "https://drive.google.com/drive/folders/1R27_dNzvDMTdg0qYEdpsZKYloOb7MZv8",
     "tags": [
-      "commit0"
+      "swt-bench"
     ]
   }
 ]
+
