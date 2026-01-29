@@ -1,5 +1,16 @@
 [
   {
+    "benchmark": "swe-bench",
+    "score": 34.2,
+    "metric": "accuracy",
+    "cost_per_instance": 0.24,
+    "average_runtime": 1344.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21370501716-nemotron-3_litellm_proxy-openai-NVIDIA-Nemotron-3-Nano-30B-A3B-FP8_26-01-27-05-06.tar.gz",
+    "tags": [
+      "swe-bench"
+      ]
+    },
+    {
     "benchmark": "gaia",
     "score": 8.5,
     "metric": "accuracy",
