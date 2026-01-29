@@ -68,7 +68,7 @@ class TestMetadataSchema:
             "agent_version": "v1.8.3",
             "model": "nemotron",
             "country": "us",
-            "openness": "closed_api_available",
+            "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
             "directory_name": "v1.8.3_nemotron",
