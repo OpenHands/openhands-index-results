@@ -78,4 +78,7 @@ jobs:
         if: steps.validate.outputs.exit_code != '0'
         run: |
           echo "Schema validation failed"
+          echo ""
+          echo "Validation output:"
+          echo "${{ steps.validate.outputs.output }}"
           exit 1
