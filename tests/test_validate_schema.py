@@ -81,6 +81,28 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_kimi_k2_5(self, tmp_path):
+        """Test valid metadata for kimi-k2.5 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.8.3",
+            "model": "kimi-k2.5",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2026-01-29T10:00:00.000000+00:00",
+            "directory_name": "v1.8.3_kimi-k2.5",
+            "release_date": "2026-01-20",
+            "parameter_count_b": 1000,
+            "active_parameter_count_b": 32
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {

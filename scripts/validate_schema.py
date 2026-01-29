@@ -83,6 +83,7 @@ class Model(str, Enum):
     GPT_5_2 = "gpt-5.2"
     GPT_5_2_CODEX = "gpt-5.2-codex"
     KIMI_K2_THINKING = "kimi-k2-thinking"
+    KIMI_K2_5 = "kimi-k2.5"
     MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
@@ -102,6 +103,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
+    Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
@@ -133,6 +135,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.NEMOTRON: Country.US,
     # China models
     Model.KIMI_K2_THINKING: Country.CN,
+    Model.KIMI_K2_5: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
