@@ -47,7 +47,7 @@ EXPECTED_MODELS = [
     "kimi-k2-thinking",
     "minimax-m2.1",
     "deepseek-v3.2-reasoner",
-    "nemotron-3-nano-30b",
+    "nemotron-3-nano",
     "qwen-3-coder",
 ]
 

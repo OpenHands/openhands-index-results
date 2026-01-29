@@ -62,16 +62,16 @@ class TestMetadataSchema:
         assert msg == "OK"
 
     def test_valid_metadata_nemotron_3_nano_30b(self, tmp_path):
-        """Test valid metadata for nemotron-3-nano-30b passes validation."""
+        """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "nemotron-3-nano-30b",
+            "model": "nemotron-3-nano",
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
-            "directory_name": "v1.8.3_nemotron-3-nano-30b",
+            "directory_name": "v1.8.3_nemotron-3-nano",
             "release_date": "2026-01-15"
         }
         metadata_file = tmp_path / "metadata.json"
