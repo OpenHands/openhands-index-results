@@ -14,7 +14,40 @@ from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
+
+
+def format_validation_error(error: ValidationError) -> str:
+    """Format a Pydantic ValidationError into a human-readable message.
+
+    Args:
+        error: The Pydantic ValidationError to format.
+
+    Returns:
+        A formatted string with clear error messages.
+    """
+    messages = []
+    for err in error.errors():
+        field = ".".join(str(loc) for loc in err["loc"])
+        error_type = err["type"]
+        msg = err["msg"]
+        input_value = err.get("input")
+
+        # Build a clear, human-readable message
+        if error_type == "missing":
+            messages.append(f"  • Field '{field}' is required but missing")
+        elif error_type == "enum":
+            messages.append(f"  • Field '{field}': {msg} (got: '{input_value}')")
+        elif error_type == "value_error":
+            # Extract the actual error message without "Value error, " prefix
+            clean_msg = msg.replace("Value error, ", "")
+            messages.append(f"  • Field '{field}': {clean_msg}")
+        elif error_type in ("less_than_equal", "greater_than", "greater_than_equal", "less_than"):
+            messages.append(f"  • Field '{field}': {msg} (got: {input_value})")
+        else:
+            messages.append(f"  • Field '{field}': {msg} (got: '{input_value}')")
+
+    return "\n".join(messages)
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
@@ -53,6 +86,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
+    NEMOTRON = "nemotron"
 
 
 # Mapping of models to their correct openness classification
@@ -71,6 +105,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.NEMOTRON: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -82,6 +117,7 @@ CLOSED_MODELS = {
     Model.GEMINI_3_FLASH,
     Model.GPT_5_2,
     Model.GPT_5_2_CODEX,
+    Model.NEMOTRON,
 }
 
 
@@ -94,6 +130,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
+    Model.NEMOTRON: Country.US,
     # China models
     Model.KIMI_K2_THINKING: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
@@ -247,6 +284,10 @@ def validate_metadata(file_path: Path) -> tuple[bool, str]:
         data = load_json(file_path)
         Metadata(**data)
         return True, "OK"
+    except ValidationError as e:
+        return False, format_validation_error(e)
+    except json.JSONDecodeError as e:
+        return False, f"Invalid JSON: {e.msg} at line {e.lineno}, column {e.colno}"
     except Exception as e:
         return False, str(e)
 
@@ -256,13 +297,17 @@ def validate_scores(file_path: Path) -> tuple[bool, str]:
     try:
         data = load_json(file_path)
         if not isinstance(data, list):
-            return False, "scores.json must be a list"
+            return False, "scores.json must be a list of score entries"
         for i, entry in enumerate(data):
             try:
                 ScoreEntry(**entry)
+            except ValidationError as e:
+                return False, f"Entry {i}:\n{format_validation_error(e)}"
             except Exception as e:
                 return False, f"Entry {i}: {e}"
         return True, "OK"
+    except json.JSONDecodeError as e:
+        return False, f"Invalid JSON: {e.msg} at line {e.lineno}, column {e.colno}"
     except Exception as e:
         return False, str(e)
 
