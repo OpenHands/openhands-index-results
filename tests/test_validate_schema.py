@@ -61,6 +61,26 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_nemotron(self, tmp_path):
+        """Test valid metadata for nemotron passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.8.3",
+            "model": "nemotron",
+            "country": "us",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2026-01-27T20:02:11.332283+00:00",
+            "directory_name": "v1.8.3_nemotron",
+            "release_date": "2026-01-15"
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
