@@ -112,7 +112,7 @@ class TestExpectedDimensions:
         """Test that we have 11 expected models."""
         assert len(EXPECTED_MODELS) == 11
         assert "gpt-5.2-codex" in EXPECTED_MODELS
-        assert "nemotron" in EXPECTED_MODELS
+        assert "nemotron-3-nano-30b" in EXPECTED_MODELS
 
     def test_total_cells(self):
         """Test that total 3D array cells = 5 * 11 * 3 = 165."""
