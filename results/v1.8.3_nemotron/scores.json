@@ -11,6 +11,17 @@
       ]
     },
     {
+    "benchmark": "gaia",
+    "score": 8.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.12,
+    "average_runtime": 794.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openai-NVIDIA-Nemotron-3-Nano-30B-A3B-FP8/21412718442/results.tar.gz",
+    "tags": [
+      "gaia"
+    ]
+  },
+  {
     "benchmark": "commit0",
     "score": 6.2,
     "metric": "accuracy",
