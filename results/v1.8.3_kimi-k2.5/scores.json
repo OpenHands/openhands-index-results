@@ -9,8 +9,8 @@
     "tags": [
       "commit0"
     ]
-    },
-    {
+  },
+  {
     "benchmark": "swe-bench",
     "score": 68.8,
     "metric": "accuracy",
@@ -19,6 +19,17 @@
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-moonshot-kimi-k2-5/21417485547/results.tar.gz",
     "tags": [
       "swe-bench"
+    ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 63.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 602.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-moonshot-kimi-k2-5/21497407856/results.tar.gz",
+    "tags": [
+      "gaia"
     ]
   }
 ]
