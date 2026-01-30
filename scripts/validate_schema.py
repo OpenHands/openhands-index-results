@@ -111,18 +111,6 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 }
 
 
-# Closed models where parameter count is not publicly known
-CLOSED_MODELS = {
-    Model.CLAUDE_4_5_OPUS,
-    Model.CLAUDE_4_5_SONNET,
-    Model.GEMINI_3_PRO,
-    Model.GEMINI_3_FLASH,
-    Model.GPT_5_2,
-    Model.GPT_5_2_CODEX,
-    Model.NEMOTRON_3_NANO,
-}
-
-
 # Mapping of models to their country of origin
 MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
@@ -218,8 +206,9 @@ class Metadata(BaseModel):
 
     @model_validator(mode='after')
     def validate_parameter_count_for_open_models(self):
-        """Ensure parameter_count_b is provided for non-closed models."""
-        if self.model not in CLOSED_MODELS and self.parameter_count_b is None:
+        """Ensure parameter_count_b is provided for open-weights models."""
+        model_openness = MODEL_OPENNESS_MAP.get(self.model)
+        if model_openness == Openness.OPEN_WEIGHTS and self.parameter_count_b is None:
             raise ValueError(
                 f"parameter_count_b is required for open-weights model '{self.model.value}'"
             )
