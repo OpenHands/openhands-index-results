@@ -3,7 +3,7 @@
     "benchmark": "commit0",
     "score": 12.5,
     "metric": "accuracy",
-    "cost_per_instance": 0.54,
+    "cost_per_instance": 2.6419,
     "average_runtime": 578.0,
     "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openrouter-z-ai-glm-4-7/21492295243/results.tar.gz",
     "tags": [
