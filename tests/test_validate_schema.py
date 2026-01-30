@@ -72,7 +72,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
             "directory_name": "v1.8.3_nemotron-3-nano",
-            "release_date": "2026-01-15"
+            "release_date": "2026-01-15",
+            "parameter_count_b": 31.6,
+            "active_parameter_count_b": 3.2
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
