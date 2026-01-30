@@ -87,7 +87,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
-    NEMOTRON = "nemotron"
+    NEMOTRON_3_NANO = "nemotron-3-nano"
 
 
 # Mapping of models to their correct openness classification
@@ -107,19 +107,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
-    Model.NEMOTRON: Openness.OPEN_WEIGHTS,
-}
-
-
-# Closed models where parameter count is not publicly known
-CLOSED_MODELS = {
-    Model.CLAUDE_4_5_OPUS,
-    Model.CLAUDE_4_5_SONNET,
-    Model.GEMINI_3_PRO,
-    Model.GEMINI_3_FLASH,
-    Model.GPT_5_2,
-    Model.GPT_5_2_CODEX,
-    Model.NEMOTRON,
+    Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -132,7 +120,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
-    Model.NEMOTRON: Country.US,
+    Model.NEMOTRON_3_NANO: Country.US,
     # China models
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
@@ -218,8 +206,9 @@ class Metadata(BaseModel):
 
     @model_validator(mode='after')
     def validate_parameter_count_for_open_models(self):
-        """Ensure parameter_count_b is provided for non-closed models."""
-        if self.model not in CLOSED_MODELS and self.parameter_count_b is None:
+        """Ensure parameter_count_b is provided for open-weights models."""
+        model_openness = MODEL_OPENNESS_MAP.get(self.model)
+        if model_openness == Openness.OPEN_WEIGHTS and self.parameter_count_b is None:
             raise ValueError(
                 f"parameter_count_b is required for open-weights model '{self.model.value}'"
             )
