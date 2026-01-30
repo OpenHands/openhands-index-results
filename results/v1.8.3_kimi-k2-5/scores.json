@@ -3,7 +3,7 @@
     "benchmark": "swe-bench",
     "score": 0.2,
     "metric": "accuracy",
-    "cost_per_instance": 0.5178,
+    "cost_per_instance": 0.001,
     "average_runtime": 1.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-moonshot-kimi-k2-5/21521059810/results.tar.gz",
     "tags": [
