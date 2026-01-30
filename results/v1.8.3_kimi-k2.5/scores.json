@@ -22,6 +22,17 @@
     ]
   },
   {
+    "benchmark": "gaia",
+    "score": 63.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.3864,
+    "average_runtime": 602.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-moonshot-kimi-k2-5/21497407856/results.tar.gz",
+    "tags": [
+      "gaia"
+    ]
+  },
+  {
     "benchmark": "swe-bench-multimodal",
     "score": 21.6,
     "metric": "accuracy",
