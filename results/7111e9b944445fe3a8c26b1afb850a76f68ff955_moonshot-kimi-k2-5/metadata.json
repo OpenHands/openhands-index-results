@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "7111e9b944445fe3a8c26b1afb850a76f68ff955",
+  "model": "moonshot/kimi-k2-5",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-30T22:12:54.663349+00:00",
+  "directory_name": "7111e9b944445fe3a8c26b1afb850a76f68ff955_moonshot-kimi-k2-5"
+}
