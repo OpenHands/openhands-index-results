@@ -1,0 +1,76 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 18.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.82,
+    "average_runtime": 399.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-20798907628-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-01-39.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:53:51.936941+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 58.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.38,
+    "average_runtime": 398.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-20821586318-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-08-20-24.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:53:51.936941+00:00"
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 74.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.42,
+    "average_runtime": 343.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21179606180-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-21-03-09.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:53:51.936941+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 70.7,
+    "metric": "accuracy",
+    "cost_per_instance": 0.3,
+    "average_runtime": 213.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21179607467-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-21-01-44.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:53:51.936941+00:00"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 22.1,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.8,
+    "average_runtime": 1152.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21324688868-gemini-3-f_litellm_proxy-gemini-gemini-3-flash-preview_26-01-25-09-36.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 22.1,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 14.7,
+      "solveable_resolved": 15,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    },
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:53:51.936941+00:00"
+  }
+]
