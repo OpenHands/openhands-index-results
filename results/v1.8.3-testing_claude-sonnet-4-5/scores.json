@@ -3,7 +3,7 @@
     "benchmark": "swe-bench",
     "score": 74.2,
     "metric": "accuracy",
-    "cost_per_instance": 1.19,
+    "cost_per_instance": 1.447,
     "average_runtime": 534.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21104232299-claude-son_litellm_proxy-claude-sonnet-4-5-20250929_26-01-18-07-25.tar.gz",
     "tags": [
