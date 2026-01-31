@@ -2,8 +2,10 @@
   "agent_name": "OpenHands CodeAct",
   "agent_version": "v1.8.3",
   "model": "glm-4.7",
-  "openness": "closed_api_available",
+  "openness": "open_wieghts",
+  "country": "cn",
   "tool_usage": "standard",
   "submission_time": "2026-01-30T12:51:32.483444+00:00",
-  "directory_name": "v1.8.3_glm-4.7"
+  "directory_name": "v1.8.3_glm-4.7",
+  "release_date": "2025-12-22"
 }
