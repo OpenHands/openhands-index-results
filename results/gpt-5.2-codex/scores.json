@@ -1,0 +1,67 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 22.5,
+    "metric": "accuracy",
+    "cost_per_instance": 2.97,
+    "average_runtime": 1434.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21383028167-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-09-13.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 70.9,
+    "metric": "accuracy",
+    "cost_per_instance": 1.66,
+    "average_runtime": 799.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21377864374-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-04-20.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 73.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.94,
+    "average_runtime": 438.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-12-57.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 62.5,
+    "metric": "accuracy",
+    "cost_per_instance": 2.5,
+    "average_runtime": 838.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21371494522-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-26-23-13.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 62.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.66,
+    "average_runtime": 343.0,
+    "full_archive": "https://results.eval.all-hands.dev/",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+  }
+]

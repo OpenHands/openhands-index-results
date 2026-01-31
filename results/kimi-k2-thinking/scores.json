@@ -1,0 +1,76 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 69.2,
+    "metric": "accuracy",
+    "cost_per_instance": 2.0,
+    "average_runtime": 1325.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21078698262-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-17-16-26.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 18.8,
+    "metric": "accuracy",
+    "cost_per_instance": 6.78,
+    "average_runtime": 2314.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21008948105-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-00-35.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 43.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.65,
+    "average_runtime": 279.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21093372341-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-17-13-03.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 47.3,
+    "metric": "accuracy",
+    "cost_per_instance": 1.39,
+    "average_runtime": 1253.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21173239168-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-21-08-11.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 32.4,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.31,
+    "average_runtime": 1641.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21320841046-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-25-05-30.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 32.4,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 21.6,
+      "solveable_resolved": 22,
+      "solveable_total": 68,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 34
+    },
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+  }
+]

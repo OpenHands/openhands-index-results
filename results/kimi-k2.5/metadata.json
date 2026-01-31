@@ -1,0 +1,13 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.8.3",
+  "model": "kimi-k2.5",
+  "openness": "open_weights",
+  "country": "cn",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-30T23:37:19.341897+00:00",
+  "directory_name": "kimi-k2.5",
+  "release_date": "2026-01-27",
+  "parameter_count_b": 1000,
+  "active_parameter_count_b": 32
+}

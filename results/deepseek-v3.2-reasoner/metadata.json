@@ -1,0 +1,12 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.8.3",
+  "model": "deepseek-v3.2-reasoner",
+  "openness": "open_weights",
+  "country": "cn",
+  "tool_usage": "standard",
+  "submission_time": "2026-01-27T18:40:51.252521+00:00",
+  "directory_name": "deepseek-v3.2-reasoner",
+  "release_date": "2025-12-01",
+  "parameter_count_b": 685
+}

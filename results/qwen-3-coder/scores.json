@@ -1,0 +1,72 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 33.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.28,
+    "average_runtime": 197.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21093373009-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-12-54.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 62.4,
+    "metric": "accuracy",
+    "cost_per_instance": 1.26,
+    "average_runtime": 680.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-20979851181-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-09-02.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 0.0,
+    "metric": "accuracy",
+    "cost_per_instance": 1.79,
+    "average_runtime": 924.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-20981821017-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-06-17.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 34.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.97,
+    "average_runtime": 626.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21179579508-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-21-01-51.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 23.5,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.09,
+    "average_runtime": 1006.0,
+    "full_archive": "https://results.eval.all-hands.dev/eval-21357041327-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-26-15-08.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "component_scores": {
+      "solveable_accuracy": 23.5,
+      "unsolveable_accuracy": 5.9,
+      "combined_accuracy": 17.6
+    },
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+  }
+]
