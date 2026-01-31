@@ -9,5 +9,16 @@
     "tags": [
       "commit0"
     ]
+  },
+  {
+    "benchmark": "gaia",
+    "score": 53.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.46,
+    "average_runtime": 1138.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openrouter-z-ai-glm-4-7/21520797407/results.tar.gz",
+    "tags": [
+      "gaia"
+    ]
   }
 ]
