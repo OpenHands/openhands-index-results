@@ -105,6 +105,27 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_glm_4_7(self, tmp_path):
+        """Test valid metadata for glm-4.7 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.8.3",
+            "model": "glm-4.7",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "submission_time": "2026-01-31T10:00:00.000000+00:00",
+            "directory_name": "v1.8.3_glm-4.7",
+            "release_date": "2026-01-25",
+            "parameter_count_b": 9
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
