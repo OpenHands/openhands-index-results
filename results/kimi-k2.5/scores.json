@@ -27,11 +27,11 @@
   },
   {
     "benchmark": "swt-bench",
-    "score": 54.0,
+    "score": 61.9,
     "metric": "accuracy",
-    "cost_per_instance": 0.24,
-    "average_runtime": 343.14,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-moonshot-kimi-k2-5/21417485547/results.tar.gz",
+    "cost_per_instance": 0.42,
+    "average_runtime": 385.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-moonshot-kimi-k2-5/21535132257/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
