@@ -31,7 +31,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -51,7 +51,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2-codex",
+            "directory_name": "gpt-5.2-codex",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -71,7 +71,7 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
-            "directory_name": "v1.8.3_nemotron-3-nano",
+            "directory_name": "nemotron-3-nano",
             "release_date": "2026-01-15",
             "parameter_count_b": 31.6,
             "active_parameter_count_b": 3.2
@@ -93,7 +93,7 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-29T10:00:00.000000+00:00",
-            "directory_name": "v1.8.3_kimi-k2.5",
+            "directory_name": "kimi-k2.5",
             "release_date": "2026-01-20",
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
@@ -115,7 +115,7 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-31T10:00:00.000000+00:00",
-            "directory_name": "v1.8.3_glm-4.7",
+            "directory_name": "glm-4.7",
             "release_date": "2026-01-25",
             "parameter_count_b": 9
         }
@@ -136,7 +136,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -156,7 +156,7 @@ class TestMetadataSchema:
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -176,7 +176,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -196,7 +196,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -215,7 +215,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_invalid-model-name",
+            "directory_name": "invalid-model-name",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -235,7 +235,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.8.2_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -255,7 +255,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "54c5858_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -275,7 +275,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -295,7 +295,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "main_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -315,7 +315,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.8.3_claude-4.5-sonnet",
+            "directory_name": "claude-4.5-sonnet",
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -325,8 +325,8 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_invalid_directory_name_date_format(self, tmp_path):
-        """Test metadata with old date-based directory_name format fails validation."""
+    def test_invalid_directory_name_old_format(self, tmp_path):
+        """Test metadata with old version-prefixed directory_name format fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
@@ -335,7 +335,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "202511_claude-4.5-sonnet",  # Invalid - old date format
+            "directory_name": "v1.8.3_claude-4.5-sonnet",  # Invalid - old format with version prefix
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -346,7 +346,7 @@ class TestMetadataSchema:
         assert "directory_name" in msg.lower()
 
     def test_invalid_directory_name_mismatch(self, tmp_path):
-        """Test metadata with directory_name not matching version and model fails validation."""
+        """Test metadata with directory_name not matching model fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
@@ -355,7 +355,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",  # Invalid - doesn't match version and model
+            "directory_name": "gpt-5.2",  # Invalid - doesn't match model
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -375,7 +375,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "gpt-5.2"
             # Missing release_date
         }
         metadata_file = tmp_path / "metadata.json"
@@ -395,7 +395,7 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
+            "directory_name": "deepseek-v3.2-reasoner",
             "release_date": "2025-12-01"
             # Missing parameter_count_b - should fail for open-weights model
         }
@@ -416,7 +416,7 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_deepseek-v3.2-reasoner",
+            "directory_name": "deepseek-v3.2-reasoner",
             "release_date": "2025-12-01",
             "parameter_count_b": 685
         }
@@ -437,7 +437,7 @@ class TestMetadataSchema:
             "country": "cn",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_kimi-k2-thinking",
+            "directory_name": "kimi-k2-thinking",
             "release_date": "2025-11-06",
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
@@ -459,7 +459,7 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
             # No parameter_count_b - should be OK for closed model
         }
@@ -483,7 +483,9 @@ class TestScoreEntrySchema:
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
-            "tags": ["swe-bench"]
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -500,7 +502,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -517,7 +521,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -534,7 +540,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -551,7 +559,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": -0.5,  # Invalid - negative
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -568,7 +578,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0,  # Invalid - must be > 0
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -585,7 +597,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 0,  # Invalid - must be > 0
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -602,7 +616,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": -100,  # Invalid - negative
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -619,7 +635,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz"
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -635,7 +653,9 @@ class TestScoreEntrySchema:
             "score": 68.8,
             "metric": "accuracy",
             "average_runtime": 300,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -651,7 +671,9 @@ class TestScoreEntrySchema:
             "score": 68.8,
             "metric": "accuracy",
             "cost_per_instance": 0.5,
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -669,7 +691,9 @@ class TestScoreEntrySchema:
             "cost_per_instance": 0.5,
             "average_runtime": 300,
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
-            "tags": ["swe-bench"]
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -687,7 +711,9 @@ class TestScoreEntrySchema:
             "cost_per_instance": 0.5,
             "average_runtime": 300,
             "full_archive": "https://storage.googleapis.com/openhands-evaluation-results/eval-12345.tar.gz",
-            "tags": ["swe-bench"]
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -705,7 +731,9 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "tags": ["swe-bench"]
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -713,6 +741,64 @@ class TestScoreEntrySchema:
         valid, msg = validate_scores(scores_file)
         assert valid is False
         assert "full_archive" in msg.lower()
+
+    def test_missing_agent_version(self, tmp_path):
+        """Test score entry without agent_version fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench"],
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "agent_version" in msg.lower()
+
+    def test_missing_submission_time(self, tmp_path):
+        """Test score entry without submission_time fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "submission_time" in msg.lower()
+
+    def test_invalid_agent_version_in_score_entry(self, tmp_path):
+        """Test score entry with invalid agent_version fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "invalid-version",  # Invalid - not semver
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "agent_version" in msg.lower()
 
 
 class TestValidateResultsDirectory:
@@ -727,7 +813,7 @@ class TestValidateResultsDirectory:
 
     def test_valid_result_directory(self, tmp_path):
         """Test validation of valid result directory."""
-        model_dir = tmp_path / "v1.0.0_gpt-5.2"
+        model_dir = tmp_path / "gpt-5.2"
         model_dir.mkdir()
 
         metadata = {
@@ -738,7 +824,7 @@ class TestValidateResultsDirectory:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         scores = [{
@@ -748,7 +834,9 @@ class TestValidateResultsDirectory:
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 300,
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
-            "tags": ["swe-bench"]
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
 
         (model_dir / "metadata.json").write_text(json.dumps(metadata))
@@ -761,7 +849,7 @@ class TestValidateResultsDirectory:
 
     def test_missing_metadata(self, tmp_path):
         """Test validation fails when metadata.json is missing."""
-        model_dir = tmp_path / "v1.0.0_gpt-5.2"
+        model_dir = tmp_path / "gpt-5.2"
         model_dir.mkdir()
 
         scores = [{
@@ -771,7 +859,9 @@ class TestValidateResultsDirectory:
             "cost_per_instance": 0.5,
             "average_runtime": 300,
             "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
-            "tags": []
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         (model_dir / "scores.json").write_text(json.dumps(scores))
 
@@ -811,7 +901,7 @@ class TestErrorMessageFormatting:
             "country": "us",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_gpt-5.2"
+            "directory_name": "gpt-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -832,7 +922,7 @@ class TestErrorMessageFormatting:
             "country": "us",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.0.0_invalid-model",
+            "directory_name": "invalid-model",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -852,7 +942,9 @@ class TestErrorMessageFormatting:
             "metric": "accuracy",
             "cost_per_instance": -1,  # Invalid: <= 0
             "average_runtime": 0,  # Invalid: <= 0
-            "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+            "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
         }]
         scores_file = tmp_path / "scores.json"
         scores_file.write_text(json.dumps(scores))
@@ -875,7 +967,7 @@ class TestErrorMessageFormatting:
             "country": "us",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "invalid-version_gpt-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -906,7 +998,9 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "agent_version": "v1.0.0",
+                "submission_time": "2025-11-24T19:56:00.092865"
             },
             {
                 "benchmark": "invalid-benchmark",  # Invalid
@@ -914,7 +1008,9 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz"
+                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "agent_version": "v1.0.0",
+                "submission_time": "2025-11-24T19:56:00.092865"
             }
         ]
         scores_file = tmp_path / "scores.json"
@@ -935,7 +1031,7 @@ class TestErrorMessageFormatting:
             "country": "invalid",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "invalid_invalid-model",
+            "directory_name": "invalid-model",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"

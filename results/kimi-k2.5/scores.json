@@ -1,0 +1,67 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 18.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.9644,
+    "average_runtime": 814.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-moonshot-kimi-k2-5/21437607227/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 68.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.4768,
+    "average_runtime": 707.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-moonshot-kimi-k2-5/21417485547/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 61.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.42,
+    "average_runtime": 385.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-moonshot-kimi-k2-5/21535132257/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 63.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.3864,
+    "average_runtime": 602.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-moonshot-kimi-k2-5/21497407856/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 21.6,
+    "metric": "accuracy",
+    "cost_per_instance": 1.5773,
+    "average_runtime": 921.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-moonshot-kimi-k2-5/21492411890/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+  }
+]

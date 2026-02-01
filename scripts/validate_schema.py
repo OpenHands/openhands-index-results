@@ -50,7 +50,6 @@ def format_validation_error(error: ValidationError) -> str:
     return "\n".join(messages)
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
-DIRECTORY_NAME_PATTERN = re.compile(r'^v\d+\.\d+\.\d+_.+$')
 
 
 class Openness(str, Enum):
@@ -189,21 +188,13 @@ class Metadata(BaseModel):
     @field_validator("directory_name")
     @classmethod
     def validate_directory_name(cls, v: str, info) -> str:
-        """Ensure directory_name follows the format {version}_{model_name}."""
-        if not DIRECTORY_NAME_PATTERN.match(v):
-            raise ValueError(
-                f"directory_name must follow the format '{{version}}_{{model_name}}' "
-                f"(e.g., 'v1.8.3_claude-4.5-sonnet'), got '{v}'"
-            )
-        # Validate that directory_name matches agent_version and model
-        agent_version = info.data.get("agent_version")
+        """Ensure directory_name matches the model name."""
         model = info.data.get("model")
-        if agent_version and model:
-            expected_dir_name = f"{agent_version}_{model.value}"
+        if model:
+            expected_dir_name = model.value
             if v != expected_dir_name:
                 raise ValueError(
-                    f"directory_name '{v}' does not match expected format "
-                    f"'{{agent_version}}_{{model}}' = '{expected_dir_name}'"
+                    f"directory_name '{v}' does not match expected model name '{expected_dir_name}'"
                 )
         return v
 
@@ -245,6 +236,19 @@ class ScoreEntry(BaseModel):
     average_runtime: float = Field(..., gt=0, description="Average runtime per instance in seconds")
     full_archive: str = Field(..., description="URL to the full evaluation archive")
     tags: list[str] = Field(default_factory=list, description="Tags for categorization")
+    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
+    submission_time: datetime = Field(..., description="Submission timestamp")
+
+    @field_validator("agent_version")
+    @classmethod
+    def validate_agent_version(cls, v: str) -> str:
+        """Ensure agent_version is a valid semantic version starting with 'v'."""
+        if not SEMVER_PATTERN.match(v):
+            raise ValueError(
+                f"agent_version must be a valid semantic version starting with 'v' "
+                f"(e.g., 'v1.0.0'), got '{v}'"
+            )
+        return v
 
     @field_validator("full_archive")
     @classmethod
