@@ -9,5 +9,6 @@
   "directory_name": "nemotron-3-nano",
   "release_date": "2025-12-15",
   "parameter_count_b": 31.6,
-  "active_parameter_count_b": 3.2
+  "active_parameter_count_b": 3.2,
+  "hide_from_leaderboard": true
 }
