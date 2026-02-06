@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.0",
+  "model": "glm-4.7",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-06T21:54:59.230052+00:00",
+  "directory_name": "v1.11.0_glm-4.7"
+}
