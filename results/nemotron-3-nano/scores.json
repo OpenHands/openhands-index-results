@@ -40,8 +40,8 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 15.7,
-    "metric": "accuracy",
+    "score": 20.9,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 0.4,
     "average_runtime": 1179.0,
     "full_archive": "https://results.eval.all-hands.dev/21402472780-nemotron-3_litellm_proxy-openai-NVIDIA-Nemotron-3-Nano-30B-A3B-FP8_26-01-27-17-53.tar.gz",
@@ -49,7 +49,16 @@
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.8.3",
-    "submission_time": "2026-01-27T20:00:30.624153+00:00"
+    "submission_time": "2026-01-27T20:00:30.624153+00:00",
+    "component_scores": {
+      "solveable_accuracy": 20.9,
+      "unsolveable_accuracy": 6.1,
+      "combined_accuracy": 16.0,
+      "solveable_resolved": 14,
+      "solveable_total": 67,
+      "unsolveable_resolved": 2,
+      "unsolveable_total": 33
+    }
   },
   {
     "benchmark": "swt-bench",

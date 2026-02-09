@@ -1041,3 +1041,200 @@ class TestErrorMessageFormatting:
         assert valid is False
         # Check that error message doesn't include Pydantic URLs
         assert "https://errors.pydantic.dev" not in msg
+
+
+class TestSweMultimodalValidation:
+    """Tests for swe-bench-multimodal specific validation."""
+
+    def test_valid_swe_multimodal_entry(self, tmp_path):
+        """Test valid swe-bench-multimodal entry passes validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 41.2,
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 2.54,
+            "average_runtime": 671.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 41.2,
+                "unsolveable_accuracy": 0.0,
+                "combined_accuracy": 27.5,
+                "solveable_resolved": 28,
+                "solveable_total": 68,
+                "unsolveable_resolved": 0,
+                "unsolveable_total": 34
+            },
+            "agent_version": "v1.8.3",
+            "submission_time": "2026-01-27T01:24:15.735789+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_swe_multimodal_entry_minimal_component_scores(self, tmp_path):
+        """Test valid swe-bench-multimodal entry with minimal component_scores passes validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 27.9,
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 0.19,
+            "average_runtime": 1515.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 27.9,
+                "unsolveable_accuracy": 0.0,
+                "combined_accuracy": 18.6
+            },
+            "agent_version": "v1.8.3",
+            "submission_time": "2026-01-27T18:40:51.252521+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_swe_multimodal_missing_component_scores(self, tmp_path):
+        """Test swe-bench-multimodal entry without component_scores fails validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 28.4,
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 2.37,
+            "average_runtime": 602.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "agent_version": "v1.11.0",
+            "submission_time": "2026-02-07T01:54:03+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "component_scores" in msg.lower()
+
+    def test_swe_multimodal_wrong_metric(self, tmp_path):
+        """Test swe-bench-multimodal entry with wrong metric fails validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 28.4,
+            "metric": "accuracy",  # Should be solveable_accuracy
+            "cost_per_instance": 2.37,
+            "average_runtime": 602.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 28.4,
+                "unsolveable_accuracy": 0.0,
+                "combined_accuracy": 18.9
+            },
+            "agent_version": "v1.11.0",
+            "submission_time": "2026-02-07T01:54:03+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "solveable_accuracy" in msg.lower()
+
+    def test_swe_multimodal_score_mismatch(self, tmp_path):
+        """Test swe-bench-multimodal entry with mismatched score fails validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 50.0,  # Doesn't match component_scores.solveable_accuracy
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 2.37,
+            "average_runtime": 602.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 28.4,
+                "unsolveable_accuracy": 0.0,
+                "combined_accuracy": 18.9
+            },
+            "agent_version": "v1.11.0",
+            "submission_time": "2026-02-07T01:54:03+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "score" in msg.lower()
+        assert "component_scores" in msg.lower()
+
+    def test_swe_multimodal_missing_required_component_field(self, tmp_path):
+        """Test swe-bench-multimodal entry with missing required component field fails validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 28.4,
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 2.37,
+            "average_runtime": 602.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 28.4,
+                # Missing unsolveable_accuracy and combined_accuracy
+            },
+            "agent_version": "v1.11.0",
+            "submission_time": "2026-02-07T01:54:03+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        # Should fail due to missing required fields in component_scores
+
+    def test_swe_multimodal_invalid_component_score_range(self, tmp_path):
+        """Test swe-bench-multimodal entry with out-of-range component score fails validation."""
+        scores = [{
+            "benchmark": "swe-bench-multimodal",
+            "score": 28.4,
+            "metric": "solveable_accuracy",
+            "cost_per_instance": 2.37,
+            "average_runtime": 602.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench-multimodal"],
+            "component_scores": {
+                "solveable_accuracy": 28.4,
+                "unsolveable_accuracy": 150.0,  # Invalid - > 100
+                "combined_accuracy": 18.9
+            },
+            "agent_version": "v1.11.0",
+            "submission_time": "2026-02-07T01:54:03+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+
+    def test_other_benchmarks_dont_require_component_scores(self, tmp_path):
+        """Test that other benchmarks don't require component_scores."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 76.6,
+            "metric": "accuracy",
+            "cost_per_instance": 1.82,
+            "average_runtime": 325.0,
+            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.8.3",
+            "submission_time": "2026-01-27T01:24:15.735789+00:00"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"

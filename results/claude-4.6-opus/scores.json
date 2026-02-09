@@ -29,8 +29,8 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 28.4,
-    "metric": "accuracy",
+    "score": 41.8,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 2.37,
     "average_runtime": 602.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-6/21767110679/results.tar.gz",
@@ -39,7 +39,16 @@
     ],
     "agent_version": "v1.11.0",
     "submission_time": "2026-02-07T01:54:03+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/0fe00101-1f0a-4698-8a43-70fd665f4936"
+    "eval_visualization_page": "https://laminar.sh/shared/evals/0fe00101-1f0a-4698-8a43-70fd665f4936",
+    "component_scores": {
+      "solveable_accuracy": 41.8,
+      "unsolveable_accuracy": 3.0,
+      "combined_accuracy": 29.0,
+      "solveable_resolved": 28,
+      "solveable_total": 67,
+      "unsolveable_resolved": 1,
+      "unsolveable_total": 33
+    }
   },
   {
     "benchmark": "gaia",

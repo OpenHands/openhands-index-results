@@ -231,6 +231,17 @@ class Metric(str, Enum):
 FULL_ARCHIVE_URL_PREFIX = "https://results.eval.all-hands.dev/"
 
 
+class SweMultimodalComponentScores(BaseModel):
+    """Schema for swe-bench-multimodal component_scores field."""
+    solveable_accuracy: float = Field(..., ge=0, le=100, description="Solveable accuracy percentage")
+    unsolveable_accuracy: float = Field(..., ge=0, le=100, description="Unsolveable accuracy percentage")
+    combined_accuracy: float = Field(..., ge=0, le=100, description="Combined accuracy percentage")
+    solveable_resolved: Optional[int] = Field(None, ge=0, description="Number of solveable instances resolved")
+    solveable_total: Optional[int] = Field(None, ge=0, description="Total number of solveable instances")
+    unsolveable_resolved: Optional[int] = Field(None, ge=0, description="Number of unsolveable instances resolved")
+    unsolveable_total: Optional[int] = Field(None, ge=0, description="Total number of unsolveable instances")
+
+
 class ScoreEntry(BaseModel):
     """Schema for individual score entries in scores.json."""
     benchmark: Benchmark = Field(..., description="Benchmark name")
@@ -243,6 +254,7 @@ class ScoreEntry(BaseModel):
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     submission_time: datetime = Field(..., description="Submission timestamp")
     eval_visualization_page: Optional[str] = Field(None, description="URL to the evaluation visualization page")
+    component_scores: Optional[SweMultimodalComponentScores] = Field(None, description="Component scores for swe-bench-multimodal benchmark")
 
     @field_validator("agent_version")
     @classmethod
@@ -273,6 +285,30 @@ class ScoreEntry(BaseModel):
             if not tag or not isinstance(tag, str):
                 raise ValueError(f"Invalid tag: {tag}")
         return v
+
+    @model_validator(mode='after')
+    def validate_swe_bench_multimodal_format(self):
+        """Ensure swe-bench-multimodal entries have the correct format."""
+        if self.benchmark == Benchmark.SWE_BENCH_MULTIMODAL:
+            # Metric must be solveable_accuracy for swe-bench-multimodal
+            if self.metric != Metric.SOLVEABLE_ACCURACY:
+                raise ValueError(
+                    f"swe-bench-multimodal entries must use metric 'solveable_accuracy', "
+                    f"got '{self.metric.value}'"
+                )
+            # component_scores is required for swe-bench-multimodal
+            if self.component_scores is None:
+                raise ValueError(
+                    "swe-bench-multimodal entries must include 'component_scores' field with "
+                    "solveable_accuracy, unsolveable_accuracy, and combined_accuracy"
+                )
+            # The score should match the solveable_accuracy in component_scores
+            if abs(self.score - self.component_scores.solveable_accuracy) > 0.01:
+                raise ValueError(
+                    f"swe-bench-multimodal 'score' ({self.score}) must match "
+                    f"'component_scores.solveable_accuracy' ({self.component_scores.solveable_accuracy})"
+                )
+        return self
 
 
 
