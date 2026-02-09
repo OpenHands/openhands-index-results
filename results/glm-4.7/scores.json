@@ -11,5 +11,18 @@
     ],
     "agent_version": "v1.8.3",
     "submission_time": "2026-01-30T12:51:32.483444+00:00"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 49.4,
+    "metric": "accuracy",
+    "cost_per_instance": 0.37,
+    "average_runtime": 744.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-openrouter-z-ai-glm-4-7/21548136286/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.10.0",
+    "submission_time": "2026-02-01T04:32:01+00:00"
   }
 ]
