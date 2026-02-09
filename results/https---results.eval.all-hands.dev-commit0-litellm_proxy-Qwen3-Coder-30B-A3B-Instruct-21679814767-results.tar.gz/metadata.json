@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.0",
+  "model": "https://results.eval.all-hands.dev/commit0/litellm_proxy-Qwen3-Coder-30B-A3B-Instruct/21679814767/results.tar.gz",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-09T23:25:00.148928+00:00",
+  "directory_name": "https---results.eval.all-hands.dev-commit0-litellm_proxy-Qwen3-Coder-30B-A3B-Instruct-21679814767-results.tar.gz"
+}
