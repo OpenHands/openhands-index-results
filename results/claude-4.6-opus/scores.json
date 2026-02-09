@@ -50,5 +50,18 @@
     ],
     "agent_version": "v1.11.0",
     "submission_time": "2026-02-06T15:46:00+00:00"
+  },
+  {
+    "benchmark": "swe-bench",
+    "score": 66.6,
+    "metric": "accuracy",
+    "cost_per_instance": 1.36,
+    "average_runtime": 1445.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-openrouter-qwen-qwen3-coder-next/21713643251/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-06T12:08:20+00:00"
   }
 ]
