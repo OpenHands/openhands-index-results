@@ -11,5 +11,18 @@
     ],
     "agent_version": "v1.8.3",
     "submission_time": "2026-01-30T12:51:32.483444+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 53.9,
+    "metric": "accuracy",
+    "cost_per_instance": 0.46,
+    "average_runtime": 1138.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openrouter-z-ai-glm-4-7/21520797407/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.10.1",
+    "submission_time": "2026-01-31T02:30:18+00:00"
   }
 ]
