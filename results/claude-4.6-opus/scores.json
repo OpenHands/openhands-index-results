@@ -50,18 +50,5 @@
     ],
     "agent_version": "v1.11.0",
     "submission_time": "2026-02-06T15:46:00+00:00"
-  },
-  {
-    "benchmark": "swe-bench",
-    "score": 0.2,
-    "metric": "accuracy",
-    "cost_per_instance": 0.0,
-    "average_runtime": 0.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-opus-4-6/21753746603/results.tar.gz",
-    "tags": [
-      "swe-bench"
-    ],
-    "agent_version": "v1.11.0",
-    "submission_time": "2026-02-06T14:28:21+00:00"
   }
 ]
