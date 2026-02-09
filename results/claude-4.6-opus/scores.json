@@ -1,0 +1,15 @@
+[
+  {
+    "benchmark": "swt-bench",
+    "score": 78.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.43,
+    "average_runtime": 138.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/21754233398/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-06T21:30:23+00:00"
+  }
+]
