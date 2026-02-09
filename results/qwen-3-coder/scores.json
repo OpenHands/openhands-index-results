@@ -1,16 +1,17 @@
 [
   {
     "benchmark": "gaia",
-    "score": 33.9,
+    "score": 24.8,
     "metric": "accuracy",
-    "cost_per_instance": 0.28,
-    "average_runtime": 197.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21093373009-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-17-12-54.tar.gz",
+    "cost_per_instance": 0.0,
+    "average_runtime": 690.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-Qwen3-Coder-30B-A3B-Instruct/21717701180/results.tar.gz",
     "tags": [
       "gaia"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-05T23:17:40+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/7a689b46-e5b0-4657-8cc9-ad827976d4b3"
   },
   {
     "benchmark": "swe-bench",
