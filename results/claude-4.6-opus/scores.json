@@ -10,7 +10,8 @@
       "swt-bench"
     ],
     "agent_version": "v1.11.0",
-    "submission_time": "2026-02-06T21:30:23+00:00"
+    "submission_time": "2026-02-06T21:30:23+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/cbf7f857-21d0-4526-b830-25d4e88ab0ed"
   },
   {
     "benchmark": "swe-bench-multimodal",
@@ -23,7 +24,8 @@
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.11.0",
-    "submission_time": "2026-02-07T01:54:03+00:00"
+    "submission_time": "2026-02-07T01:54:03+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/0fe00101-1f0a-4698-8a43-70fd665f4936"
   },
   {
     "benchmark": "gaia",
@@ -36,7 +38,8 @@
       "gaia"
     ],
     "agent_version": "v1.11.0",
-    "submission_time": "2026-02-07T02:55:06+00:00"
+    "submission_time": "2026-02-07T02:55:06+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/09286fea-ded4-4f32-a8b1-97e3a5847b83"
   },
   {
     "benchmark": "commit0",
@@ -49,6 +52,7 @@
       "commit0"
     ],
     "agent_version": "v1.11.0",
-    "submission_time": "2026-02-06T15:46:00+00:00"
+    "submission_time": "2026-02-06T15:46:00+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/977b16fe-82e5-422d-bf85-7de3906e0b32"
   }
 ]

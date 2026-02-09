@@ -242,6 +242,7 @@ class ScoreEntry(BaseModel):
     tags: list[str] = Field(default_factory=list, description="Tags for categorization")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     submission_time: datetime = Field(..., description="Submission timestamp")
+    eval_visualization_page: Optional[str] = Field(None, description="URL to the evaluation visualization page")
 
     @field_validator("agent_version")
     @classmethod
