@@ -53,8 +53,8 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 21.6,
-    "metric": "accuracy",
+    "score": 32.8,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 1.5773,
     "average_runtime": 921.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-moonshot-kimi-k2-5/21492411890/results.tar.gz",
@@ -62,6 +62,15 @@
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.8.3",
-    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+    "submission_time": "2026-01-30T23:37:19.341897+00:00",
+    "component_scores": {
+      "solveable_accuracy": 32.8,
+      "unsolveable_accuracy": 3.0,
+      "combined_accuracy": 22.7,
+      "solveable_resolved": 21,
+      "solveable_total": 64,
+      "unsolveable_resolved": 1,
+      "unsolveable_total": 33
+    }
   }
 ]

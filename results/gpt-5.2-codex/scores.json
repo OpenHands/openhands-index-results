@@ -1,8 +1,8 @@
 [
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 22.5,
-    "metric": "accuracy",
+    "score": 35.9,
+    "metric": "solveable_accuracy",
     "cost_per_instance": 2.97,
     "average_runtime": 1434.0,
     "full_archive": "https://results.eval.all-hands.dev/eval-21383028167-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-09-13.tar.gz",
@@ -10,7 +10,16 @@
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.8.3",
-    "submission_time": "2026-01-26T23:24:40.642068+00:00"
+    "submission_time": "2026-01-26T23:24:40.642068+00:00",
+    "component_scores": {
+      "solveable_accuracy": 35.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 24.0,
+      "solveable_resolved": 23,
+      "solveable_total": 64,
+      "unsolveable_resolved": 0,
+      "unsolveable_total": 32
+    }
   },
   {
     "benchmark": "gaia",
