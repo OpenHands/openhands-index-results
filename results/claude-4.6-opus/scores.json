@@ -24,5 +24,18 @@
     ],
     "agent_version": "v1.11.0",
     "submission_time": "2026-02-07T01:54:03+00:00"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 80.0,
+    "metric": "accuracy",
+    "cost_per_instance": 1.33,
+    "average_runtime": 526.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-6/21767030214/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-07T02:55:06+00:00"
   }
 ]
