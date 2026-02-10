@@ -38,17 +38,17 @@ EXPECTED_METRICS = [
 
 # Expected models from issue #2
 EXPECTED_MODELS = [
-    "claude-4.5-opus",
-    "claude-4.5-sonnet",
-    "gemini-3-pro",
-    "gemini-3-flash",
-    "gpt-5.2",
-    "gpt-5.2-codex",
-    "kimi-k2-thinking",
-    "minimax-m2.1",
-    "deepseek-v3.2-reasoner",
-    "nemotron-3-nano",
-    "qwen-3-coder",
+    "claude-opus-4-5",
+    "claude-sonnet-4-5",
+    "Gemini-3-Pro",
+    "Gemini-3-Flash",
+    "GPT-5.2",
+    "GPT-5.2-Codex",
+    "Kimi-K2-Thinking",
+    "MiniMax-M2.1",
+    "DeepSeek-V3.2-Reasoner",
+    "Nemotron-3-Nano",
+    "Qwen3-Coder-480B",
 ]
 
 

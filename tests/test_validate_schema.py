@@ -26,12 +26,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -46,12 +46,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2-codex",
+            "model": "GPT-5.2-Codex",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2-codex",
+            "directory_name": "GPT-5.2-Codex",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -66,12 +66,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "nemotron-3-nano",
+            "model": "Nemotron-3-Nano",
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
-            "directory_name": "nemotron-3-nano",
+            "directory_name": "Nemotron-3-Nano",
             "release_date": "2026-01-15",
             "parameter_count_b": 31.6,
             "active_parameter_count_b": 3.2
@@ -88,12 +88,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "kimi-k2.5",
+            "model": "Kimi-K2.5",
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-29T10:00:00.000000+00:00",
-            "directory_name": "kimi-k2.5",
+            "directory_name": "Kimi-K2.5",
             "release_date": "2026-01-20",
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
@@ -110,12 +110,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "glm-4.7",
+            "model": "GLM-4.7",
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-01-31T10:00:00.000000+00:00",
-            "directory_name": "glm-4.7",
+            "directory_name": "GLM-4.7",
             "release_date": "2026-01-25",
             "parameter_count_b": 9
         }
@@ -131,12 +131,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             # Missing agent_version
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -151,12 +151,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -171,12 +171,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "invalid_country",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -191,12 +191,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "cn",  # Should be "us" for GPT
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -230,12 +230,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.2",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -250,12 +250,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "54c5858",  # Invalid - commit hash
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -270,12 +270,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "1.0.0",  # Invalid - missing 'v' prefix
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -290,12 +290,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "main",  # Invalid - branch name
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -310,12 +310,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "claude-4.5-sonnet",
+            "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "claude-4.5-sonnet",
+            "directory_name": "claude-sonnet-4-5",
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -330,12 +330,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "claude-4.5-sonnet",
+            "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "v1.8.3_claude-4.5-sonnet",  # Invalid - old format with version prefix
+            "directory_name": "v1.8.3_claude-sonnet-4-5",  # Invalid - old format with version prefix
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -350,12 +350,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.8.3",
-            "model": "claude-4.5-sonnet",
+            "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",  # Invalid - doesn't match model
+            "directory_name": "GPT-5.2",  # Invalid - doesn't match model
             "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -370,12 +370,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2"
+            "directory_name": "GPT-5.2"
             # Missing release_date
         }
         metadata_file = tmp_path / "metadata.json"
@@ -390,12 +390,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "deepseek-v3.2-reasoner",
+            "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",  # Open-weights model
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "deepseek-v3.2-reasoner",
+            "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01"
             # Missing parameter_count_b - should fail for open-weights model
         }
@@ -411,12 +411,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "deepseek-v3.2-reasoner",
+            "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "deepseek-v3.2-reasoner",
+            "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
             "parameter_count_b": 685
         }
@@ -432,12 +432,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "kimi-k2-thinking",
+            "model": "Kimi-K2-Thinking",
             "openness": "open_weights",
             "country": "cn",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "kimi-k2-thinking",
+            "directory_name": "Kimi-K2-Thinking",
             "release_date": "2025-11-06",
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
@@ -454,12 +454,12 @@ class TestMetadataSchema:
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",  # Closed model
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
             # No parameter_count_b - should be OK for closed model
         }
@@ -813,18 +813,18 @@ class TestValidateResultsDirectory:
 
     def test_valid_result_directory(self, tmp_path):
         """Test validation of valid result directory."""
-        model_dir = tmp_path / "gpt-5.2"
+        model_dir = tmp_path / "GPT-5.2"
         model_dir.mkdir()
 
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         scores = [{
@@ -849,7 +849,7 @@ class TestValidateResultsDirectory:
 
     def test_missing_metadata(self, tmp_path):
         """Test validation fails when metadata.json is missing."""
-        model_dir = tmp_path / "gpt-5.2"
+        model_dir = tmp_path / "GPT-5.2"
         model_dir.mkdir()
 
         scores = [{
@@ -896,12 +896,12 @@ class TestErrorMessageFormatting:
         metadata = {
             "agent_name": "Test Agent",
             # Missing agent_version, release_date, etc.
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "openness": "closed_api_available",
             "country": "us",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2"
+            "directory_name": "GPT-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -962,12 +962,12 @@ class TestErrorMessageFormatting:
         metadata = {
             "agent_name": "Test Agent",
             "agent_version": "invalid-version",  # Invalid: not semver
-            "model": "gpt-5.2",
+            "model": "GPT-5.2",
             "openness": "closed_api_available",
             "country": "us",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "gpt-5.2",
+            "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"

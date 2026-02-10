@@ -75,20 +75,20 @@ class ToolUsage(str, Enum):
 
 class Model(str, Enum):
     """Expected model names from issue #2."""
-    CLAUDE_4_6_OPUS = "claude-4.6-opus"
-    CLAUDE_4_5_OPUS = "claude-4.5-opus"
-    CLAUDE_4_5_SONNET = "claude-4.5-sonnet"
-    GEMINI_3_PRO = "gemini-3-pro"
-    GEMINI_3_FLASH = "gemini-3-flash"
-    GLM_4_7 = "glm-4.7"
-    GPT_5_2 = "gpt-5.2"
-    GPT_5_2_CODEX = "gpt-5.2-codex"
-    KIMI_K2_THINKING = "kimi-k2-thinking"
-    KIMI_K2_5 = "kimi-k2.5"
-    MINIMAX_M2_1 = "minimax-m2.1"
-    DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
-    QWEN_3_CODER = "qwen-3-coder"
-    NEMOTRON_3_NANO = "nemotron-3-nano"
+    CLAUDE_OPUS_4_6 = "claude-opus-4-6"
+    CLAUDE_OPUS_4_5 = "claude-opus-4-5"
+    CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
+    GEMINI_3_PRO = "Gemini-3-Pro"
+    GEMINI_3_FLASH = "Gemini-3-Flash"
+    GLM_4_7 = "GLM-4.7"
+    GPT_5_2 = "GPT-5.2"
+    GPT_5_2_CODEX = "GPT-5.2-Codex"
+    KIMI_K2_THINKING = "Kimi-K2-Thinking"
+    KIMI_K2_5 = "Kimi-K2.5"
+    MINIMAX_M2_1 = "MiniMax-M2.1"
+    DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
+    QWEN_3_CODER = "Qwen3-Coder-480B"
+    NEMOTRON_3_NANO = "Nemotron-3-Nano"
 
 
 # Mapping of models to their correct openness classification
@@ -96,9 +96,9 @@ class Model(str, Enum):
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
-    Model.CLAUDE_4_6_OPUS: Openness.CLOSED_API_AVAILABLE,
-    Model.CLAUDE_4_5_OPUS: Openness.CLOSED_API_AVAILABLE,
-    Model.CLAUDE_4_5_SONNET: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
@@ -117,9 +117,9 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 # Mapping of models to their country of origin
 MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
-    Model.CLAUDE_4_6_OPUS: Country.US,
-    Model.CLAUDE_4_5_OPUS: Country.US,
-    Model.CLAUDE_4_5_SONNET: Country.US,
+    Model.CLAUDE_OPUS_4_6: Country.US,
+    Model.CLAUDE_OPUS_4_5: Country.US,
+    Model.CLAUDE_SONNET_4_5: Country.US,
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
