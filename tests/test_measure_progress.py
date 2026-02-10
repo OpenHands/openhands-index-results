@@ -111,8 +111,8 @@ class TestExpectedDimensions:
     def test_expected_models_count(self):
         """Test that we have 11 expected models."""
         assert len(EXPECTED_MODELS) == 11
-        assert "gpt-5.2-codex" in EXPECTED_MODELS
-        assert "nemotron-3-nano" in EXPECTED_MODELS
+        assert "GPT-5.2-Codex" in EXPECTED_MODELS
+        assert "Nemotron-3-Nano" in EXPECTED_MODELS
 
     def test_total_cells(self):
         """Test that total 3D array cells = 5 * 11 * 3 = 165."""
@@ -143,13 +143,13 @@ class TestCalculateProgress:
         """Test progress with an expected model name and all metrics."""
         # Models must use exact expected names (enforced by schema validation)
         results = {
-            "models": {"gpt-5.2"},
+            "models": {"GPT-5.2"},
             "benchmarks": {"swe-bench"},
             "metrics": {"score", "cost_per_instance", "average_runtime"},
             "coverage": {
-                ("gpt-5.2", "swe-bench", "score"): True,
-                ("gpt-5.2", "swe-bench", "cost_per_instance"): True,
-                ("gpt-5.2", "swe-bench", "average_runtime"): True,
+                ("GPT-5.2", "swe-bench", "score"): True,
+                ("GPT-5.2", "swe-bench", "cost_per_instance"): True,
+                ("GPT-5.2", "swe-bench", "average_runtime"): True,
             },
         }
         progress = calculate_progress(results)
@@ -190,11 +190,11 @@ class TestCalculateProgress:
         """Test partial metric coverage."""
         # Models must use exact expected names (enforced by schema validation)
         results = {
-            "models": {"gpt-5.2"},
+            "models": {"GPT-5.2"},
             "benchmarks": {"swe-bench"},
             "metrics": {"score"},  # Only score, missing cost_per_instance and average_runtime
             "coverage": {
-                ("gpt-5.2", "swe-bench", "score"): True,
+                ("GPT-5.2", "swe-bench", "score"): True,
             },
         }
         progress = calculate_progress(results)
