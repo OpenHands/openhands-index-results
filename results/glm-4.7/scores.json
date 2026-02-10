@@ -35,6 +35,32 @@
     "submission_time": "2026-02-05T03:47:02+00:00"
   },
   {
+    "benchmark": "swe-bench",
+    "score": 73.4,
+    "metric": "accuracy",
+    "cost_per_instance": 0.51,
+    "average_runtime": 1007.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-openrouter-z-ai-glm-4-7/21547894190/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.10.0",
+    "submission_time": "2026-02-01T09:50:58+00:00"
+},
+{
+    "benchmark": "swt-bench",
+    "score": 49.4,
+    "metric": "accuracy",
+    "cost_per_instance": 0.37,
+    "average_runtime": 744.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-openrouter-z-ai-glm-4-7/21548136286/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.10.0",
+    "submission_time": "2026-02-01T04:32:01+00:00"
+},
+{
     "benchmark": "gaia",
     "score": 53.9,
     "metric": "accuracy",
