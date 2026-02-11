@@ -1,0 +1,21 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 30.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 1.52,
+    "average_runtime": 1589.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-openrouter-qwen-qwen3-coder-next/21759113321/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-07T04:57:05+00:00",
+    "component_scores": {
+      "solveable_accuracy": 30.9,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 21.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/8964f6e6-fcbd-4f26-a1ce-9fc657b8da43"
+  }
+]
