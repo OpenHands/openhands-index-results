@@ -1,0 +1,21 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 25.0,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 611.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-jade-spark-2862/21900356665/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "cfe52af49cf16221e14ee5f1671ecd52e202d44e",
+    "submission_time": "2026-02-11T11:36:41+00:00",
+    "component_scores": {
+      "solveable_accuracy": 25.0,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 16.7
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/194e3e71-5874-45a5-96b8-220155ea1e24"
+  }
+]
