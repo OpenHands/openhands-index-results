@@ -3,13 +3,13 @@
     "benchmark": "swe-bench",
     "score": 72.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.01,
     "average_runtime": 455.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-jade-spark-2862/21885618644/results.tar.gz",
     "tags": [
       "swe-bench"
     ],
-    "agent_version": "cfe52af49cf16221e14ee5f1671ecd52e202d44e",
+    "agent_version": "v0.38.0",
     "submission_time": "2026-02-11T05:21:25+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/5f0703c7-f946-414b-b3ba-f4ce77aad1b5"
   }
