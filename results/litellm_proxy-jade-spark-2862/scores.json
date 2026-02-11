@@ -3,13 +3,13 @@
     "benchmark": "gaia",
     "score": 47.9,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.01,
     "average_runtime": 716.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-jade-spark-2862/21896759788/results.tar.gz",
     "tags": [
       "gaia"
     ],
-    "agent_version": "cfe52af49cf16221e14ee5f1671ecd52e202d44e",
+    "agent_version": "v0.38.0",
     "submission_time": "2026-02-11T11:51:48+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/ac28bd0e-7131-47b4-ba01-e64d1c49df45"
   }
