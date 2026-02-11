@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "2ae53c9e637a24930b1bc1f4ed0ada095542a582",
+  "model": "litellm_proxy/jade-spark-2862",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-11T15:12:18.316901+00:00",
+  "directory_name": "litellm_proxy-jade-spark-2862"
+}

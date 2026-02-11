@@ -1,0 +1,16 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 50.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 376.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-jade-spark-2862/21897034430/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "2ae53c9e637a24930b1bc1f4ed0ada095542a582",
+    "submission_time": "2026-02-11T10:21:38+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/92b96069-83ec-4a5c-9319-dd35746ae198"
+  }
+]
