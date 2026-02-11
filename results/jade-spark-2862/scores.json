@@ -61,7 +61,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 0.01,
     "average_runtime": 611.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/jade-spark-2862/21900356665/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-jade-spark-2862/21900356665/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
