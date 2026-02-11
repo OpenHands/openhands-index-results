@@ -1238,3 +1238,36 @@ class TestSweMultimodalValidation:
         valid, msg = validate_scores(scores_file)
         assert valid is True
         assert msg == "OK"
+
+
+class TestJadeSparkUrls:
+    """Tests for jade-spark-2862 URL correctness (issue #556)."""
+
+    def test_jade_spark_urls_contain_litellm_proxy_prefix(self):
+        """Test that jade-spark-2862 URLs contain litellm_proxy- prefix.
+        
+        This test verifies the fix for issue #556 where URLs were incorrectly
+        showing jade-spark-2862 instead of litellm_proxy-jade-spark-2862.
+        """
+        scores_file = Path(__file__).parent.parent / "results" / "jade-spark-2862" / "scores.json"
+        
+        with open(scores_file) as f:
+            scores = json.load(f)
+        
+        # All 5 benchmark URLs should contain litellm_proxy-jade-spark-2862
+        expected_benchmarks = ["commit0", "gaia", "swe-bench", "swt-bench", "swe-bench-multimodal"]
+        
+        for entry in scores:
+            benchmark = entry["benchmark"]
+            full_archive = entry["full_archive"]
+            
+            assert benchmark in expected_benchmarks, f"Unexpected benchmark: {benchmark}"
+            assert "litellm_proxy-jade-spark-2862" in full_archive, (
+                f"URL for {benchmark} should contain 'litellm_proxy-jade-spark-2862', "
+                f"got: {full_archive}"
+            )
+            # Also verify it doesn't have the old incorrect pattern
+            assert "/jade-spark-2862/" not in full_archive, (
+                f"URL for {benchmark} should not contain '/jade-spark-2862/' (without litellm_proxy prefix), "
+                f"got: {full_archive}"
+            )
