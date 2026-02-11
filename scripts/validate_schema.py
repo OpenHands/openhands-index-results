@@ -89,7 +89,7 @@ class Model(str, Enum):
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
-    LITELLM_PROXY_JADE_SPARK_2862 = "litellm_proxy-jade-spark-2862"
+    JADE_SPARK_286 = "jade-spark-286"
 
 
 # Mapping of models to their correct openness classification
@@ -112,7 +112,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
-    Model.LITELLM_PROXY_JADE_SPARK_2862: Openness.OPEN_WEIGHTS,
+    Model.JADE_SPARK_286: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -127,7 +127,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
-    Model.LITELLM_PROXY_JADE_SPARK_2862: Country.US,
+    Model.JADE_SPARK_286: Country.US,
     # China models
     Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
