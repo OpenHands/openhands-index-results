@@ -12,8 +12,8 @@
     "agent_version": "v0.38.0",
     "submission_time": "2026-02-11T10:21:38+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/92b96069-83ec-4a5c-9319-dd35746ae198"
-    },
-    {
+  },
+  {
     "benchmark": "gaia",
     "score": 47.9,
     "metric": "accuracy",
@@ -31,7 +31,7 @@
     "benchmark": "swe-bench",
     "score": 72.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.01,
+    "cost_per_instance": 0.0927,
     "average_runtime": 455.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-jade-spark-2862/21885618644/results.tar.gz",
     "tags": [
