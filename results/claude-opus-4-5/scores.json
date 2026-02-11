@@ -3,9 +3,9 @@
     "benchmark": "commit0",
     "score": 37.5,
     "metric": "accuracy",
-    "cost_per_instance": 4.65,
+    "cost_per_instance": 0.1963,
     "average_runtime": 495.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21324954369-claude-4-5_litellm_proxy-anthropic-claude-opus-4-5-20251101_26-01-25-03-56.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/eval-21324690733-minimax-m2_litellm_proxy-minimax-MiniMax-M2-1_26-01-25-06-38.tar.gz",
     "tags": [
       "commit0"
     ],
