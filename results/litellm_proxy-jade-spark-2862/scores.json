@@ -3,13 +3,13 @@
     "benchmark": "swe-bench-multimodal",
     "score": 25.0,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.01,
     "average_runtime": 611.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-jade-spark-2862/21900356665/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
-    "agent_version": "cfe52af49cf16221e14ee5f1671ecd52e202d44e",
+    "agent_version": "v0.38.0",
     "submission_time": "2026-02-11T11:36:41+00:00",
     "component_scores": {
       "solveable_accuracy": 25.0,
