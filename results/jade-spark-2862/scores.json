@@ -45,7 +45,7 @@
     "benchmark": "swt-bench",
     "score": 68.1,
     "metric": "accuracy",
-    "cost_per_instance": 0.01,
+    "cost_per_instance": 0.0728,
     "average_runtime": 389.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-jade-spark-2862/21870831025/results.tar.gz",
     "tags": [
