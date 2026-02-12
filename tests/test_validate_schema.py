@@ -126,17 +126,17 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_valid_metadata_minimax_2_5(self, tmp_path):
-        """Test valid metadata for Minimax-2.5 passes validation."""
+    def test_valid_metadata_minimax_m2_5(self, tmp_path):
+        """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v0.38.0",
-            "model": "Minimax-2.5",
+            "model": "MiniMax-M2.5",
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
             "submission_time": "2026-02-11T15:10:02.513451+00:00",
-            "directory_name": "Minimax-2.5",
+            "directory_name": "MiniMax-M2.5",
             "release_date": "2026-02-11",
             "parameter_count_b": 0,
             "active_parameter_count_b": 0
