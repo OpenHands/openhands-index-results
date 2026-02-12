@@ -127,12 +127,12 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
-    Model.MINIMAX_M2_5: Country.US,
     # China models
     Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
+    Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
 }
