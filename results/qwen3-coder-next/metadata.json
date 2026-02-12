@@ -1,0 +1,13 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.1",
+  "model": "qwen3-coder-next",
+  "openness": "closed_api_available",
+  "country": "cn",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-09T23:40:04.292591+00:00",
+  "directory_name": "qwen3-coder-next",
+  "release_date": "2026-02-02",
+  "parameter_count_b": 80,
+  "active_parameter_count_b": 3
+}
