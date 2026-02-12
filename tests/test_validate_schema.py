@@ -130,7 +130,7 @@ class TestMetadataSchema:
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
-            "agent_version": "v0.38.0",
+            "agent_version": "v1.11.0",
             "model": "MiniMax-M2.5",
             "country": "us",
             "openness": "open_weights",
