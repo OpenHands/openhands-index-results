@@ -149,6 +149,7 @@ class Metadata(BaseModel):
     submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
     release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
+    supports_vision: bool = Field(..., description="Whether the model supports vision/image inputs")
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
     hide_from_leaderboard: bool = Field(default=False, description="Whether to hide this model from the public leaderboard")

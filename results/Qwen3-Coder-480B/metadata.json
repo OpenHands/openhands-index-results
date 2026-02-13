@@ -9,5 +9,6 @@
   "directory_name": "Qwen3-Coder-480B",
   "release_date": "2025-07-23",
   "parameter_count_b": 480,
-  "active_parameter_count_b": 35
+  "active_parameter_count_b": 35,
+  "supports_vision": false
 }

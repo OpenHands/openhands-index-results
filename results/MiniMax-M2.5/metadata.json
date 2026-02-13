@@ -9,5 +9,6 @@
   "release_date": "2026-02-11",
   "country": "cn",
   "parameter_count_b": 230,
-  "active_parameter_count_b": 10
+  "active_parameter_count_b": 10,
+  "supports_vision": false
 }
