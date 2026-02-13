@@ -7,5 +7,9 @@
   "tool_usage": "standard",
   "submission_time": "2026-01-26T15:55:15.726618+00:00",
   "directory_name": "Gemini-3-Pro",
-  "release_date": "2025-11-18"
+  "release_date": "2025-11-18",
+  "input_price": 2.0,
+  "output_price": 12.0,
+  "cache_read_price": null,
+  "cache_write_price": null
 }

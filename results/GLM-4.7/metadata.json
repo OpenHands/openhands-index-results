@@ -9,5 +9,9 @@
   "directory_name": "GLM-4.7",
   "release_date": "2025-12-22",
   "parameter_count_b": 355,
-  "active_parameter_count_b": 32
+  "active_parameter_count_b": 32,
+  "input_price": 0.28,
+  "output_price": 1.11,
+  "cache_read_price": 0.056,
+  "cache_write_price": null
 }

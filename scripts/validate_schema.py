@@ -152,6 +152,10 @@ class Metadata(BaseModel):
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
     hide_from_leaderboard: bool = Field(default=False, description="Whether to hide this model from the public leaderboard")
+    input_price: float = Field(..., gt=0, description="Input price per million tokens in USD")
+    output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
+    cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
+    cache_write_price: Optional[float] = Field(None, gt=0, description="Cache write price per million tokens in USD (None if not supported)")
 
     @field_validator("agent_version")
     @classmethod

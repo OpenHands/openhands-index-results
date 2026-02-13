@@ -10,5 +10,9 @@
   "release_date": "2025-12-15",
   "parameter_count_b": 31.6,
   "active_parameter_count_b": 3.2,
-  "hide_from_leaderboard": true
+  "hide_from_leaderboard": true,
+  "input_price": 0.05,
+  "output_price": 0.2,
+  "cache_read_price": null,
+  "cache_write_price": null
 }

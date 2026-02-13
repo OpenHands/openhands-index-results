@@ -32,7 +32,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -52,7 +54,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2-Codex",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -74,7 +78,9 @@ class TestMetadataSchema:
             "directory_name": "Nemotron-3-Nano",
             "release_date": "2026-01-15",
             "parameter_count_b": 31.6,
-            "active_parameter_count_b": 3.2
+            "active_parameter_count_b": 3.2,
+            "input_price": 0.15,
+            "output_price": 0.40
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -96,7 +102,11 @@ class TestMetadataSchema:
             "directory_name": "Kimi-K2.5",
             "release_date": "2026-01-20",
             "parameter_count_b": 1000,
-            "active_parameter_count_b": 32
+            "active_parameter_count_b": 32,
+            "input_price": 0.60,
+            "output_price": 2.40,
+            "cache_read_price": 0.15,
+            "cache_write_price": 0.60
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -117,7 +127,9 @@ class TestMetadataSchema:
             "submission_time": "2026-01-31T10:00:00.000000+00:00",
             "directory_name": "GLM-4.7",
             "release_date": "2026-01-25",
-            "parameter_count_b": 9
+            "parameter_count_b": 9,
+            "input_price": 0.14,
+            "output_price": 0.14
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -139,7 +151,9 @@ class TestMetadataSchema:
             "directory_name": "MiniMax-M2.5",
             "release_date": "2026-02-11",
             "parameter_count_b": 230,
-            "active_parameter_count_b": 10
+            "active_parameter_count_b": 10,
+            "input_price": 0.15,
+            "output_price": 0.60
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -159,7 +173,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -179,7 +195,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -199,7 +217,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -219,7 +239,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -238,7 +260,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model-name",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -258,7 +282,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -278,7 +304,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -298,7 +326,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -318,7 +348,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -338,7 +370,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "claude-sonnet-4-5",
-            "release_date": "2025-09-29"
+            "release_date": "2025-09-29",
+            "input_price": 3.00,
+            "output_price": 15.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -358,7 +392,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.8.3_claude-sonnet-4-5",  # Invalid - old format with version prefix
-            "release_date": "2025-09-29"
+            "release_date": "2025-09-29",
+            "input_price": 3.00,
+            "output_price": 15.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -378,7 +414,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",  # Invalid - doesn't match model
-            "release_date": "2025-09-29"
+            "release_date": "2025-09-29",
+            "input_price": 3.00,
+            "output_price": 15.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -397,7 +435,9 @@ class TestMetadataSchema:
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2"
+            "directory_name": "GPT-5.2",
+            "input_price": 2.50,
+            "output_price": 10.00
             # Missing release_date
         }
         metadata_file = tmp_path / "metadata.json"
@@ -418,7 +458,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
-            "release_date": "2025-12-01"
+            "release_date": "2025-12-01",
+            "input_price": 0.55,
+            "output_price": 2.19
             # Missing parameter_count_b - should fail for open-weights model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -440,7 +482,9 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
-            "parameter_count_b": 685
+            "parameter_count_b": 685,
+            "input_price": 0.55,
+            "output_price": 2.19
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -462,7 +506,9 @@ class TestMetadataSchema:
             "directory_name": "Kimi-K2-Thinking",
             "release_date": "2025-11-06",
             "parameter_count_b": 1000,
-            "active_parameter_count_b": 32
+            "active_parameter_count_b": 32,
+            "input_price": 0.60,
+            "output_price": 2.40
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -482,7 +528,9 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
             # No parameter_count_b - should be OK for closed model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -491,6 +539,212 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is True
         assert msg == "OK"
+
+    def test_missing_input_price(self, tmp_path):
+        """Test metadata with missing input_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "output_price": 10.00
+            # Missing input_price
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "input_price" in msg.lower()
+
+    def test_missing_output_price(self, tmp_path):
+        """Test metadata with missing output_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50
+            # Missing output_price
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "output_price" in msg.lower()
+
+    def test_zero_input_price_fails(self, tmp_path):
+        """Test metadata with zero input_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 0,  # Invalid - must be > 0
+            "output_price": 10.00
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "input_price" in msg.lower()
+
+    def test_zero_output_price_fails(self, tmp_path):
+        """Test metadata with zero output_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 0  # Invalid - must be > 0
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "output_price" in msg.lower()
+
+    def test_negative_input_price_fails(self, tmp_path):
+        """Test metadata with negative input_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": -1.00,  # Invalid - must be > 0
+            "output_price": 10.00
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "input_price" in msg.lower()
+
+    def test_valid_cache_prices(self, tmp_path):
+        """Test metadata with valid cache prices passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00,
+            "cache_read_price": 1.25,
+            "cache_write_price": 3.75
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_null_cache_prices_valid(self, tmp_path):
+        """Test metadata with null cache prices passes validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00,
+            "cache_read_price": None,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_zero_cache_read_price_fails(self, tmp_path):
+        """Test metadata with zero cache_read_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00,
+            "cache_read_price": 0,  # Invalid - must be > 0 or None
+            "cache_write_price": 3.75
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "cache_read_price" in msg.lower()
+
+    def test_zero_cache_write_price_fails(self, tmp_path):
+        """Test metadata with zero cache_write_price fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00,
+            "cache_read_price": 1.25,
+            "cache_write_price": 0  # Invalid - must be > 0 or None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "cache_write_price" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -847,7 +1101,9 @@ class TestValidateResultsDirectory:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         scores = [{
             "benchmark": "swe-bench",
@@ -945,7 +1201,9 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -990,7 +1248,9 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1054,7 +1314,9 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "input_price": 2.50,
+            "output_price": 10.00
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
