@@ -14,16 +14,17 @@
   },
   {
     "benchmark": "commit0",
-    "score": 18.8,
+    "score": 6.2,
     "metric": "accuracy",
-    "cost_per_instance": 6.78,
-    "average_runtime": 2314.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-21008948105-kimi-k2-th_litellm_proxy-moonshot-kimi-k2-thinking_26-01-15-00-35.tar.gz",
+    "cost_per_instance": 2.47,
+    "average_runtime": 2921.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-moonshot-kimi-k2-thinking/22098659867/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-26T15:55:37.309255+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-17T15:26:37+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/bdadf20b-3a81-4140-8844-d70af78408fc"
   },
   {
     "benchmark": "gaia",
