@@ -3,14 +3,15 @@
     "benchmark": "commit0",
     "score": 18.8,
     "metric": "accuracy",
-    "cost_per_instance": 0.9606,
-    "average_runtime": 814.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-moonshot-kimi-k2-5/21437607227/results.tar.gz",
+    "cost_per_instance": 2.86,
+    "average_runtime": 1657.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-moonshot-kimi-k2-5/22098663241/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-30T23:37:19.341897+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-17T13:32:00+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/b91eda39-f44c-4d97-9e11-bc8c29ee5647"
   },
   {
     "benchmark": "swe-bench",
