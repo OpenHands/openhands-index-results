@@ -1,16 +1,17 @@
 [
   {
     "benchmark": "commit0",
-    "score": 12.5,
+    "score": 6.2,
     "metric": "accuracy",
-    "cost_per_instance": 0.54,
-    "average_runtime": 578.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openrouter-z-ai-glm-4-7/21492295243/results.tar.gz",
+    "cost_per_instance": 0.47,
+    "average_runtime": 432.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openrouter-z-ai-glm-4-7/22107842290/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-30T12:51:32.483444+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-17T19:31:25+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/455a296c-d7de-4495-8946-fdd2bdc2cc5c"
   },
   {
     "benchmark": "swe-bench-multimodal",
