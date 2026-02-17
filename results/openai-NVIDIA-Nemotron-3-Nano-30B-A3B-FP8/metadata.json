@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.0",
+  "model": "openai/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-17T21:03:18.286394+00:00",
+  "directory_name": "openai-NVIDIA-Nemotron-3-Nano-30B-A3B-FP8"
+}
