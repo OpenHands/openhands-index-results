@@ -1,0 +1,15 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 0.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 0.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct/22104205466/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "61470a1d8053d7282c4039b1d1e2eeaf83ec60bc",
+    "submission_time": "2026-02-17T15:35:19+00:00"
+  }
+]
