@@ -32,7 +32,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -52,7 +53,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2-Codex",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -73,6 +75,7 @@ class TestMetadataSchema:
             "submission_time": "2026-01-27T20:02:11.332283+00:00",
             "directory_name": "Nemotron-3-Nano",
             "release_date": "2026-01-15",
+            "supports_vision": False,
             "parameter_count_b": 31.6,
             "active_parameter_count_b": 3.2
         }
@@ -95,6 +98,7 @@ class TestMetadataSchema:
             "submission_time": "2026-01-29T10:00:00.000000+00:00",
             "directory_name": "Kimi-K2.5",
             "release_date": "2026-01-20",
+            "supports_vision": True,
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
         }
@@ -117,6 +121,7 @@ class TestMetadataSchema:
             "submission_time": "2026-01-31T10:00:00.000000+00:00",
             "directory_name": "GLM-4.7",
             "release_date": "2026-01-25",
+            "supports_vision": False,
             "parameter_count_b": 9
         }
         metadata_file = tmp_path / "metadata.json"
@@ -138,6 +143,7 @@ class TestMetadataSchema:
             "submission_time": "2026-02-11T15:10:02.513451+00:00",
             "directory_name": "MiniMax-M2.5",
             "release_date": "2026-02-11",
+            "supports_vision": False,
             "parameter_count_b": 230,
             "active_parameter_count_b": 10
         }
@@ -258,7 +264,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -338,7 +345,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "claude-sonnet-4-5",
-            "release_date": "2025-09-29"
+            "release_date": "2025-09-29",
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -418,7 +426,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
-            "release_date": "2025-12-01"
+            "release_date": "2025-12-01",
+            "supports_vision": False
             # Missing parameter_count_b - should fail for open-weights model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -440,6 +449,7 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
+            "supports_vision": False,
             "parameter_count_b": 685
         }
         metadata_file = tmp_path / "metadata.json"
@@ -461,6 +471,7 @@ class TestMetadataSchema:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "Kimi-K2-Thinking",
             "release_date": "2025-11-06",
+            "supports_vision": False,
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
         }
@@ -482,7 +493,8 @@ class TestMetadataSchema:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "supports_vision": True
             # No parameter_count_b - should be OK for closed model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -491,6 +503,27 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is True
         assert msg == "OK"
+
+    def test_missing_supports_vision(self, tmp_path):
+        """Test metadata with missing supports_vision fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "submission_time": "2025-11-24T19:56:00.092865",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11"
+            # Missing supports_vision - should fail
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "supports_vision" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -847,7 +880,8 @@ class TestValidateResultsDirectory:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "release_date": "2025-12-11",
+            "supports_vision": True
         }
         scores = [{
             "benchmark": "swe-bench",
