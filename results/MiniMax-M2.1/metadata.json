@@ -9,5 +9,9 @@
   "directory_name": "MiniMax-M2.1",
   "release_date": "2025-12-23",
   "parameter_count_b": 230,
-  "active_parameter_count_b": 10
+  "active_parameter_count_b": 10,
+  "input_price": 0.3,
+  "output_price": 1.2,
+  "cache_read_price": null,
+  "cache_write_price": null
 }

@@ -9,5 +9,9 @@
   "directory_name": "Kimi-K2-Thinking",
   "release_date": "2025-11-06",
   "parameter_count_b": 1000,
-  "active_parameter_count_b": 32
+  "active_parameter_count_b": 32,
+  "input_price": 0.6,
+  "output_price": 2.5,
+  "cache_read_price": 0.15,
+  "cache_write_price": null
 }
