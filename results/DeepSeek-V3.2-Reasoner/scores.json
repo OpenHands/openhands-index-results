@@ -40,16 +40,17 @@
   },
   {
     "benchmark": "commit0",
-    "score": 31.2,
+    "score": 18.8,
     "metric": "accuracy",
     "cost_per_instance": 0.12,
-    "average_runtime": 1411.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-20981821017-deepseek-v_litellm_proxy-deepseek-deepseek-reasoner_26-01-14-07-15.tar.gz",
+    "average_runtime": 1033.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-deepseek-deepseek-reasoner/22102377637/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-27T18:40:51.252521+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-17T16:45:00+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/c143e1ae-1de5-43e2-b6d9-a833fa06caaa"
   },
   {
     "benchmark": "swe-bench-multimodal",
