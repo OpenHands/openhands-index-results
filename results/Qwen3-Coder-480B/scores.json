@@ -29,14 +29,14 @@
     "benchmark": "commit0",
     "score": 0.0,
     "metric": "accuracy",
-    "cost_per_instance": 1.79,
-    "average_runtime": 924.0,
-    "full_archive": "https://results.eval.all-hands.dev/eval-20981821017-qwen-3-cod_litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct_26-01-14-06-17.tar.gz",
+    "cost_per_instance": 0.01,
+    "average_runtime": 1.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-fireworks_ai-qwen3-coder-480b-a35b-instruct/22104205466/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.8.3",
-    "submission_time": "2026-01-26T15:55:58.082973+00:00"
+    "agent_version": "v1.11.0",
+    "submission_time": "2026-02-17T15:35:19+00:00"
   },
   {
     "benchmark": "swt-bench",
