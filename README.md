@@ -19,7 +19,7 @@ results/
 
 Each agent directory follows the format: `{version}_{model_name}/`
 - `{version}`: Agent version (semantic version starting with 'v', e.g., `v1.8.3`)
-- `{model_name}`: LLM model name (e.g., `claude-4.5-sonnet`, `gpt-5.2`)
+- `{model_name}`: LLM model name (e.g., `claude-sonnet-4-5`, `GPT-5.2`)
 
 #### metadata.json
 
@@ -29,11 +29,11 @@ Contains agent metadata and configuration:
 {
   "agent_name": "OpenHands CodeAct v2.0",
   "agent_version": "v1.8.3",
-  "model": "claude-4.5-sonnet",
+  "model": "claude-sonnet-4-5",
   "openness": "closed_api_available",
   "tool_usage": "standard",
   "submission_time": "2025-11-24T19:56:00.092895",
-  "directory_name": "v1.8.3_claude-4.5-sonnet"
+  "directory_name": "v1.8.3_claude-sonnet-4-5"
 }
 ```
 
@@ -123,23 +123,23 @@ To add new benchmark results:
 Example:
 ```bash
 # Create directory
-mkdir -p results/v1.8.3_claude-4.5-sonnet/
+mkdir -p results/v1.8.3_claude-sonnet-4-5/
 
 # Add metadata
-cat > results/v1.8.3_claude-4.5-sonnet/metadata.json << 'EOF'
+cat > results/v1.8.3_claude-sonnet-4-5/metadata.json << 'EOF'
 {
   "agent_name": "OpenHands CodeAct v2.0",
   "agent_version": "v1.8.3",
-  "model": "claude-4.5-sonnet",
+  "model": "claude-sonnet-4-5",
   "openness": "closed_api_available",
   "tool_usage": "standard",
   "submission_time": "2025-11-24T19:56:00.092895",
-  "directory_name": "v1.8.3_claude-4.5-sonnet"
+  "directory_name": "v1.8.3_claude-sonnet-4-5"
 }
 EOF
 
 # Add scores
-cat > results/v1.8.3_claude-4.5-sonnet/scores.json << 'EOF'
+cat > results/v1.8.3_claude-sonnet-4-5/scores.json << 'EOF'
 [
   {
     "benchmark": "swe-bench",
@@ -154,7 +154,7 @@ cat > results/v1.8.3_claude-4.5-sonnet/scores.json << 'EOF'
 EOF
 
 # Commit and push
-git add results/v1.8.3_claude-4.5-sonnet/
+git add results/v1.8.3_claude-sonnet-4-5/
 git commit -m "Add results for OpenHands CodeAct v1.8.3 with Claude 4.5 Sonnet"
 git push origin main
 ```
