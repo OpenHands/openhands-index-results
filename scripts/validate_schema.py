@@ -88,6 +88,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "minimax-m2.1"
     DEEPSEEK_V3_2_REASONER = "deepseek-v3.2-reasoner"
     QWEN_3_CODER = "qwen-3-coder"
+    QWEN3_CODER_NEXT = "qwen3-coder-next"
     NEMOTRON_3_NANO = "nemotron-3-nano"
 
 
@@ -110,6 +111,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
 }
 
@@ -132,6 +134,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_1: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
+    Model.QWEN3_CODER_NEXT: Country.CN,
 }
 
 
