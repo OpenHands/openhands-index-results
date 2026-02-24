@@ -81,6 +81,7 @@ class Model(str, Enum):
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_4_7 = "GLM-4.7"
+    GLM_5 = "GLM-5"
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
     KIMI_K2_THINKING = "Kimi-K2-Thinking"
@@ -104,6 +105,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
+    Model.GLM_5: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
@@ -129,6 +131,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.NEMOTRON_3_NANO: Country.US,
     # China models
     Model.GLM_4_7: Country.CN,
+    Model.GLM_5: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
