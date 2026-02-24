@@ -51,6 +51,17 @@ def format_validation_error(error: ValidationError) -> str:
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 
+# Pattern for full_archive URLs
+# Two formats are supported:
+# 1. Legacy format: (eval-)?{run_id}-{model_short}_litellm_proxy-{provider}-{model}_{YY-MM-DD-HH-MM}.tar.gz
+# 2. Benchmark format: {benchmark}/litellm_proxy-{model}/{run_id}/results.tar.gz
+FULL_ARCHIVE_LEGACY_PATTERN = re.compile(
+    r'^(eval-)?\d+-[a-zA-Z0-9_-]+_litellm_proxy-[a-zA-Z0-9_-]+_\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\.tar\.gz$'
+)
+FULL_ARCHIVE_BENCHMARK_PATTERN = re.compile(
+    r'^[a-z0-9]+/litellm_proxy-[a-zA-Z0-9_-]+/\d+/results\.tar\.gz$'
+)
+
 
 class Openness(str, Enum):
     """Model openness classification."""
@@ -273,10 +284,19 @@ class ScoreEntry(BaseModel):
     @field_validator("full_archive")
     @classmethod
     def validate_full_archive(cls, v: str) -> str:
-        """Ensure full_archive URL starts with the expected CDN prefix."""
+        """Ensure full_archive URL matches expected patterns."""
         if not v.startswith(FULL_ARCHIVE_URL_PREFIX):
             raise ValueError(
                 f"full_archive must begin with '{FULL_ARCHIVE_URL_PREFIX}', got '{v}'"
+            )
+        # Extract the path after the prefix
+        path = v[len(FULL_ARCHIVE_URL_PREFIX):]
+        # Check if path matches one of the expected patterns
+        if not (FULL_ARCHIVE_LEGACY_PATTERN.match(path) or FULL_ARCHIVE_BENCHMARK_PATTERN.match(path)):
+            raise ValueError(
+                f"full_archive path must match expected format. "
+                f"Expected either '(eval-){{run_id}}-{{model}}_litellm_proxy-{{provider}}_{{date}}.tar.gz' "
+                f"or '{{benchmark}}/litellm_proxy-{{model}}/{{run_id}}/results.tar.gz', got '{path}'"
             )
         return v
 
