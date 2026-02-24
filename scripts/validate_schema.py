@@ -77,9 +77,11 @@ class Model(str, Enum):
     """Expected model names from issue #2."""
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
+    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
+    GLM_5 = "GLM-5"
     GLM_4_7 = "GLM-4.7"
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
@@ -88,6 +90,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
+    QWEN_3_CODER_NEXT = "Qwen3-coder-next"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
     MINIMAX_M2_5 = "MiniMax-M2.5"
 
@@ -99,18 +102,21 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
+    Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.QWEN_3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
 }
@@ -121,6 +127,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
+    Model.CLAUDE_SONNET_4_6: Country.US,
     Model.CLAUDE_SONNET_4_5: Country.US,
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
@@ -128,6 +135,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2_CODEX: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     # China models
+    Model.GLM_5: Country.CN,
     Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
@@ -135,6 +143,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
+    Model.QWEN_3_CODER_NEXT: Country.CN,
 }
 
 

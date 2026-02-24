@@ -1,0 +1,17 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.8.3",
+  "model": "Qwen3-coder-next",
+  "openness": "open_weights",
+  "country": "cn",
+  "tool_usage": "standard",
+  "submission_time": "2026-02-24T23:15:00.000000+00:00",
+  "directory_name": "Qwen3-coder-next",
+  "release_date": "2026-02-03",
+  "parameter_count_b": 80,
+  "active_parameter_count_b": 3,
+  "input_price": 1.0,
+  "output_price": 5.0,
+  "cache_read_price": 0.2,
+  "cache_write_price": null
+}
