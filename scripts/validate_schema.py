@@ -6,6 +6,7 @@ This script checks that all metadata.json and scores.json files
 in the results directory conform to the expected schema.
 """
 
+import ast
 import json
 import re
 import sys
@@ -48,6 +49,83 @@ def format_validation_error(error: ValidationError) -> str:
             messages.append(f"  • Field '{field}': {msg} (got: '{input_value}')")
 
     return "\n".join(messages)
+
+
+def check_for_duplicate_dict_keys() -> None:
+    """Check for duplicate keys in MODEL_OPENNESS_MAP and MODEL_COUNTRY_MAP.
+    
+    This function parses the source code of this script to detect duplicate
+    dictionary keys that might have been introduced by git merge. When two PRs
+    add the same model with different values, git may auto-merge both entries
+    without conflict, but Python will silently use the last value.
+    
+    Raises:
+        SystemExit: If duplicate keys are found, with exit code 1.
+    """
+    script_path = Path(__file__)
+    source_code = script_path.read_text()
+    
+    try:
+        tree = ast.parse(source_code)
+    except SyntaxError as e:
+        print(f"Error: Failed to parse {script_path}: {e}", file=sys.stderr)
+        sys.exit(1)
+    
+    # Track dictionaries we care about and their duplicate keys
+    dict_duplicates: dict[str, list[str]] = {}
+    
+    for node in ast.walk(tree):
+        # Look for assignment statements
+        if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
+            var_name = node.target.id
+            # Check if this is one of our mapping dictionaries
+            if var_name in ("MODEL_OPENNESS_MAP", "MODEL_COUNTRY_MAP"):
+                if isinstance(node.value, ast.Dict):
+                    # Extract all keys and check for duplicates
+                    keys_seen = {}
+                    duplicates = []
+                    
+                    for i, key_node in enumerate(node.value.keys):
+                        # Extract the key string (e.g., "Model.GLM_5")
+                        if isinstance(key_node, ast.Attribute):
+                            if isinstance(key_node.value, ast.Name):
+                                key_str = f"{key_node.value.id}.{key_node.attr}"
+                                
+                                if key_str in keys_seen:
+                                    duplicates.append(key_str)
+                                else:
+                                    keys_seen[key_str] = i
+                    
+                    if duplicates:
+                        dict_duplicates[var_name] = duplicates
+    
+    # Report any duplicates found
+    if dict_duplicates:
+        print("=" * 60, file=sys.stderr)
+        print("CRITICAL ERROR: Duplicate Dictionary Keys Detected", file=sys.stderr)
+        print("=" * 60, file=sys.stderr)
+        print(file=sys.stderr)
+        print("The validation script has duplicate keys in dictionary literals.", file=sys.stderr)
+        print("This likely occurred due to a git merge where two PRs added the", file=sys.stderr)
+        print("same model with different values.", file=sys.stderr)
+        print(file=sys.stderr)
+        
+        for dict_name, duplicates in dict_duplicates.items():
+            print(f"Dictionary: {dict_name}", file=sys.stderr)
+            for dup in duplicates:
+                print(f"  - Duplicate key: {dup}", file=sys.stderr)
+        
+        print(file=sys.stderr)
+        print("Python silently uses the LAST occurrence of duplicate keys,", file=sys.stderr)
+        print("which causes inconsistent validation behavior.", file=sys.stderr)
+        print(file=sys.stderr)
+        print("To fix this:", file=sys.stderr)
+        print("1. Review the git history to determine the correct value", file=sys.stderr)
+        print("2. Remove the duplicate entries, keeping only one correct entry", file=sys.stderr)
+        print("3. Ensure the metadata.json files match the chosen value", file=sys.stderr)
+        print("=" * 60, file=sys.stderr)
+        sys.exit(1)
+
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 
@@ -409,6 +487,10 @@ def validate_results_directory(results_dir: Path) -> tuple[int, int, list[str]]:
 
 def main():
     """Main entry point."""
+    # First, check for duplicate keys in the validation script itself
+    # This catches issues from git merges where duplicate entries might exist
+    check_for_duplicate_dict_keys()
+    
     # Determine results directory
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
