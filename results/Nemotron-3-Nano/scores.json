@@ -60,5 +60,18 @@
       "unsolveable_resolved": 2,
       "unsolveable_total": 33
     }
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 7.6,
+    "metric": "accuracy",
+    "cost_per_instance": 0.19,
+    "average_runtime": 896.3,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-openai-NVIDIA-Nemotron-3-Nano-30B-A3B-FP8/21413263674/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.8.3",
+    "submission_time": "2026-01-27T20:00:30.624153+00:00"
   }
 ]

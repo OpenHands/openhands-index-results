@@ -92,6 +92,7 @@ class Model(str, Enum):
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_4_7 = "GLM-4.7"
+    GLM_5 = "GLM-5"
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
     KIMI_K2_THINKING = "Kimi-K2-Thinking"
@@ -100,6 +101,7 @@ class Model(str, Enum):
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
+    QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
 
 
@@ -117,11 +119,13 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
+    Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
 }
@@ -140,12 +144,14 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.NEMOTRON_3_NANO: Country.US,
     # China models
     Model.GLM_4_7: Country.CN,
+    Model.GLM_5: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
+    Model.QWEN3_CODER_NEXT: Country.CN,
 }
 
 
