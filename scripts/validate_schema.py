@@ -105,8 +105,8 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
-    Model.GLM_5: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
+    Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
