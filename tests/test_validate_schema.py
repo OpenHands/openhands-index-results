@@ -504,7 +504,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -657,7 +657,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -712,7 +712,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -745,6 +745,87 @@ class TestScoreEntrySchema:
         assert "full_archive" in msg.lower()
         assert "results.eval.all-hands.dev" in msg
 
+    def test_invalid_full_archive_url_missing_filename(self, tmp_path):
+        """Test score entry with full_archive URL missing filename fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "full_archive" in msg.lower()
+
+    def test_invalid_full_archive_url_wrong_format(self, tmp_path):
+        """Test score entry with full_archive URL not matching expected patterns fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/random-file.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "full_archive" in msg.lower()
+        assert "expected format" in msg.lower()
+
+    def test_valid_full_archive_legacy_format(self, tmp_path):
+        """Test score entry with valid legacy format full_archive URL passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-12-57.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_full_archive_benchmark_format(self, tmp_path):
+        """Test score entry with valid benchmark format full_archive URL passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/21754233398/results.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_full_archive(self, tmp_path):
         """Test score entry without full_archive fails validation."""
         scores = [{
@@ -772,7 +853,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -791,7 +872,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0"
         }]
@@ -810,7 +891,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "invalid-version",  # Invalid - not semver
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -855,7 +936,7 @@ class TestValidateResultsDirectory:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -880,7 +961,7 @@ class TestValidateResultsDirectory:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": [],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -964,7 +1045,7 @@ class TestErrorMessageFormatting:
             "metric": "accuracy",
             "cost_per_instance": -1,  # Invalid: <= 0
             "average_runtime": 0,  # Invalid: <= 0
-            "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -1020,7 +1101,7 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
                 "agent_version": "v1.0.0",
                 "submission_time": "2025-11-24T19:56:00.092865"
             },
@@ -1030,7 +1111,7 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
                 "agent_version": "v1.0.0",
                 "submission_time": "2025-11-24T19:56:00.092865"
             }
@@ -1076,7 +1157,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.54,
             "average_runtime": 671.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 41.2,
@@ -1105,7 +1186,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 0.19,
             "average_runtime": 1515.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 27.9,
@@ -1130,7 +1211,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "agent_version": "v1.11.0",
             "submission_time": "2026-02-07T01:54:03+00:00"
@@ -1150,7 +1231,7 @@ class TestSweMultimodalValidation:
             "metric": "accuracy",  # Should be solveable_accuracy
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1175,7 +1256,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1201,7 +1282,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1225,7 +1306,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1249,7 +1330,7 @@ class TestSweMultimodalValidation:
             "metric": "accuracy",
             "cost_per_instance": 1.82,
             "average_runtime": 325.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.8.3",
             "submission_time": "2026-01-27T01:24:15.735789+00:00"
