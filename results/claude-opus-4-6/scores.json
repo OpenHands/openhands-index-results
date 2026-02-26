@@ -66,16 +66,16 @@
   },
   {
     "benchmark": "commit0",
-    "score": 43.8,
+    "score": 56.2,
     "metric": "accuracy",
-    "cost_per_instance": 2.5,
-    "average_runtime": 388.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-6/21754254342/results.tar.gz",
+    "cost_per_instance": 1.7,
+    "average_runtime": 576.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-6/22098671747/results.tar.gz",
     "tags": [
       "commit0"
     ],
     "agent_version": "v1.11.0",
-    "submission_time": "2026-02-06T15:46:00+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/977b16fe-82e5-422d-bf85-7de3906e0b32"
+    "submission_time": "2026-02-17T14:27:16+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/97307343-1931-4fcd-8455-d92411045b71"
   }
 ]
