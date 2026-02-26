@@ -1,0 +1,21 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 30.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.24,
+    "average_runtime": 931.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-sonnet-4-6/22360554239/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-25T03:05:14+00:00",
+    "component_scores": {
+      "solveable_accuracy": 30.9,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 21.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/ed24d3b6-988c-4ef1-b709-b0f223173547"
+  }
+]
