@@ -89,6 +89,7 @@ class Model(str, Enum):
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
+    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_4_7 = "GLM-4.7"
@@ -100,6 +101,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
+    QWEN3_5_FLASH = "Qwen3.5-Flash"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
@@ -113,6 +115,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
@@ -125,6 +128,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
@@ -137,6 +141,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
     Model.CLAUDE_SONNET_4_5: Country.US,
+    Model.CLAUDE_SONNET_4_6: Country.US,
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
@@ -151,6 +156,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
+    Model.QWEN3_5_FLASH: Country.CN,
     Model.QWEN3_CODER_NEXT: Country.CN,
 }
 
