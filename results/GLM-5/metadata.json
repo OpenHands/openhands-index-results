@@ -8,6 +8,7 @@
   "submission_time": "2026-02-24T21:04:02.839479+00:00",
   "directory_name": "GLM-5",
   "release_date": "2026-02-11",
+  "supports_vision": false,
   "parameter_count_b": 744,
   "active_parameter_count_b": 40
 }
