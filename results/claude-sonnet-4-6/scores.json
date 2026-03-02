@@ -1,0 +1,16 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 43.8,
+    "metric": "accuracy",
+    "cost_per_instance": 1.88,
+    "average_runtime": 578.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-sonnet-4-6/22230036618/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-20T19:37:34+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/1880a74c-d119-471d-936d-24a81065a5dc"
+  }
+]
