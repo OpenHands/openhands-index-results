@@ -10,6 +10,8 @@ import json
 import sys
 from pathlib import Path
 
+from validate_schema import Model
+
 
 def load_json(file_path: Path) -> dict | list:
     """Load JSON file."""
@@ -36,24 +38,8 @@ EXPECTED_METRICS = [
     "average_runtime",     # wall clock time (#4)
 ]
 
-# Expected models from issue #2
-EXPECTED_MODELS = [
-    "claude-opus-4-5",
-    "claude-opus-4-6",
-    "claude-sonnet-4-5",
-    "DeepSeek-V3.2-Reasoner",
-    "Gemini-3-Flash",
-    "Gemini-3-Pro",
-    "GLM-4.7",
-    "GPT-5.2",
-    "GPT-5.2-Codex",
-    "Kimi-K2-Thinking",
-    "Kimi-K2.5",
-    "MiniMax-M2.1",
-    "MiniMax-M2.5",
-    "Nemotron-3-Nano",
-    "Qwen3-Coder-480B",
-]
+# Expected models - derived from Model enum in validate_schema.py (single source of truth)
+EXPECTED_MODELS = [model.value for model in Model]
 
 
 def load_results(results_dir: Path) -> dict:

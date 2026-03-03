@@ -7,5 +7,6 @@
   "tool_usage": "standard",
   "submission_time": "2026-01-26T16:02:48.428351+00:00",
   "directory_name": "claude-sonnet-4-5",
-  "release_date": "2025-09-29"
+  "release_date": "2025-09-29",
+  "supports_vision": true
 }

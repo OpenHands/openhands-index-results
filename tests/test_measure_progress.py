@@ -109,15 +109,18 @@ class TestExpectedDimensions:
         assert "average_runtime" in EXPECTED_METRICS
 
     def test_expected_models_count(self):
-        """Test that we have 11 expected models."""
-        assert len(EXPECTED_MODELS) == 11
+        """Test that we have expected models (derived from Model enum)."""
+        # Verify some known models are present
         assert "GPT-5.2-Codex" in EXPECTED_MODELS
         assert "Nemotron-3-Nano" in EXPECTED_MODELS
+        # Count should match Model enum in validate_schema.py
+        assert len(EXPECTED_MODELS) >= 15  # At least 15 models
 
     def test_total_cells(self):
-        """Test that total 3D array cells = 5 * 11 * 3 = 165."""
+        """Test that total 3D array cells = benchmarks * models * metrics."""
         total = len(EXPECTED_BENCHMARKS) * len(EXPECTED_MODELS) * len(EXPECTED_METRICS)
-        assert total == 165
+        expected_total = 5 * len(EXPECTED_MODELS) * 3
+        assert total == expected_total
 
 
 class TestCalculateProgress:
@@ -137,7 +140,9 @@ class TestCalculateProgress:
         assert progress["metric_coverage_pct"] == 0.0
         assert progress["model_coverage_pct"] == 0.0
         assert progress["array_coverage_pct"] == 0.0
-        assert progress["array_total_cells"] == 165
+        # Total cells = models * benchmarks * metrics
+        expected_total = len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
+        assert progress["array_total_cells"] == expected_total
 
     def test_known_model_with_all_metrics(self):
         """Test progress with an expected model name and all metrics."""
@@ -154,15 +159,17 @@ class TestCalculateProgress:
         }
         progress = calculate_progress(results)
 
-        # gpt-5.2 is an expected model, so 1/11 models = 9.09%
-        assert progress["model_coverage_pct"] == 9.09
+        # GPT-5.2 is an expected model, so 1/N models
+        expected_model_pct = round(1 / len(EXPECTED_MODELS) * 100, 2)
+        assert progress["model_coverage_pct"] == expected_model_pct
         # 1/5 benchmarks = 20%
         assert progress["benchmark_coverage_pct"] == 20.0
         # All 3 metrics = 100%
         assert progress["metric_coverage_pct"] == 100.0
-        # 3 cells filled out of 165 = 1.82%
+        # 3 cells filled out of total
         assert progress["array_filled_cells"] == 3
-        assert progress["array_coverage_pct"] == 1.82
+        expected_array_pct = round(3 / (len(EXPECTED_MODELS) * 5 * 3) * 100, 2)
+        assert progress["array_coverage_pct"] == expected_array_pct
 
     def test_unknown_model_not_counted(self):
         """Test that unknown models do not contribute to model coverage or filled cells.
@@ -233,7 +240,9 @@ class TestIntegration:
         assert "benchmarks_expected" in progress
         assert "metrics_found" in progress
         assert "metrics_expected" in progress
-        assert progress["array_total_cells"] == 165
+        # Total cells = models * benchmarks * metrics
+        expected_total = len(EXPECTED_MODELS) * len(EXPECTED_BENCHMARKS) * len(EXPECTED_METRICS)
+        assert progress["array_total_cells"] == expected_total
 
         # Verify actual metrics are found
         assert "score" in results["metrics"]

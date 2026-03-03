@@ -5,9 +5,10 @@
   "openness": "open_weights",
   "country": "cn",
   "tool_usage": "standard",
-  "submission_time": "2026-02-26T21:31:22.270967+00:00",
+  "submission_time": "2026-02-26T21:32:23.736098+00:00",
   "directory_name": "Qwen3-Coder-Next",
   "release_date": "2026-02-02",
+  "supports_vision": false,
   "parameter_count_b": 80,
   "active_parameter_count_b": 3
 }
