@@ -90,7 +90,6 @@ class Model(str, Enum):
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
     CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
-    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_4_7 = "GLM-4.7"
@@ -117,7 +116,6 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
-    Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
@@ -125,7 +123,6 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
-    Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
@@ -145,7 +142,6 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.CLAUDE_OPUS_4_5: Country.US,
     Model.CLAUDE_SONNET_4_6: Country.US,
     Model.CLAUDE_SONNET_4_5: Country.US,
-    Model.CLAUDE_SONNET_4_6: Country.US,
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
