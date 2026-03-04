@@ -30,7 +30,6 @@ class TestMetadataSchema:
             "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
             "supports_vision": True
@@ -51,7 +50,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2-Codex",
             "release_date": "2025-12-11",
             "supports_vision": True
@@ -72,7 +70,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-27T20:02:11.332283+00:00",
             "directory_name": "Nemotron-3-Nano",
             "release_date": "2026-01-15",
             "supports_vision": False,
@@ -95,7 +92,6 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-29T10:00:00.000000+00:00",
             "directory_name": "Kimi-K2.5",
             "release_date": "2026-01-20",
             "supports_vision": True,
@@ -118,7 +114,6 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-31T10:00:00.000000+00:00",
             "directory_name": "GLM-4.7",
             "release_date": "2026-01-25",
             "supports_vision": False,
@@ -140,7 +135,6 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-02-11T15:10:02.513451+00:00",
             "directory_name": "MiniMax-M2.5",
             "release_date": "2026-02-11",
             "supports_vision": False,
@@ -163,7 +157,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -183,7 +176,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -203,7 +195,6 @@ class TestMetadataSchema:
             "country": "invalid_country",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -223,7 +214,6 @@ class TestMetadataSchema:
             "country": "cn",  # Should be "us" for GPT
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -242,7 +232,6 @@ class TestMetadataSchema:
             "model": "invalid-model-name",  # Invalid - not in Model enum
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model-name",
             "release_date": "2025-12-11"
         }
@@ -262,7 +251,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
             "supports_vision": True
@@ -283,7 +271,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -303,7 +290,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -323,7 +309,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
         }
@@ -343,7 +328,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "claude-sonnet-4-5",
             "release_date": "2025-09-29",
             "supports_vision": True
@@ -364,7 +348,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.8.3_claude-sonnet-4-5",  # Invalid - old format with version prefix
             "release_date": "2025-09-29"
         }
@@ -384,7 +367,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",  # Invalid - doesn't match model
             "release_date": "2025-09-29"
         }
@@ -404,7 +386,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2"
             # Missing release_date
         }
@@ -424,7 +405,6 @@ class TestMetadataSchema:
             "country": "cn",  # Open-weights model
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
             "supports_vision": False
@@ -446,7 +426,6 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
             "supports_vision": False,
@@ -468,7 +447,6 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "country": "cn",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "Kimi-K2-Thinking",
             "release_date": "2025-11-06",
             "supports_vision": False,
@@ -491,7 +469,6 @@ class TestMetadataSchema:
             "country": "us",  # Closed model
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
             "supports_vision": True
@@ -513,7 +490,6 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11"
             # Missing supports_vision - should fail
