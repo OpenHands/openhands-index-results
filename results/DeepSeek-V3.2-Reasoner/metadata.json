@@ -8,5 +8,6 @@
   "submission_time": "2026-01-27T18:40:51.252521+00:00",
   "directory_name": "DeepSeek-V3.2-Reasoner",
   "release_date": "2025-12-01",
-  "parameter_count_b": 685
+  "parameter_count_b": 685,
+  "supports_vision": false
 }
