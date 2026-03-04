@@ -9,5 +9,6 @@
   "directory_name": "Kimi-K2.5",
   "release_date": "2026-01-27",
   "parameter_count_b": 1000,
-  "active_parameter_count_b": 32
+  "active_parameter_count_b": 32,
+  "supports_vision": true
 }
