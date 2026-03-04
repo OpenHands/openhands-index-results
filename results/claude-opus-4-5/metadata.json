@@ -7,5 +7,6 @@
   "tool_usage": "standard",
   "submission_time": "2026-01-27T01:24:15.735789+00:00",
   "directory_name": "claude-opus-4-5",
-  "release_date": "2025-11-24"
+  "release_date": "2025-11-24",
+  "supports_vision": true
 }
