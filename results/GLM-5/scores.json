@@ -12,5 +12,31 @@
     "agent_version": "v1.11.5",
     "submission_time": "2026-02-13T01:31:19+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/b3d866df-b9e3-415a-942b-f11f8bd73680"
+},{
+    "benchmark": "swt-bench",
+    "score": 47.3,
+    "metric": "accuracy",
+    "cost_per_instance": 0.91,
+    "average_runtime": 1085.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-openrouter-z-ai-glm-5/22240291718/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-21T09:26:31+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/a7d29286-6810-4ca8-8a11-21d6ae33822b"
+},{
+    "benchmark": "gaia",
+    "score": 60.0,
+    "metric": "accuracy",
+    "cost_per_instance": 1.09,
+    "average_runtime": 1328.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openrouter-z-ai-glm-5/22117141473/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-18T03:25:43+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/c37cd7c9-3839-402d-bdf6-a0c10c4c085b"
   }
 ]
