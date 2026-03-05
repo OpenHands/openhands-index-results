@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.5",
+  "model": "Qwen3.5-Flash",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-03-05T14:19:35.159066+00:00",
+  "directory_name": "Qwen3.5-Flash"
+}
