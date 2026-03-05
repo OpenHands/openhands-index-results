@@ -1,0 +1,9 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.11.5",
+  "model": "Gemini-3.1-Pro",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "submission_time": "2026-03-05T15:24:11.158038+00:00",
+  "directory_name": "Gemini-3.1-Pro"
+}
