@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from validate_schema import (
+    AgentName,
     Metadata,
     ScoreEntry,
     format_validation_error,
@@ -24,7 +25,7 @@ class TestMetadataSchema:
     def test_valid_metadata(self, tmp_path):
         """Test valid metadata passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",  # Must be an expected model name
@@ -44,7 +45,7 @@ class TestMetadataSchema:
     def test_valid_metadata_gpt_5_2_codex(self, tmp_path):
         """Test valid metadata for gpt-5.2-codex passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2-Codex",
             "country": "us",
@@ -64,7 +65,7 @@ class TestMetadataSchema:
     def test_valid_metadata_nemotron_3_nano_30b(self, tmp_path):
         """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "Nemotron-3-Nano",
             "country": "us",
@@ -86,7 +87,7 @@ class TestMetadataSchema:
     def test_valid_metadata_kimi_k2_5(self, tmp_path):
         """Test valid metadata for kimi-k2.5 passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "Kimi-K2.5",
             "country": "cn",
@@ -108,7 +109,7 @@ class TestMetadataSchema:
     def test_valid_metadata_glm_4_7(self, tmp_path):
         """Test valid metadata for glm-4.7 passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "GLM-4.7",
             "country": "cn",
@@ -129,7 +130,7 @@ class TestMetadataSchema:
     def test_valid_metadata_minimax_m2_5(self, tmp_path):
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.11.0",
             "model": "MiniMax-M2.5",
             "country": "cn",
@@ -151,7 +152,7 @@ class TestMetadataSchema:
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             # Missing agent_version
             "model": "GPT-5.2",
             "country": "us",
@@ -170,7 +171,7 @@ class TestMetadataSchema:
     def test_invalid_openness_value(self, tmp_path):
         """Test metadata with invalid openness value fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
@@ -189,7 +190,7 @@ class TestMetadataSchema:
     def test_invalid_country_value(self, tmp_path):
         """Test metadata with invalid country value fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "invalid_country",
@@ -208,7 +209,7 @@ class TestMetadataSchema:
     def test_country_mismatch_for_model(self, tmp_path):
         """Test metadata with incorrect country for model fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "cn",  # Should be "us" for GPT
@@ -227,7 +228,7 @@ class TestMetadataSchema:
     def test_invalid_model_value(self, tmp_path):
         """Test metadata with invalid model value fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "invalid-model-name",  # Invalid - not in Model enum
             "openness": "closed_api_available",
@@ -245,7 +246,7 @@ class TestMetadataSchema:
     def test_valid_semantic_version(self, tmp_path):
         """Test metadata with valid semantic version passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.2",
             "model": "GPT-5.2",
             "country": "us",
@@ -265,7 +266,7 @@ class TestMetadataSchema:
     def test_invalid_semantic_version_commit_hash(self, tmp_path):
         """Test metadata with commit hash instead of semantic version fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "54c5858",  # Invalid - commit hash
             "model": "GPT-5.2",
             "country": "us",
@@ -284,7 +285,7 @@ class TestMetadataSchema:
     def test_invalid_semantic_version_no_v_prefix(self, tmp_path):
         """Test metadata with semantic version without 'v' prefix fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "1.0.0",  # Invalid - missing 'v' prefix
             "model": "GPT-5.2",
             "country": "us",
@@ -303,7 +304,7 @@ class TestMetadataSchema:
     def test_invalid_semantic_version_branch_name(self, tmp_path):
         """Test metadata with branch name instead of semantic version fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "main",  # Invalid - branch name
             "model": "GPT-5.2",
             "country": "us",
@@ -322,7 +323,7 @@ class TestMetadataSchema:
     def test_valid_directory_name_format(self, tmp_path):
         """Test metadata with valid directory_name format passes validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
@@ -342,7 +343,7 @@ class TestMetadataSchema:
     def test_invalid_directory_name_old_format(self, tmp_path):
         """Test metadata with old version-prefixed directory_name format fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
@@ -361,7 +362,7 @@ class TestMetadataSchema:
     def test_invalid_directory_name_mismatch(self, tmp_path):
         """Test metadata with directory_name not matching model fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
@@ -380,7 +381,7 @@ class TestMetadataSchema:
     def test_missing_release_date(self, tmp_path):
         """Test metadata with missing release_date fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
@@ -399,7 +400,7 @@ class TestMetadataSchema:
     def test_open_weights_model_requires_parameter_count_b(self, tmp_path):
         """Test that open-weights models require parameter_count_b."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",  # Open-weights model
@@ -420,7 +421,7 @@ class TestMetadataSchema:
     def test_open_weights_model_with_parameter_count_b(self, tmp_path):
         """Test that open-weights models pass validation with parameter_count_b."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",
@@ -441,7 +442,7 @@ class TestMetadataSchema:
     def test_open_weights_model_with_active_parameter_count_b(self, tmp_path):
         """Test that open-weights MoE models can include active_parameter_count_b."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "Kimi-K2-Thinking",
             "openness": "open_weights",
@@ -463,7 +464,7 @@ class TestMetadataSchema:
     def test_closed_model_without_parameter_count_b(self, tmp_path):
         """Test that closed models pass validation without parameter_count_b."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",  # Closed model
@@ -484,7 +485,7 @@ class TestMetadataSchema:
     def test_missing_supports_vision(self, tmp_path):
         """Test metadata with missing supports_vision fails validation."""
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
@@ -500,6 +501,126 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "supports_vision" in msg.lower()
+
+    def test_valid_agent_name_openhands(self, tmp_path):
+        """Test metadata with 'OpenHands' agent_name passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_agent_name_claude_code(self, tmp_path):
+        """Test metadata with 'Claude Code' agent_name passes validation."""
+        metadata = {
+            "agent_name": "Claude Code",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_agent_name_opencode(self, tmp_path):
+        """Test metadata with 'OpenCode' agent_name passes validation."""
+        metadata = {
+            "agent_name": "OpenCode",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_agent_name_codex(self, tmp_path):
+        """Test metadata with 'Codex' agent_name passes validation."""
+        metadata = {
+            "agent_name": "Codex",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_invalid_agent_name(self, tmp_path):
+        """Test metadata with invalid agent_name fails validation."""
+        metadata = {
+            "agent_name": "OpenHands CodeAct",  # Invalid - old name not allowed
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "agent_name" in msg.lower()
+
+    def test_invalid_agent_name_unknown(self, tmp_path):
+        """Test metadata with unknown agent_name fails validation."""
+        metadata = {
+            "agent_name": "Unknown Agent",  # Invalid - not in allowed list
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "agent_name" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -929,7 +1050,7 @@ class TestValidateResultsDirectory:
         model_dir.mkdir()
 
         metadata = {
-            "agent_name": "OpenHands CodeAct",
+            "agent_name": "OpenHands",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",  # Must be an expected model name
