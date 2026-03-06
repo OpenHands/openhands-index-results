@@ -17,8 +17,8 @@
       "combined_accuracy": 21.6
     },
     "eval_visualization_page": "https://laminar.sh/shared/evals/8964f6e6-fcbd-4f26-a1ce-9fc657b8da43"
-},
-{
+  },
+  {
     "benchmark": "swe-bench",
     "score": 66.6,
     "metric": "accuracy",
@@ -36,7 +36,7 @@
     "benchmark": "gaia",
     "score": 50.9,
     "metric": "accuracy",
-    "cost_per_instance": 0.38,
+    "cost_per_instance": 0.13,
     "average_runtime": 487.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openrouter-qwen-qwen3-coder-next/21862734213/results.tar.gz",
     "tags": [
@@ -45,8 +45,8 @@
     "agent_version": "v1.11.5",
     "submission_time": "2026-02-10T22:34:57+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/04627eda-dae6-42d7-9533-669b5187640d"
-},
-{
+  },
+  {
     "benchmark": "commit0",
     "score": 25.0,
     "metric": "accuracy",
