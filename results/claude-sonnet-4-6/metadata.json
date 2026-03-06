@@ -5,8 +5,12 @@
   "openness": "closed_api_available",
   "country": "us",
   "tool_usage": "standard",
-  "submission_time": "2026-02-26T21:25:48.229326+00:00",
   "directory_name": "claude-sonnet-4-6",
   "release_date": "2026-02-17",
-  "supports_vision": true
+  "supports_vision": true,
+  "input_price": 3.0,
+  "output_price": 15.0,
+  "cache_read_price": 0.3,
+  "cache_write_price": 3.75,
+  "submission_time": "2026-02-24T23:15:00.000000+00:00"
 }

@@ -1,5 +1,52 @@
 [
   {
+    "benchmark": "swt-bench",
+    "score": 64.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.5,
+    "average_runtime": 283.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-1-pro-preview/22508371137/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-28T12:07:12+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/e06a484a-ae98-42ab-b27d-89a17f9e56f3"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 44.1,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 1.24,
+    "average_runtime": 1868.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-1-pro-preview/22671316816/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-03-05T05:17:19+00:00",
+    "component_scores": {
+      "solveable_accuracy": 44.1,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 30.4
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/cca1e142-0f1b-45ef-95fc-fde8e4c9d3aa"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 76.4,
+    "metric": "accuracy",
+    "cost_per_instance": 0.12,
+    "average_runtime": 714.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-gemini-3-1-pro-preview/22676848520/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-03-04T22:20:17+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/3706e0fb-341c-4fa4-9d46-69f558a63a87"
+  },
+  {
     "benchmark": "commit0",
     "score": 18.8,
     "metric": "accuracy",
