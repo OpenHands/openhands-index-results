@@ -169,6 +169,7 @@ class Model(str, Enum):
     CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
     GEMINI_3_PRO = "Gemini-3-Pro"
+    GEMINI_3_1_PRO = "Gemini-3.1-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_5 = "GLM-5"
     GLM_4_7 = "GLM-4.7"
@@ -195,6 +196,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_1_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
@@ -221,6 +223,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.CLAUDE_SONNET_4_6: Country.US,
     Model.CLAUDE_SONNET_4_5: Country.US,
     Model.GEMINI_3_PRO: Country.US,
+    Model.GEMINI_3_1_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
