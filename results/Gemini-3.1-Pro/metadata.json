@@ -3,7 +3,10 @@
   "agent_version": "v1.11.5",
   "model": "Gemini-3.1-Pro",
   "openness": "closed_api_available",
+  "country": "us",
   "tool_usage": "standard",
-  "submission_time": "2026-03-05T15:23:44.773986+00:00",
-  "directory_name": "Gemini-3.1-Pro"
+  "submission_time": "2026-03-04T21:58:35.427592+00:00",
+  "directory_name": "Gemini-3.1-Pro",
+  "release_date": "2026-01-15",
+  "supports_vision": true
 }
