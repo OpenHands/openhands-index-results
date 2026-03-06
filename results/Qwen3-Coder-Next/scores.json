@@ -33,6 +33,19 @@
     "eval_visualization_page": "https://laminar.sh/shared/evals/68c415d3-db32-418b-b0b4-2030edc2216e"
   },
   {
+    "benchmark": "swt-bench",
+    "score": 3.5,
+    "metric": "accuracy",
+    "cost_per_instance": 1.38,
+    "average_runtime": 921.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-openrouter-qwen-qwen3-coder-next/22161874157/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-19T08:51:37+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/89a63155-f349-4737-8bdd-90875d0feb4e"
+},{
     "benchmark": "gaia",
     "score": 50.9,
     "metric": "accuracy",
