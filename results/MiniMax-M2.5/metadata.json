@@ -9,5 +9,10 @@
   "country": "cn",
   "parameter_count_b": 230,
   "active_parameter_count_b": 10,
-  "supports_vision": false
+  "supports_vision": false,
+  "input_price": 0.15,
+  "output_price": 1.2,
+  "cache_read_price": null,
+  "cache_write_price": null,
+  "submission_time": "2026-02-11T15:10:02.513451+00:00"
 }

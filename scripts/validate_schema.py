@@ -170,8 +170,8 @@ class Model(str, Enum):
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
-    GLM_4_7 = "GLM-4.7"
     GLM_5 = "GLM-5"
+    GLM_4_7 = "GLM-4.7"
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
     KIMI_K2_THINKING = "Kimi-K2-Thinking"
@@ -226,8 +226,8 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2_CODEX: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     # China models
-    Model.GLM_4_7: Country.CN,
     Model.GLM_5: Country.CN,
+    Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
@@ -253,6 +253,10 @@ class Metadata(BaseModel):
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
     hide_from_leaderboard: bool = Field(default=False, description="Whether to hide this model from the public leaderboard")
+    input_price: float = Field(..., gt=0, description="Input price per million tokens in USD")
+    output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
+    cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
+    cache_write_price: Optional[float] = Field(None, gt=0, description="Cache write price per million tokens in USD (None if not supported)")
 
     @field_validator("agent_version")
     @classmethod

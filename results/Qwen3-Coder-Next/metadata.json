@@ -9,5 +9,9 @@
   "release_date": "2026-02-02",
   "supports_vision": false,
   "parameter_count_b": 80,
-  "active_parameter_count_b": 3
+  "active_parameter_count_b": 3,
+  "input_price": 1.0,
+  "output_price": 5.0,
+  "cache_read_price": 0.2,
+  "cache_write_price": null
 }
