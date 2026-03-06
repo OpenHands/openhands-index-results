@@ -1,0 +1,74 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 74.4,
+    "metric": "accuracy",
+    "cost_per_instance": 1.03,
+    "average_runtime": 421.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-sonnet-4-6/22234586134/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-21T05:06:46+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/0e4ec892-21dc-424f-8802-b4db76c18123"
+},{
+    "benchmark": "gaia",
+    "score": 13.3,
+    "metric": "accuracy",
+    "cost_per_instance": 0.41,
+    "average_runtime": 227.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-sonnet-4-6/22328833272/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-24T01:15:19+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/452a6943-1a58-4ef5-a2c7-ab2328fa4501"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 54.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.87,
+    "average_runtime": 346.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-sonnet-4-6/22443433896/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-26T21:00:44+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/17b3fd34-7334-4c67-a510-cf2e094998c2"
+},{
+    "benchmark": "swe-bench-multimodal",
+    "score": 30.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.24,
+    "average_runtime": 931.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-sonnet-4-6/22360554239/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-25T03:05:14+00:00",
+    "component_scores": {
+      "solveable_accuracy": 30.9,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 21.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/ed24d3b6-988c-4ef1-b709-b0f223173547"
+},{
+    "benchmark": "commit0",
+    "score": 43.8,
+    "metric": "accuracy",
+    "cost_per_instance": 1.88,
+    "average_runtime": 578.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-sonnet-4-6/22230036618/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-02-20T19:37:34+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/1880a74c-d119-471d-936d-24a81065a5dc"
+  }
+]

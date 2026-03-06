@@ -129,6 +129,17 @@ def check_for_duplicate_dict_keys() -> None:
 
 SEMVER_PATTERN = re.compile(r'^v\d+\.\d+\.\d+$')
 
+# Pattern for full_archive URLs
+# Two formats are supported:
+# 1. Legacy format: (eval-)?{run_id}-{model_short}_litellm_proxy-{provider}-{model}_{YY-MM-DD-HH-MM}.tar.gz
+# 2. Benchmark format: {benchmark}/litellm_proxy-{model}/{run_id}/results.tar.gz
+FULL_ARCHIVE_LEGACY_PATTERN = re.compile(
+    r'^(eval-)?\d+-[a-zA-Z0-9_-]+_litellm_proxy-[a-zA-Z0-9_-]+_\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\.tar\.gz$'
+)
+FULL_ARCHIVE_BENCHMARK_PATTERN = re.compile(
+    r'^[a-z0-9]+/litellm_proxy-[a-zA-Z0-9_-]+/\d+/results\.tar\.gz$'
+)
+
 
 class Openness(str, Enum):
     """Model openness classification."""
@@ -155,6 +166,7 @@ class Model(str, Enum):
     """Expected model names from issue #2."""
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
+    CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
     CLAUDE_SONNET_4_5 = "claude-sonnet-4-5"
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
@@ -167,6 +179,7 @@ class Model(str, Enum):
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
+    QWEN3_5_FLASH = "Qwen3.5-Flash"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
@@ -179,19 +192,21 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
+    Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
-    Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.GLM_5: Openness.OPEN_WEIGHTS,
+    Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
+    Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
@@ -203,6 +218,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
+    Model.CLAUDE_SONNET_4_6: Country.US,
     Model.CLAUDE_SONNET_4_5: Country.US,
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
@@ -218,6 +234,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
+    Model.QWEN3_5_FLASH: Country.CN,
     Model.QWEN3_CODER_NEXT: Country.CN,
 }
 
@@ -230,9 +247,9 @@ class Metadata(BaseModel):
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
-    submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
     release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
+    supports_vision: bool = Field(..., description="Whether the model supports vision/image inputs")
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
     hide_from_leaderboard: bool = Field(default=False, description="Whether to hide this model from the public leaderboard")
@@ -357,10 +374,19 @@ class ScoreEntry(BaseModel):
     @field_validator("full_archive")
     @classmethod
     def validate_full_archive(cls, v: str) -> str:
-        """Ensure full_archive URL starts with the expected CDN prefix."""
+        """Ensure full_archive URL matches expected patterns."""
         if not v.startswith(FULL_ARCHIVE_URL_PREFIX):
             raise ValueError(
                 f"full_archive must begin with '{FULL_ARCHIVE_URL_PREFIX}', got '{v}'"
+            )
+        # Extract the path after the prefix
+        path = v[len(FULL_ARCHIVE_URL_PREFIX):]
+        # Check if path matches one of the expected patterns
+        if not (FULL_ARCHIVE_LEGACY_PATTERN.match(path) or FULL_ARCHIVE_BENCHMARK_PATTERN.match(path)):
+            raise ValueError(
+                f"full_archive path must match expected format. "
+                f"Expected either '(eval-){{run_id}}-{{model}}_litellm_proxy-{{provider}}_{{date}}.tar.gz' "
+                f"or '{{benchmark}}/litellm_proxy-{{model}}/{{run_id}}/results.tar.gz', got '{path}'"
             )
         return v
 
