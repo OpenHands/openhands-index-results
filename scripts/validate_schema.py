@@ -169,7 +169,6 @@ class Metadata(BaseModel):
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")
     tool_usage: ToolUsage = Field(..., description="Tool usage classification")
-    submission_time: datetime = Field(..., description="Submission timestamp")
     directory_name: str = Field(..., description="Directory name for this result")
     release_date: date = Field(..., description="Model release date (YYYY-MM-DD)")
     supports_vision: bool = Field(..., description="Whether the model supports vision/image inputs")
