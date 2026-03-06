@@ -1,17 +1,18 @@
 {
   "agent_name": "OpenHands CodeAct",
-  "agent_version": "v1.8.3",
+  "agent_version": "v1.11.5",
   "model": "GLM-5",
   "openness": "open_weights",
   "country": "cn",
   "tool_usage": "standard",
-  "submission_time": "2026-02-24T23:15:00.000000+00:00",
   "directory_name": "GLM-5",
   "release_date": "2026-02-11",
+  "supports_vision": false,
   "parameter_count_b": 744,
-  "active_parameter_count_b": 44,
+  "active_parameter_count_b": 40,
   "input_price": 1.0,
   "output_price": 3.2,
   "cache_read_price": 0.2,
-  "cache_write_price": null
+  "cache_write_price": null,
+  "submission_time": "2026-02-24T23:15:00.000000+00:00"
 }

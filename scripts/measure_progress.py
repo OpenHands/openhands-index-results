@@ -10,6 +10,8 @@ import json
 import sys
 from pathlib import Path
 
+from validate_schema import Model
+
 
 def load_json(file_path: Path) -> dict | list:
     """Load JSON file."""
@@ -36,20 +38,8 @@ EXPECTED_METRICS = [
     "average_runtime",     # wall clock time (#4)
 ]
 
-# Expected models from issue #2
-EXPECTED_MODELS = [
-    "claude-opus-4-5",
-    "claude-sonnet-4-5",
-    "Gemini-3-Pro",
-    "Gemini-3-Flash",
-    "GPT-5.2",
-    "GPT-5.2-Codex",
-    "Kimi-K2-Thinking",
-    "MiniMax-M2.1",
-    "DeepSeek-V3.2-Reasoner",
-    "Nemotron-3-Nano",
-    "Qwen3-Coder-480B",
-]
+# Expected models - derived from Model enum in validate_schema.py (single source of truth)
+EXPECTED_MODELS = [model.value for model in Model]
 
 
 def load_results(results_dir: Path) -> dict:
@@ -215,6 +205,39 @@ def find_missing_combinations(results: dict) -> dict:
     }
 
 
+def find_unlisted_complete_models(results: dict) -> list[str]:
+    """Find models with complete results that are NOT in EXPECTED_MODELS.
+
+    A model is considered "complete" if it has all benchmarks with all metrics.
+
+    Returns a list of model names that have complete results but are not listed
+    in EXPECTED_MODELS. These should be added to the expected models list.
+    """
+    coverage = results["coverage"]
+    all_models = results["models"]
+
+    unlisted_complete = []
+
+    for model in all_models:
+        if model in EXPECTED_MODELS:
+            continue
+
+        # Check if this model has all benchmarks with all metrics
+        is_complete = True
+        for benchmark in EXPECTED_BENCHMARKS:
+            for metric in EXPECTED_METRICS:
+                if not coverage.get((model, benchmark, metric)):
+                    is_complete = False
+                    break
+            if not is_complete:
+                break
+
+        if is_complete:
+            unlisted_complete.append(model)
+
+    return sorted(unlisted_complete)
+
+
 def generate_progress_bar(percentage: float, width: int = 11) -> str:
     """Generate an ASCII progress bar using block characters."""
     filled = int(round(percentage / 100 * width))
@@ -223,7 +246,7 @@ def generate_progress_bar(percentage: float, width: int = 11) -> str:
     return f"{bar} {percentage}%"
 
 
-def print_progress_report(missing: dict) -> None:
+def print_progress_report(missing: dict, unlisted_complete: list[str]) -> None:
     """Print a formatted progress report showing missing model+benchmark pairs."""
     total = missing["total_pairs"]
     complete = missing["complete_pairs"]
@@ -253,6 +276,15 @@ def print_progress_report(missing: dict) -> None:
                         print(f"    - {benchmark} ({', '.join(missing_metrics)})")
         print()
 
+    # Unlisted models with complete results
+    if unlisted_complete:
+        print(f"Unlisted Complete Models ({len(unlisted_complete)}):")
+        print("  These models have complete results but are NOT in EXPECTED_MODELS.")
+        print("  Add them to EXPECTED_MODELS in measure_progress.py:")
+        for model in unlisted_complete:
+            print(f"    - {model}")
+        print()
+
     print("=" * 60)
     progress_bar = generate_progress_bar(progress_pct)
     print(f"OVERALL PROGRESS: {progress_bar}")
@@ -277,7 +309,15 @@ def main():
 
     results = load_results(results_dir)
     missing = find_missing_combinations(results)
-    print_progress_report(missing)
+    unlisted_complete = find_unlisted_complete_models(results)
+    print_progress_report(missing, unlisted_complete)
+
+    # Fail if there are unlisted models with complete results
+    if unlisted_complete:
+        print()
+        print(f"ERROR: {len(unlisted_complete)} model(s) have complete results but are not in EXPECTED_MODELS.")
+        print("Please add them to the EXPECTED_MODELS list in scripts/measure_progress.py")
+        return 1
 
     return 0
 

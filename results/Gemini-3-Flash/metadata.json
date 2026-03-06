@@ -5,11 +5,12 @@
   "openness": "closed_api_available",
   "country": "us",
   "tool_usage": "standard",
-  "submission_time": "2026-01-26T15:53:51.936941+00:00",
   "directory_name": "Gemini-3-Flash",
   "release_date": "2025-12-22",
+  "supports_vision": true,
   "input_price": 0.5,
   "output_price": 3.0,
   "cache_read_price": null,
-  "cache_write_price": null
+  "cache_write_price": null,
+  "submission_time": "2026-01-26T15:53:51.936941+00:00"
 }

@@ -30,11 +30,9 @@ class TestMetadataSchema:
             "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -52,11 +50,9 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2-Codex",
             "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -74,13 +70,11 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-27T20:02:11.332283+00:00",
             "directory_name": "Nemotron-3-Nano",
             "release_date": "2026-01-15",
+            "supports_vision": False,
             "parameter_count_b": 31.6,
-            "active_parameter_count_b": 3.2,
-            "input_price": 0.15,
-            "output_price": 0.40
+            "active_parameter_count_b": 3.2
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -98,15 +92,11 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-29T10:00:00.000000+00:00",
             "directory_name": "Kimi-K2.5",
             "release_date": "2026-01-20",
+            "supports_vision": True,
             "parameter_count_b": 1000,
-            "active_parameter_count_b": 32,
-            "input_price": 0.60,
-            "output_price": 2.40,
-            "cache_read_price": 0.15,
-            "cache_write_price": 0.60
+            "active_parameter_count_b": 32
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -124,12 +114,10 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-01-31T10:00:00.000000+00:00",
             "directory_name": "GLM-4.7",
             "release_date": "2026-01-25",
-            "parameter_count_b": 9,
-            "input_price": 0.14,
-            "output_price": 0.14
+            "supports_vision": False,
+            "parameter_count_b": 9
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -147,13 +135,11 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2026-02-11T15:10:02.513451+00:00",
             "directory_name": "MiniMax-M2.5",
             "release_date": "2026-02-11",
+            "supports_vision": False,
             "parameter_count_b": 230,
-            "active_parameter_count_b": 10,
-            "input_price": 0.15,
-            "output_price": 0.60
+            "active_parameter_count_b": 10
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -171,11 +157,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -193,11 +176,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "invalid_value",  # Invalid
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -215,11 +195,8 @@ class TestMetadataSchema:
             "country": "invalid_country",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -237,11 +214,8 @@ class TestMetadataSchema:
             "country": "cn",  # Should be "us" for GPT
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -258,11 +232,8 @@ class TestMetadataSchema:
             "model": "invalid-model-name",  # Invalid - not in Model enum
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model-name",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -280,11 +251,9 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -302,11 +271,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -324,11 +290,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -346,11 +309,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -368,11 +328,9 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "claude-sonnet-4-5",
             "release_date": "2025-09-29",
-            "input_price": 3.00,
-            "output_price": 15.00
+            "supports_vision": True
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -390,11 +348,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "v1.8.3_claude-sonnet-4-5",  # Invalid - old format with version prefix
-            "release_date": "2025-09-29",
-            "input_price": 3.00,
-            "output_price": 15.00
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -412,11 +367,8 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",  # Invalid - doesn't match model
-            "release_date": "2025-09-29",
-            "input_price": 3.00,
-            "output_price": 15.00
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -434,10 +386,7 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "directory_name": "GPT-5.2"
             # Missing release_date
         }
         metadata_file = tmp_path / "metadata.json"
@@ -456,11 +405,9 @@ class TestMetadataSchema:
             "country": "cn",  # Open-weights model
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
-            "input_price": 0.55,
-            "output_price": 2.19
+            "supports_vision": False
             # Missing parameter_count_b - should fail for open-weights model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -479,12 +426,10 @@ class TestMetadataSchema:
             "country": "cn",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "DeepSeek-V3.2-Reasoner",
             "release_date": "2025-12-01",
-            "parameter_count_b": 685,
-            "input_price": 0.55,
-            "output_price": 2.19
+            "supports_vision": False,
+            "parameter_count_b": 685
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -502,13 +447,11 @@ class TestMetadataSchema:
             "openness": "open_weights",
             "country": "cn",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "Kimi-K2-Thinking",
             "release_date": "2025-11-06",
+            "supports_vision": False,
             "parameter_count_b": 1000,
-            "active_parameter_count_b": 32,
-            "input_price": 0.60,
-            "output_price": 2.40
+            "active_parameter_count_b": 32
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -526,11 +469,9 @@ class TestMetadataSchema:
             "country": "us",  # Closed model
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "supports_vision": True
             # No parameter_count_b - should be OK for closed model
         }
         metadata_file = tmp_path / "metadata.json"
@@ -540,8 +481,8 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_missing_input_price(self, tmp_path):
-        """Test metadata with missing input_price fails validation."""
+    def test_missing_supports_vision(self, tmp_path):
+        """Test metadata with missing supports_vision fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",
             "agent_version": "v1.0.0",
@@ -549,202 +490,16 @@ class TestMetadataSchema:
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "output_price": 10.00
-            # Missing input_price
+            "release_date": "2025-12-11"
+            # Missing supports_vision - should fail
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "input_price" in msg.lower()
-
-    def test_missing_output_price(self, tmp_path):
-        """Test metadata with missing output_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50
-            # Missing output_price
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "output_price" in msg.lower()
-
-    def test_zero_input_price_fails(self, tmp_path):
-        """Test metadata with zero input_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 0,  # Invalid - must be > 0
-            "output_price": 10.00
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "input_price" in msg.lower()
-
-    def test_zero_output_price_fails(self, tmp_path):
-        """Test metadata with zero output_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 0  # Invalid - must be > 0
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "output_price" in msg.lower()
-
-    def test_negative_input_price_fails(self, tmp_path):
-        """Test metadata with negative input_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": -1.00,  # Invalid - must be > 0
-            "output_price": 10.00
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "input_price" in msg.lower()
-
-    def test_valid_cache_prices(self, tmp_path):
-        """Test metadata with valid cache prices passes validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00,
-            "cache_read_price": 1.25,
-            "cache_write_price": 3.75
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is True
-        assert msg == "OK"
-
-    def test_null_cache_prices_valid(self, tmp_path):
-        """Test metadata with null cache prices passes validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00,
-            "cache_read_price": None,
-            "cache_write_price": None
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is True
-        assert msg == "OK"
-
-    def test_zero_cache_read_price_fails(self, tmp_path):
-        """Test metadata with zero cache_read_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00,
-            "cache_read_price": 0,  # Invalid - must be > 0 or None
-            "cache_write_price": 3.75
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "cache_read_price" in msg.lower()
-
-    def test_zero_cache_write_price_fails(self, tmp_path):
-        """Test metadata with zero cache_write_price fails validation."""
-        metadata = {
-            "agent_name": "OpenHands CodeAct",
-            "agent_version": "v1.0.0",
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00,
-            "cache_read_price": 1.25,
-            "cache_write_price": 0  # Invalid - must be > 0 or None
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "cache_write_price" in msg.lower()
+        assert "supports_vision" in msg.lower()
 
 
 class TestScoreEntrySchema:
@@ -758,7 +513,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 3600,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -911,7 +666,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -966,7 +721,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -999,6 +754,87 @@ class TestScoreEntrySchema:
         assert "full_archive" in msg.lower()
         assert "results.eval.all-hands.dev" in msg
 
+    def test_invalid_full_archive_url_missing_filename(self, tmp_path):
+        """Test score entry with full_archive URL missing filename fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "full_archive" in msg.lower()
+
+    def test_invalid_full_archive_url_wrong_format(self, tmp_path):
+        """Test score entry with full_archive URL not matching expected patterns fails validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/random-file.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is False
+        assert "full_archive" in msg.lower()
+        assert "expected format" in msg.lower()
+
+    def test_valid_full_archive_legacy_format(self, tmp_path):
+        """Test score entry with valid legacy format full_archive URL passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-gpt-5-2-co_litellm_proxy-gpt-5-2-codex_26-01-27-12-57.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_full_archive_benchmark_format(self, tmp_path):
+        """Test score entry with valid benchmark format full_archive URL passes validation."""
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/21754233398/results.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps(scores))
+
+        valid, msg = validate_scores(scores_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_full_archive(self, tmp_path):
         """Test score entry without full_archive fails validation."""
         scores = [{
@@ -1026,7 +862,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -1045,7 +881,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0"
         }]
@@ -1064,7 +900,7 @@ class TestScoreEntrySchema:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "invalid-version",  # Invalid - not semver
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -1102,8 +938,7 @@ class TestValidateResultsDirectory:
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
             "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "supports_vision": True
         }
         scores = [{
             "benchmark": "swe-bench",
@@ -1111,7 +946,7 @@ class TestValidateResultsDirectory:
             "metric": "accuracy",
             "cost_per_instance": 0.412,  # Cost per problem in USD
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -1136,7 +971,7 @@ class TestValidateResultsDirectory:
             "metric": "accuracy",
             "cost_per_instance": 0.5,
             "average_runtime": 300,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": [],
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
@@ -1201,9 +1036,7 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1222,7 +1055,7 @@ class TestErrorMessageFormatting:
             "metric": "accuracy",
             "cost_per_instance": -1,  # Invalid: <= 0
             "average_runtime": 0,  # Invalid: <= 0
-            "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "agent_version": "v1.0.0",
             "submission_time": "2025-11-24T19:56:00.092865"
         }]
@@ -1248,9 +1081,7 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1280,7 +1111,7 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
                 "agent_version": "v1.0.0",
                 "submission_time": "2025-11-24T19:56:00.092865"
             },
@@ -1290,7 +1121,7 @@ class TestErrorMessageFormatting:
                 "metric": "accuracy",
                 "cost_per_instance": 0.5,
                 "average_runtime": 300,
-                "full_archive": "https://results.eval.all-hands.dev/test.tar.gz",
+                "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
                 "agent_version": "v1.0.0",
                 "submission_time": "2025-11-24T19:56:00.092865"
             }
@@ -1314,9 +1145,7 @@ class TestErrorMessageFormatting:
             "tool_usage": "standard",
             "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "invalid-model",
-            "release_date": "2025-12-11",
-            "input_price": 2.50,
-            "output_price": 10.00
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1338,7 +1167,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.54,
             "average_runtime": 671.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 41.2,
@@ -1367,7 +1196,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 0.19,
             "average_runtime": 1515.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 27.9,
@@ -1392,7 +1221,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "agent_version": "v1.11.0",
             "submission_time": "2026-02-07T01:54:03+00:00"
@@ -1412,7 +1241,7 @@ class TestSweMultimodalValidation:
             "metric": "accuracy",  # Should be solveable_accuracy
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1437,7 +1266,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1463,7 +1292,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1487,7 +1316,7 @@ class TestSweMultimodalValidation:
             "metric": "solveable_accuracy",
             "cost_per_instance": 2.37,
             "average_runtime": 602.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench-multimodal"],
             "component_scores": {
                 "solveable_accuracy": 28.4,
@@ -1511,7 +1340,7 @@ class TestSweMultimodalValidation:
             "metric": "accuracy",
             "cost_per_instance": 1.82,
             "average_runtime": 325.0,
-            "full_archive": "https://results.eval.all-hands.dev/eval-12345.tar.gz",
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
             "tags": ["swe-bench"],
             "agent_version": "v1.8.3",
             "submission_time": "2026-01-27T01:24:15.735789+00:00"
