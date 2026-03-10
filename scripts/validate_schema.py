@@ -141,6 +141,14 @@ FULL_ARCHIVE_BENCHMARK_PATTERN = re.compile(
 )
 
 
+class AgentName(str, Enum):
+    """Supported agent names."""
+    OPENHANDS = "OpenHands"
+    CLAUDE_CODE = "Claude Code"
+    OPENCODE = "OpenCode"
+    CODEX = "Codex"
+
+
 class Openness(str, Enum):
     """Model openness classification."""
     OPEN_WEIGHTS = "open_weights"
@@ -244,7 +252,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
-    agent_name: str = Field(..., description="Name of the agent")
+    agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, Claude Code, OpenCode, Codex)")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")

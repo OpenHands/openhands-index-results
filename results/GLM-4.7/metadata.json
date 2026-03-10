@@ -1,5 +1,5 @@
 {
-  "agent_name": "OpenHands CodeAct",
+  "agent_name": "OpenHands",
   "agent_version": "v1.8.3",
   "model": "GLM-4.7",
   "openness": "open_weights",
