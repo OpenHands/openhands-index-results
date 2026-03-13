@@ -112,6 +112,7 @@ class TestExpectedDimensions:
         """Test that we have expected models (derived from Model enum)."""
         # Verify some known models are present
         assert "GPT-5.2-Codex" in EXPECTED_MODELS
+        assert "GPT-5.4" in EXPECTED_MODELS
         assert "Nemotron-3-Nano" in EXPECTED_MODELS
         # Count should match Model enum in validate_schema.py
         assert len(EXPECTED_MODELS) >= 15  # At least 15 models

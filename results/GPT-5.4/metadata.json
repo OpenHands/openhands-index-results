@@ -1,5 +1,5 @@
 {
-  "agent_name": "OpenHands CodeAct",
+  "agent_name": "OpenHands",
   "agent_version": "v1.13.0",
   "model": "GPT-5.4",
   "openness": "closed_api_available",
