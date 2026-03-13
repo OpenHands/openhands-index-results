@@ -211,7 +211,8 @@ def find_unlisted_complete_models(results: dict) -> list[str]:
     A model is considered "complete" if it has all benchmarks with all metrics.
 
     Returns a list of model names that have complete results but are not listed
-    in EXPECTED_MODELS. These should be added to the expected models list.
+    in the Model enum in validate_schema.py. These should be added there so the
+    validation and progress scripts stay in sync.
     """
     coverage = results["coverage"]
     all_models = results["models"]
@@ -279,8 +280,8 @@ def print_progress_report(missing: dict, unlisted_complete: list[str]) -> None:
     # Unlisted models with complete results
     if unlisted_complete:
         print(f"Unlisted Complete Models ({len(unlisted_complete)}):")
-        print("  These models have complete results but are NOT in EXPECTED_MODELS.")
-        print("  Add them to EXPECTED_MODELS in measure_progress.py:")
+        print("  These models have complete results but are not in the schema-backed model list.")
+        print("  Add them to the Model enum in scripts/validate_schema.py:")
         for model in unlisted_complete:
             print(f"    - {model}")
         print()
@@ -315,8 +316,8 @@ def main():
     # Fail if there are unlisted models with complete results
     if unlisted_complete:
         print()
-        print(f"ERROR: {len(unlisted_complete)} model(s) have complete results but are not in EXPECTED_MODELS.")
-        print("Please add them to the EXPECTED_MODELS list in scripts/measure_progress.py")
+        print(f"ERROR: {len(unlisted_complete)} model(s) have complete results but are not in the schema-backed model list.")
+        print("Please add them to the Model enum in scripts/validate_schema.py")
         return 1
 
     return 0
