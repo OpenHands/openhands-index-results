@@ -27,7 +27,7 @@ Contains agent metadata and configuration:
 
 ```json
 {
-  "agent_name": "OpenHands CodeAct v2.0",
+  "agent_name": "OpenHands",
   "agent_version": "v1.8.3",
   "model": "claude-sonnet-4-5",
   "openness": "closed_api_available",
@@ -128,7 +128,7 @@ mkdir -p results/v1.8.3_claude-sonnet-4-5/
 # Add metadata
 cat > results/v1.8.3_claude-sonnet-4-5/metadata.json << 'EOF'
 {
-  "agent_name": "OpenHands CodeAct v2.0",
+  "agent_name": "OpenHands",
   "agent_version": "v1.8.3",
   "model": "claude-sonnet-4-5",
   "openness": "closed_api_available",
@@ -155,7 +155,7 @@ EOF
 
 # Commit and push
 git add results/v1.8.3_claude-sonnet-4-5/
-git commit -m "Add results for OpenHands CodeAct v1.8.3 with Claude 4.5 Sonnet"
+git commit -m "Add results for OpenHands v1.8.3 with Claude 4.5 Sonnet"
 git push origin main
 ```
 

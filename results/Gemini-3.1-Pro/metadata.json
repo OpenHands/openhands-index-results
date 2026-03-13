@@ -1,0 +1,16 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.11.5",
+  "model": "Gemini-3.1-Pro",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "Gemini-3.1-Pro",
+  "release_date": "2026-01-15",
+  "supports_vision": true,
+  "input_price": 2.0,
+  "output_price": 4.0,
+  "cache_read_price": 0.2,
+  "cache_write_price": null,
+  "submission_time": "2026-03-04T21:58:35.427592+00:00"
+}
