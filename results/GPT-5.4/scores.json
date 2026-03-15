@@ -19,6 +19,20 @@
     "eval_visualization_page": "https://laminar.sh/shared/evals/8f006c2a-e838-46a8-b53d-49dd9d1efda5"
   },
   {
+    "benchmark": "commit0",
+    "score": 56.2,
+    "metric": "accuracy",
+    "cost_per_instance": 2.19,
+    "average_runtime": 406.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openai-gpt-5-4/23013575100/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.13.1",
+    "submission_time": "2026-03-12T18:22:58+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/8fca3d08-8d00-419f-9997-6ed66ffd7640"
+  },
+  {
     "benchmark": "swe-bench",
     "score": 75.6,
     "metric": "accuracy",
