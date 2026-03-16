@@ -2,7 +2,17 @@
   "agent_name": "OpenHands CodeAct",
   "agent_version": "v1.14.0",
   "model": "Nemotron-3-Super",
-  "openness": "closed_api_available",
+  "openness": "open_weights",
+  "country": "us",
   "tool_usage": "standard",
-  "directory_name": "Nemotron-3-Super"
+  "directory_name": "Nemotron-3-Super",
+  "release_date": "2026-03-11",
+  "supports_vision": false,
+  "parameter_count_b": 120.6,
+  "active_parameter_count_b": 12.7,
+  "input_price": 0.10,
+  "output_price": 0.50,
+  "cache_read_price": null,
+  "cache_write_price": null,
+  "submission_time": "2026-03-14T04:58:09+00:00"
 }
