@@ -1,0 +1,16 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 0.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 455.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-nvidia-nemotron-3-super-120b-a12b/23075993829/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.14.0",
+    "submission_time": "2026-03-14T04:58:09+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/adc69c23-836e-4b2c-bd91-c1154d69a284"
+  }
+]
