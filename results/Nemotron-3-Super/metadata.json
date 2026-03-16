@@ -1,0 +1,8 @@
+{
+  "agent_name": "OpenHands CodeAct",
+  "agent_version": "v1.14.0",
+  "model": "Nemotron-3-Super",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "directory_name": "Nemotron-3-Super"
+}
