@@ -3,7 +3,7 @@
     "benchmark": "gaia",
     "score": 43.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.09,
     "average_runtime": 559.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-nvidia-nemotron-3-super-120b-a12b/23075505845/results.tar.gz",
     "tags": [
