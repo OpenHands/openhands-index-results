@@ -1,0 +1,18 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.11.0",
+  "model": "Minimax-2.7",
+  "openness": "open_weights",
+  "tool_usage": "standard",
+  "directory_name": "Minimax-2.7",
+  "release_date": "2026-03-18",
+  "country": "cn",
+  "parameter_count_b": 230,
+  "active_parameter_count_b": 10,
+  "supports_vision": false,
+  "input_price": 0.3,
+  "output_price": 1.2,
+  "cache_read_price": null,
+  "cache_write_price": null,
+  "submission_time": "2026-03-21T00:56:16.165242+00:00"
+}
