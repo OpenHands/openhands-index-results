@@ -12,7 +12,7 @@
   "supports_vision": false,
   "input_price": 0.3,
   "output_price": 1.2,
-  "cache_read_price": null,
+  "cache_read_price": 0.06,
   "cache_write_price": null,
   "submission_time": "2026-03-21T00:56:16.165242+00:00"
 }
