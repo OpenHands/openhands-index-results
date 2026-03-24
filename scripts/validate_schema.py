@@ -193,6 +193,7 @@ class Model(str, Enum):
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
+    MINIMAX_2_7 = "Minimax-2.7"
 
 
 # Mapping of models to their correct openness classification
@@ -222,6 +223,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
+    Model.MINIMAX_2_7: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -247,6 +249,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
+    Model.MINIMAX_2_7: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
     Model.QWEN3_5_FLASH: Country.CN,
     Model.QWEN3_CODER_NEXT: Country.CN,
