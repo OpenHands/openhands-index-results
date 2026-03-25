@@ -1,0 +1,15 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 0.0,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 0.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-minimax-MiniMax-M2-7/23468543671/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.14.0",
+    "submission_time": "2026-03-24T02:15:04+00:00"
+  }
+]
