@@ -3,7 +3,7 @@
     "benchmark": "swe-bench",
     "score": 75.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.1731,
     "average_runtime": 529.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-minimax-MiniMax-M2-7/23463806447/results.tar.gz",
     "tags": [
