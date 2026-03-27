@@ -610,7 +610,7 @@ def main():
     # Validate alternative_agents/ directory
     alt_passed, alt_failed, alt_errors = validate_alternative_agents_directory(alt_agents_dir)
 
-    if alt_passed + alt_failed > 0 or alt_agents_dir.exists():
+    if alt_passed + alt_failed > 0:
         print(f"Alternative agents directory: {alt_agents_dir}")
         print(f"Files validated: {alt_passed + alt_failed}")
         print(f"  Passed: {alt_passed}")
