@@ -1,0 +1,21 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 38.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.76,
+    "average_runtime": 945.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/23560474118/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-26T04:35:35+00:00",
+    "component_scores": {
+      "solveable_accuracy": 38.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 25.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/cc1a7f58-d661-4b02-9cb4-bc24183ed047"
+  }
+]
