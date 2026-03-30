@@ -40,5 +40,19 @@
     "agent_version": "v1.15.0",
     "submission_time": "2026-03-26T21:42:42+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/cce78b51-685d-4936-a217-ff9fd8b85fe4"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 31.2,
+    "metric": "accuracy",
+    "cost_per_instance": 2.19,
+    "average_runtime": 717.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-claude-sonnet-4-5-20250929/23627243517/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-27T04:52:48+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/a6e01f43-7b3f-4e4b-85ab-1ef74bb0df8a"
   }
 ]
