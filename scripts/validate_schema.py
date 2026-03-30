@@ -191,6 +191,7 @@ class Model(str, Enum):
     QWEN_3_CODER = "Qwen3-Coder-480B"
     QWEN3_5_FLASH = "Qwen3.5-Flash"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
+    NEMOTRON_3_SUPER = "Nemotron-3-Super"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
@@ -222,6 +223,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
+    Model.NEMOTRON_3_SUPER: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_2_7: Openness.OPEN_WEIGHTS,
 }
@@ -241,6 +243,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2_CODEX: Country.US,
     Model.GPT_5_4: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
+    Model.NEMOTRON_3_SUPER: Country.US,
     # China models
     Model.GLM_5: Country.CN,
     Model.GLM_4_7: Country.CN,
