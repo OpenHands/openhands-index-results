@@ -42,8 +42,8 @@ EXPECTED_METRICS = [
 EXPECTED_MODELS = [model.value for model in Model]
 
 
-def load_results(results_dir: Path) -> dict:
-    """Load all results from the results directory.
+def _load_results_from_model_dirs(parent_dir: Path) -> dict:
+    """Load results from model directories under a given parent directory.
 
     Returns a dict with structure:
     {
@@ -58,15 +58,7 @@ def load_results(results_dir: Path) -> dict:
     metrics = set()
     coverage = {}
 
-    if not results_dir.exists():
-        return {
-            "models": models,
-            "benchmarks": benchmarks,
-            "metrics": metrics,
-            "coverage": coverage,
-        }
-
-    for model_dir in results_dir.iterdir():
+    for model_dir in parent_dir.iterdir():
         if not model_dir.is_dir():
             continue
 
@@ -116,6 +108,62 @@ def load_results(results_dir: Path) -> dict:
         "metrics": metrics,
         "coverage": coverage,
     }
+
+
+def load_results(results_dir: Path) -> dict:
+    """Load all results from the results directory.
+
+    Returns a dict with structure:
+    {
+        "models": set of model names,
+        "benchmarks": set of benchmark names,
+        "metrics": set of metric names,
+        "coverage": dict mapping (model, benchmark, metric) -> bool
+    }
+    """
+    if not results_dir.exists():
+        return {
+            "models": set(),
+            "benchmarks": set(),
+            "metrics": set(),
+            "coverage": {},
+        }
+
+    return _load_results_from_model_dirs(results_dir)
+
+
+def load_alternative_agent_results(alt_agents_dir: Path) -> dict:
+    """Load results from the alternative_agents directory.
+
+    Scans alternative_agents/{agent_type}/{model_name}/ directories.
+
+    Returns a dict with structure:
+    {
+        "agents": dict mapping agent_type -> {
+            "models": set of model names,
+            "benchmarks": set of benchmark names,
+            "metrics": set of metric names,
+            "coverage": dict mapping (model, benchmark, metric) -> bool
+        }
+    }
+    """
+    agents = {}
+
+    if not alt_agents_dir.exists():
+        return {"agents": agents}
+
+    for agent_dir in sorted(alt_agents_dir.iterdir()):
+        if not agent_dir.is_dir():
+            continue
+
+        agent_type = agent_dir.name
+        agent_results = _load_results_from_model_dirs(agent_dir)
+
+        # Only include agents that have actual results
+        if agent_results["models"]:
+            agents[agent_type] = agent_results
+
+    return {"agents": agents}
 
 
 def calculate_progress(results: dict) -> dict:
@@ -247,7 +295,7 @@ def generate_progress_bar(percentage: float, width: int = 11) -> str:
     return f"{bar} {percentage}%"
 
 
-def print_progress_report(missing: dict, unlisted_complete: list[str]) -> None:
+def print_progress_report(missing: dict, unlisted_complete: list[str], alt_agent_results: dict | None = None) -> None:
     """Print a formatted progress report showing missing model+benchmark pairs."""
     total = missing["total_pairs"]
     complete = missing["complete_pairs"]
@@ -266,7 +314,7 @@ def print_progress_report(missing: dict, unlisted_complete: list[str]) -> None:
     if missing["missing_pairs"]:
         incomplete_count = total - complete
         print(f"Incomplete Pairs ({incomplete_count}):")
-        
+
         for model in EXPECTED_MODELS:
             if model in missing["missing_pairs"]:
                 print(f"  {model}:")
@@ -286,6 +334,20 @@ def print_progress_report(missing: dict, unlisted_complete: list[str]) -> None:
             print(f"    - {model}")
         print()
 
+    # Alternative agents section
+    if alt_agent_results and alt_agent_results.get("agents"):
+        print("-" * 60)
+        print("Alternative Agents")
+        print("-" * 60)
+        print()
+        for agent_type, agent_data in sorted(alt_agent_results["agents"].items()):
+            models = agent_data["models"]
+            benchmarks = agent_data["benchmarks"]
+            print(f"  {agent_type}:")
+            print(f"    Models: {', '.join(sorted(models))}")
+            print(f"    Benchmarks: {', '.join(sorted(benchmarks))}")
+        print()
+
     print("=" * 60)
     progress_bar = generate_progress_bar(progress_pct)
     print(f"OVERALL PROGRESS: {progress_bar}")
@@ -299,6 +361,7 @@ def main():
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
     results_dir = repo_root / "results"
+    alt_agents_dir = repo_root / "alternative_agents"
 
     # Allow override via command line argument
     if len(sys.argv) > 1:
@@ -309,9 +372,10 @@ def main():
         sys.exit(1)
 
     results = load_results(results_dir)
+    alt_agent_results = load_alternative_agent_results(alt_agents_dir)
     missing = find_missing_combinations(results)
     unlisted_complete = find_unlisted_complete_models(results)
-    print_progress_report(missing, unlisted_complete)
+    print_progress_report(missing, unlisted_complete, alt_agent_results)
 
     # Fail if there are unlisted models with complete results
     if unlisted_complete:
