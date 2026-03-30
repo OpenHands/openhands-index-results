@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="800.08" height="410" viewBox="0 0 800.08 410">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0a3235;
+      }
+
+      .cls-2 {
+        fill: #faf2e9;
+      }
+
+      .cls-3 {
+        fill: #0fcb8c;
+      }
+
+      .cls-4 {
+        fill: #1bce92;
+      }
+
+      .cls-5 {
+        fill: #163c3f;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points="0 0 0 410 800.08 410 800.08 0 0 0 0 0"/>
+  
+  <!-- Connection lines -->
+  <path class="cls-3" d="M688.57,91.25h-1v-6h1v6ZM496.57,91.25h-1v-6h1v6ZM304.57,91.25h-1v-6h1v6ZM112.57,91.25h-1v-6h1v6ZM688.57,85.25h-1c0-3.03-2.47-5.5-5.5-5.5h-188.54c1.82,1.15,3.04,3.19,3.04,5.5h-1c0-3.03-2.47-5.5-5.5-5.5h-84c-2.7,0-5.02-1.65-6-4-.98,2.35-3.3,4-6,4h-84c-3.03,0-5.5,2.47-5.5,5.5h-1c0-2.31,1.21-4.35,3.04-5.5H118.07v-1h276c3.03,0,5.5-2.47,5.5-5.5v-6h1v6c0,3.03,2.47,5.5,5.5,5.5h276c3.58,0,6.5,2.92,6.5,6.5ZM112.57,85.25h-1c0-3.58,2.92-6.5,6.5-6.5v1c-3.03,0-5.5,2.47-5.5,5.5Z"/>
+  
+  <!-- Box 1: UI Requirements -->
+  <path class="cls-5" d="M28.08,91.25c-3.31,0-6,2.69-6,6v48c0,3.31,2.69,6,6,6h168c3.31,0,6-2.69,6-6v-48c0-3.31-2.69-6-6-6H28.08Z"/>
+  <text x="112" y="120" font-family="Arial, sans-serif" font-size="16" fill="#0fcb8c" text-anchor="middle">UI/UX</text>
+  <text x="112" y="138" font-family="Arial, sans-serif" font-size="11" fill="#0fcb8c" text-anchor="middle">Requirements</text>
+  
+  <!-- Box 2: Build Interface -->
+  <path class="cls-5" d="M220.08,91.25c-3.31,0-6,2.69-6,6v48c0,3.31,2.69,6,6,6h168c3.31,0,6-2.69,6-6v-48c0-3.31-2.69-6-6-6h-168Z"/>
+  <text x="304" y="120" font-family="Arial, sans-serif" font-size="16" fill="#0fcb8c" text-anchor="middle">Build</text>
+  <text x="304" y="138" font-family="Arial, sans-serif" font-size="11" fill="#0fcb8c" text-anchor="middle">Components</text>
+  
+  <!-- Box 3: Multi-Repo Coordination -->
+  <path class="cls-4" d="M412.08,91.25c-3.31,0-6,2.69-6,6v48c0,3.31,2.69,6,6,6h168c3.31,0,6-2.69,6-6v-48c0-3.31-2.69-6-6-6h-168Z"/>
+  <text x="496" y="120" font-family="Arial, sans-serif" font-size="16" fill="#0a3235" text-anchor="middle">Multi-Repo</text>
+  <text x="496" y="138" font-family="Arial, sans-serif" font-size="11" fill="#0a3235" text-anchor="middle">Integration</text>
+  
+  <!-- Box 4: Web Application -->
+  <path class="cls-5" d="M604.08,91.25c-3.31,0-6,2.69-6,6v48c0,3.31,2.69,6,6,6h168c3.31,0,6-2.69,6-6v-48c0-3.31-2.69-6-6-6h-168Z"/>
+  <text x="688" y="120" font-family="Arial, sans-serif" font-size="16" fill="#0fcb8c" text-anchor="middle">Web</text>
+  <text x="688" y="138" font-family="Arial, sans-serif" font-size="11" fill="#0fcb8c" text-anchor="middle">Application</text>
+  
+  <!-- Bottom description box -->
+  <path class="cls-5" d="M28.08,200c-3.31,0-6,2.69-6,6v24c0,3.31,2.69,6,6,6h168c3.31,0,6-2.69,6-6v-24c0-3.31-2.69-6-6-6H28.08Z"/>
+  <text x="112" y="222" font-family="Arial, sans-serif" font-size="12" fill="#0fcb8c" text-anchor="middle">Multi-SWE-Bench</text>
+</svg>

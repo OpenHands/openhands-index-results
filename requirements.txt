@@ -1,0 +1,13 @@
+# Core dependencies
+gradio==5.30.0
+pandas==2.2.3
+plotly==6.0.1
+requests==2.32.3
+huggingface-hub==0.30.2
+fastapi>=0.104.0
+
+# Additional dependencies for UI and processing
+matplotlib==3.10.3
+seaborn==0.13.2
+Pillow==11.2.1
+PyYAML==6.0.2
