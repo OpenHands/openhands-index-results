@@ -1,0 +1,13 @@
+diff --git a/simple_data_loader.py b/simple_data_loader.py
+index 749ce98..910fb7c 100644
+--- a/simple_data_loader.py
++++ b/simple_data_loader.py
+@@ -162,7 +162,7 @@ class SimpleLeaderboardViewer:
+                     'agent_version': metadata.get('agent_version', 'Unknown'),
+                     'llm_base': metadata.get('model', 'unknown'),
+                     'openness': metadata.get('openness', 'unknown'),
+-                    'submission_time': metadata.get('submission_time', ''),
++                    'submission_time': score_entry.get('submission_time', metadata.get('submission_time', '')),  # Use per-score submission_time, fallback to metadata
+                     'release_date': metadata.get('release_date', ''),  # Model release date
+                     'parameter_count_b': metadata.get('parameter_count_b'),  # Total params in billions
+                     'active_parameter_count_b': metadata.get('active_parameter_count_b'),  # Active params for MoE
