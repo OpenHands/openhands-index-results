@@ -15,6 +15,7 @@ from validate_schema import (
     validate_metadata,
     validate_scores,
     validate_results_directory,
+    validate_alternative_agents_directory,
 )
 from pydantic import ValidationError
 
@@ -1510,3 +1511,152 @@ class TestSweMultimodalValidation:
         valid, msg = validate_scores(scores_file)
         assert valid is True
         assert msg == "OK"
+
+
+class TestValidateAlternativeAgentsDirectory:
+    """Tests for validate_alternative_agents_directory function."""
+
+    def _make_valid_model_dir(self, parent_dir: Path, model_name: str = "GPT-5.2") -> None:
+        """Helper to create a valid model directory with metadata.json and scores.json."""
+        model_dir = parent_dir / model_name
+        model_dir.mkdir(parents=True, exist_ok=True)
+
+        metadata = {
+            "agent_name": "Claude Code",
+            "agent_version": "v1.0.0",
+            "model": model_name,
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": model_name,
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.412,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+    def test_nonexistent_directory(self, tmp_path):
+        """Test validation of nonexistent alternative_agents directory returns empty results."""
+        passed, failed, errors = validate_alternative_agents_directory(tmp_path / "nonexistent")
+        assert passed == 0
+        assert failed == 0
+        assert len(errors) == 0
+
+    def test_empty_alternative_agents_directory(self, tmp_path):
+        """Test validation of empty alternative_agents directory."""
+        alt_dir = tmp_path / "alternative_agents"
+        alt_dir.mkdir()
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert passed == 0
+        assert failed == 0
+        assert len(errors) == 0
+
+    def test_valid_agent_with_model(self, tmp_path):
+        """Test validation passes for a valid model under an agent type directory."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        agent_dir.mkdir(parents=True)
+
+        self._make_valid_model_dir(agent_dir, "GPT-5.2")
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert passed == 2  # metadata.json + scores.json
+        assert failed == 0
+        assert len(errors) == 0
+
+    def test_multiple_agents_multiple_models(self, tmp_path):
+        """Test validation works for multiple agents each with model directories."""
+        alt_dir = tmp_path / "alternative_agents"
+
+        # Create two agent directories, each with a model
+        claude_dir = alt_dir / "claude_code"
+        claude_dir.mkdir(parents=True)
+        self._make_valid_model_dir(claude_dir, "GPT-5.2")
+
+        codex_dir = alt_dir / "codex"
+        codex_dir.mkdir(parents=True)
+        self._make_valid_model_dir(codex_dir, "GPT-5.2")
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert passed == 4  # 2 agents * 2 files each
+        assert failed == 0
+        assert len(errors) == 0
+
+    def test_invalid_metadata_in_alternative_agent(self, tmp_path):
+        """Test that invalid metadata in alternative_agents is caught."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        model_dir = agent_dir / "GPT-5.2"
+        model_dir.mkdir(parents=True)
+
+        # Invalid metadata (missing required fields)
+        metadata = {"agent_name": "Claude Code"}
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert failed >= 1
+        assert len(errors) >= 1
+
+    def test_missing_metadata_in_alternative_agent(self, tmp_path):
+        """Test that missing metadata.json in alternative_agents is caught."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        model_dir = agent_dir / "GPT-5.2"
+        model_dir.mkdir(parents=True)
+
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+            "tags": [],
+            "agent_version": "v1.0.0",
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert failed >= 1
+        assert any("missing metadata.json" in e for e in errors)
+
+    def test_gitkeep_files_are_ignored(self, tmp_path):
+        """Test that .gitkeep files in agent directories don't cause issues."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        agent_dir.mkdir(parents=True)
+        (agent_dir / ".gitkeep").write_text("")
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+        assert passed == 0
+        assert failed == 0
+        assert len(errors) == 0

@@ -1,5 +1,24 @@
 [
   {
+    "benchmark": "swe-bench-multimodal",
+    "score": 27.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.3337,
+    "average_runtime": 1084.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-minimax-MiniMax-M2-7/23369175877/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.14.0",
+    "submission_time": "2026-03-21T07:29:33+00:00",
+    "component_scores": {
+      "solveable_accuracy": 27.9,
+      "unsolveable_accuracy": 2.9,
+      "combined_accuracy": 19.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/161dd621-b70d-4089-afcf-ea2e3d13e874"
+  },
+  {
     "benchmark": "swt-bench",
     "score": 34.6,
     "metric": "accuracy",
