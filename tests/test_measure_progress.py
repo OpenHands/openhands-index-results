@@ -12,6 +12,7 @@ from measure_progress import (
     EXPECTED_METRICS,
     EXPECTED_MODELS,
     calculate_progress,
+    load_alternative_agent_results,
     load_json,
     load_results,
 )
@@ -249,3 +250,104 @@ class TestIntegration:
         assert "score" in results["metrics"]
         assert "cost_per_instance" in results["metrics"]
         assert "average_runtime" in results["metrics"]
+
+
+class TestLoadAlternativeAgentResults:
+    """Tests for load_alternative_agent_results function."""
+
+    def test_nonexistent_directory(self, tmp_path):
+        """Test loading from nonexistent alternative_agents directory."""
+        result = load_alternative_agent_results(tmp_path / "nonexistent")
+        assert result["agents"] == {}
+
+    def test_empty_directory(self, tmp_path):
+        """Test loading from empty alternative_agents directory."""
+        alt_dir = tmp_path / "alternative_agents"
+        alt_dir.mkdir()
+
+        result = load_alternative_agent_results(alt_dir)
+        assert result["agents"] == {}
+
+    def test_agent_with_no_model_dirs(self, tmp_path):
+        """Test loading from agent directory with no model directories."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        agent_dir.mkdir(parents=True)
+        (agent_dir / ".gitkeep").write_text("")
+
+        result = load_alternative_agent_results(alt_dir)
+        assert result["agents"] == {}
+
+    def test_single_agent_single_model(self, tmp_path):
+        """Test loading single agent with single model."""
+        alt_dir = tmp_path / "alternative_agents"
+        model_dir = alt_dir / "claude_code" / "test-model"
+        model_dir.mkdir(parents=True)
+
+        metadata = {"model": "test-model", "agent_name": "Claude Code"}
+        scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "cost_per_instance": 0.2, "average_runtime": 3600}]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        result = load_alternative_agent_results(alt_dir)
+        assert "claude_code" in result["agents"]
+        agent_data = result["agents"]["claude_code"]
+        assert "test-model" in agent_data["models"]
+        assert "swe-bench" in agent_data["benchmarks"]
+        assert agent_data["coverage"][("test-model", "swe-bench", "score")] is True
+
+    def test_multiple_agents_dont_collide(self, tmp_path):
+        """Test that results from different agents don't collide."""
+        alt_dir = tmp_path / "alternative_agents"
+
+        # Create same model name under two different agents
+        for agent_name in ["claude_code", "codex"]:
+            model_dir = alt_dir / agent_name / "test-model"
+            model_dir.mkdir(parents=True)
+
+            metadata = {"model": "test-model", "agent_name": agent_name}
+            scores = [{"benchmark": "swe-bench", "score": 50.0, "metric": "accuracy", "cost_per_instance": 0.2, "average_runtime": 3600}]
+
+            (model_dir / "metadata.json").write_text(json.dumps(metadata))
+            (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        result = load_alternative_agent_results(alt_dir)
+        assert "claude_code" in result["agents"]
+        assert "codex" in result["agents"]
+        # Each agent has its own separate results
+        assert "test-model" in result["agents"]["claude_code"]["models"]
+        assert "test-model" in result["agents"]["codex"]["models"]
+
+    def test_alternative_agents_separate_from_openhands_results(self, tmp_path):
+        """Test that alternative agent results are separate from OpenHands results."""
+        # Create a results/ directory with OpenHands results
+        results_dir = tmp_path / "results"
+        model_dir = results_dir / "test-model"
+        model_dir.mkdir(parents=True)
+
+        metadata = {"model": "test-model", "agent_name": "OpenHands"}
+        scores = [{"benchmark": "swe-bench", "score": 60.0, "metric": "accuracy", "cost_per_instance": 0.3, "average_runtime": 1800}]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        # Create an alternative_agents/ directory with same model name
+        alt_dir = tmp_path / "alternative_agents"
+        alt_model_dir = alt_dir / "claude_code" / "test-model"
+        alt_model_dir.mkdir(parents=True)
+
+        alt_metadata = {"model": "test-model", "agent_name": "Claude Code"}
+        alt_scores = [{"benchmark": "swe-bench", "score": 55.0, "metric": "accuracy", "cost_per_instance": 0.25, "average_runtime": 2000}]
+
+        (alt_model_dir / "metadata.json").write_text(json.dumps(alt_metadata))
+        (alt_model_dir / "scores.json").write_text(json.dumps(alt_scores))
+
+        # Load both
+        openhands_results = load_results(results_dir)
+        alt_results = load_alternative_agent_results(alt_dir)
+
+        # They should be completely independent
+        assert "test-model" in openhands_results["models"]
+        assert "claude_code" in alt_results["agents"]
+        assert "test-model" in alt_results["agents"]["claude_code"]["models"]

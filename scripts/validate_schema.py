@@ -191,6 +191,7 @@ class Model(str, Enum):
     QWEN_3_CODER = "Qwen3-Coder-480B"
     QWEN3_5_FLASH = "Qwen3.5-Flash"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
+    NEMOTRON_3_SUPER = "Nemotron-3-Super"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
@@ -222,6 +223,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
     Model.NEMOTRON_3_NANO: Openness.OPEN_WEIGHTS,
+    Model.NEMOTRON_3_SUPER: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_2_7: Openness.OPEN_WEIGHTS,
 }
@@ -241,6 +243,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2_CODEX: Country.US,
     Model.GPT_5_4: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
+    Model.NEMOTRON_3_SUPER: Country.US,
     # China models
     Model.GLM_5: Country.CN,
     Model.GLM_4_7: Country.CN,
@@ -486,8 +489,10 @@ def validate_scores(file_path: Path) -> tuple[bool, str]:
         return False, str(e)
 
 
-def validate_results_directory(results_dir: Path) -> tuple[int, int, list[str]]:
-    """Validate all JSON files in the results directory.
+def _validate_model_dirs(parent_dir: Path) -> tuple[int, int, list[str]]:
+    """Validate all model directories under a given parent directory.
+
+    Each model directory is expected to contain metadata.json and scores.json.
 
     Returns:
         Tuple of (passed_count, failed_count, error_messages)
@@ -496,10 +501,7 @@ def validate_results_directory(results_dir: Path) -> tuple[int, int, list[str]]:
     failed = 0
     errors = []
 
-    if not results_dir.exists():
-        return 0, 0, [f"Results directory not found: {results_dir}"]
-
-    for model_dir in sorted(results_dir.iterdir()):
+    for model_dir in sorted(parent_dir.iterdir()):
         if not model_dir.is_dir():
             continue
 
@@ -532,16 +534,57 @@ def validate_results_directory(results_dir: Path) -> tuple[int, int, list[str]]:
     return passed, failed, errors
 
 
+def validate_results_directory(results_dir: Path) -> tuple[int, int, list[str]]:
+    """Validate all JSON files in the results directory.
+
+    Returns:
+        Tuple of (passed_count, failed_count, error_messages)
+    """
+    if not results_dir.exists():
+        return 0, 0, [f"Results directory not found: {results_dir}"]
+
+    return _validate_model_dirs(results_dir)
+
+
+def validate_alternative_agents_directory(alt_agents_dir: Path) -> tuple[int, int, list[str]]:
+    """Validate all JSON files under the alternative_agents directory.
+
+    Scans alternative_agents/{agent_type}/{model_name}/ directories and
+    validates metadata.json and scores.json in each model directory.
+
+    Returns:
+        Tuple of (passed_count, failed_count, error_messages)
+    """
+    if not alt_agents_dir.exists():
+        return 0, 0, []
+
+    passed = 0
+    failed = 0
+    errors = []
+
+    for agent_dir in sorted(alt_agents_dir.iterdir()):
+        if not agent_dir.is_dir():
+            continue
+
+        p, f, e = _validate_model_dirs(agent_dir)
+        passed += p
+        failed += f
+        errors.extend(e)
+
+    return passed, failed, errors
+
+
 def main():
     """Main entry point."""
     # First, check for duplicate keys in the validation script itself
     # This catches issues from git merges where duplicate entries might exist
     check_for_duplicate_dict_keys()
-    
+
     # Determine results directory
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
     results_dir = repo_root / "results"
+    alt_agents_dir = repo_root / "alternative_agents"
 
     # Allow override via command line argument
     if len(sys.argv) > 1:
@@ -552,6 +595,7 @@ def main():
     print("=" * 60)
     print()
 
+    # Validate results/ directory
     passed, failed, errors = validate_results_directory(results_dir)
 
     print(f"Results directory: {results_dir}")
@@ -566,8 +610,26 @@ def main():
             print(f"  - {error}")
         print()
 
+    # Validate alternative_agents/ directory
+    alt_passed, alt_failed, alt_errors = validate_alternative_agents_directory(alt_agents_dir)
+
+    if alt_passed + alt_failed > 0:
+        print(f"Alternative agents directory: {alt_agents_dir}")
+        print(f"Files validated: {alt_passed + alt_failed}")
+        print(f"  Passed: {alt_passed}")
+        print(f"  Failed: {alt_failed}")
+        print()
+
+        if alt_errors:
+            print("Errors:")
+            for error in alt_errors:
+                print(f"  - {error}")
+            print()
+
+    total_failed = failed + alt_failed
+
     print("=" * 60)
-    if failed == 0:
+    if total_failed == 0:
         print("VALIDATION PASSED")
         print("=" * 60)
         return 0
