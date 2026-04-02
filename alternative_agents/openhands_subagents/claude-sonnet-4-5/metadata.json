@@ -1,5 +1,5 @@
 {
-  "agent_name": "OpenHands",
+  "agent_name": "OpenHands Sub-agents",
   "agent_version": "v1.15.0",
   "model": "claude-sonnet-4-5",
   "openness": "closed_api_available",
