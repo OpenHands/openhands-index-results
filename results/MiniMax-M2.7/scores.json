@@ -64,7 +64,7 @@
     "benchmark": "gaia",
     "score": 25.5,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.2092,
     "average_runtime": 676.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-minimax-MiniMax-M2-7/23855930236/results.tar.gz",
     "tags": [
