@@ -76,6 +76,26 @@ Contains benchmark scores and performance metrics:
 - `average_runtime`: Average runtime per instance in seconds (optional)
 - `tags`: Category tags for grouping (e.g., ["bug_fixing"], ["app_creation"])
 
+### Alternative Agents
+
+Results from non-OpenHands agents (Claude Code, Codex, etc.) are stored in the `alternative_agents/` directory, organized by agent type and model:
+
+```
+alternative_agents/
+├── claude_code/
+│   └── {model_name}/
+│       ├── metadata.json
+│       └── scores.json
+├── openhands_subagents/
+│   └── {model_name}/
+│       ├── metadata.json
+│       └── scores.json
+```
+
+Each model directory under an agent type uses the same `metadata.json` and `scores.json` format as `results/`. The `directory_name` field in `metadata.json` should match the model name (same rule as `results/`).
+
+The validation script (`scripts/validate_schema.py`) automatically validates both `results/` and `alternative_agents/` directories. Alternative agent results are reported separately in both validation and progress reports.
+
 ### Legacy Format (Backward Compatible)
 
 The `1.0.0-dev1/` directory contains the original benchmark-centric JSONL files:
