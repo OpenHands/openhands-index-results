@@ -12,5 +12,19 @@
     "agent_version": "v1.15.0",
     "submission_time": "2026-03-12T10:47:40+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/12034b3d-5e75-47e9-82a8-9a1a2a486c59"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 67.4,
+    "metric": "accuracy",
+    "cost_per_instance": 1.33,
+    "average_runtime": 477.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-claude-sonnet-4-5-20250929/23783483121/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-31T12:10:34+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/b12d5afa-a4ce-4ab4-a3f2-3b6e5be6fa94"
   }
 ]
