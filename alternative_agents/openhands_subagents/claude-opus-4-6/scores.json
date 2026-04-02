@@ -1,0 +1,44 @@
+[
+  {
+    "benchmark": "gaia",
+    "score": 78.2,
+    "metric": "accuracy",
+    "cost_per_instance": 0.84,
+    "average_runtime": 232.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-6/23763239633/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-30T23:04:37+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/6e6990e2-f087-4b37-bcb5-d4370e54d3d5"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 62.5,
+    "metric": "accuracy",
+    "cost_per_instance": 4.4,
+    "average_runtime": 975.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-6/23086375533/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-14T13:25:18+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/128caf63-fa04-4936-adec-1e40a6bc8176"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 81.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.69,
+    "average_runtime": 227.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/23777201498/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-03-31T05:42:52+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/d8dae46d-f231-4046-b6ca-a15d9bd3d95e"
+  }
+]
