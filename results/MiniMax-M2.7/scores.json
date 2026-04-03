@@ -59,5 +59,19 @@
     "agent_version": "v1.14.0",
     "submission_time": "2026-03-23T23:35:12+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/a248d81f-d8d0-4823-9853-0378eed4dcc4"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 25.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.2092,
+    "average_runtime": 676.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-minimax-MiniMax-M2-7/23855930236/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.16.0",
+    "submission_time": "2026-04-01T22:22:23+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/6839ba33-64fc-4b43-8ec2-e0c18f2f94bf"
   }
 ]
