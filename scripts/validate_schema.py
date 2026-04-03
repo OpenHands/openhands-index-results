@@ -144,6 +144,7 @@ FULL_ARCHIVE_BENCHMARK_PATTERN = re.compile(
 class AgentName(str, Enum):
     """Supported agent names."""
     OPENHANDS = "OpenHands"
+    OPENHANDS_SUB_AGENTS = "OpenHands Sub-agents"
     CLAUDE_CODE = "Claude Code"
     OPENCODE = "OpenCode"
     CODEX = "Codex"
