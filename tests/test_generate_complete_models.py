@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from generate_complete_models import (
     find_complete_models,
-    generate_csv,
+    generate_json,
     get_git_last_modified_time,
 )
 
@@ -164,55 +164,58 @@ class TestFindCompleteModels:
         assert results[1][1] == "model1"  # older
 
 
-class TestGenerateCsv:
-    """Tests for generate_csv function."""
+class TestGenerateJson:
+    """Tests for generate_json function."""
 
-    def test_csv_generation(self, tmp_path):
-        """Test CSV file generation with correct format."""
-        output_file = tmp_path / "complete-models.csv"
+    def test_json_generation(self, tmp_path):
+        """Test JSON file generation with correct format."""
+        output_file = tmp_path / "complete-models.json"
         
         test_data = [
             (datetime(2026, 4, 2, 9, 1, 40), "alternative_agents/model1"),
             (datetime(2026, 4, 1, 10, 30, 15), "results/model2"),
         ]
         
-        generate_csv(output_file, test_data)
+        generate_json(output_file, test_data)
         
         # Check file was created
         assert output_file.exists()
         
         # Check content
         content = output_file.read_text()
-        lines = content.strip().split("\n")
+        data = json.loads(content)
         
-        assert len(lines) == 3  # header + 2 data rows
-        assert lines[0] == "timestamp,model-path"
-        assert lines[1] == "2026-04-02-09-01-40,alternative_agents/model1"
-        assert lines[2] == "2026-04-01-10-30-15,results/model2"
+        assert len(data) == 2
+        assert data[0]["timestamp"] == "2026-04-02-09-01-40"
+        assert data[0]["model-path"] == "alternative_agents/model1"
+        assert data[1]["timestamp"] == "2026-04-01-10-30-15"
+        assert data[1]["model-path"] == "results/model2"
 
     def test_empty_data(self, tmp_path):
-        """Test CSV generation with no data."""
-        output_file = tmp_path / "complete-models.csv"
+        """Test JSON generation with no data."""
+        output_file = tmp_path / "complete-models.json"
         
-        generate_csv(output_file, [])
+        generate_json(output_file, [])
         
-        # Should create file with just header
+        # Should create file with empty array
         assert output_file.exists()
         content = output_file.read_text()
-        assert content == "timestamp,model-path\n"
+        data = json.loads(content)
+        assert data == []
 
     def test_timestamp_format(self, tmp_path):
         """Test that timestamps are formatted correctly."""
-        output_file = tmp_path / "complete-models.csv"
+        output_file = tmp_path / "complete-models.json"
         
         test_data = [
             (datetime(2026, 1, 5, 8, 7, 6), "model1"),
         ]
         
-        generate_csv(output_file, test_data)
+        generate_json(output_file, test_data)
         
         content = output_file.read_text()
-        lines = content.strip().split("\n")
+        data = json.loads(content)
         
         # Check timestamp format: YYYY-MM-DD-HH-MM-SS
-        assert lines[1] == "2026-01-05-08-07-06,model1"
+        assert data[0]["timestamp"] == "2026-01-05-08-07-06"
+        assert data[0]["model-path"] == "model1"

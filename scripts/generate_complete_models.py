@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Generate complete-models.csv file with models that have completed all benchmarks.
+Generate complete-models.json file with models that have completed all benchmarks.
 
 This script finds all scores.json files that contain exactly 5 benchmark entries
-and creates a CSV file with the timestamp and path to each complete model.
+and creates a JSON file with the timestamp and path to each complete model.
 """
 
 import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
 def get_git_last_modified_time(file_path: Path) -> datetime:
@@ -71,29 +71,34 @@ def find_complete_models() -> List[Tuple[datetime, str]]:
     return complete_models
 
 
-def generate_csv(output_path: Path, complete_models: List[Tuple[datetime, str]]):
+def generate_json(output_path: Path, complete_models: List[Tuple[datetime, str]]):
     """
-    Generate the complete-models.csv file.
+    Generate the complete-models.json file.
     
     Args:
-        output_path: Path to the output CSV file
+        output_path: Path to the output JSON file
         complete_models: List of (timestamp, model_path) tuples
     """
+    # Convert to list of dictionaries
+    models_data = []
+    for timestamp, model_path in complete_models:
+        # Format timestamp as YYYY-MM-DD-HH-MM-SS in UTC
+        timestamp_str = timestamp.strftime("%Y-%m-%d-%H-%M-%S")
+        models_data.append({
+            "timestamp": timestamp_str,
+            "model-path": model_path
+        })
+    
+    # Write JSON with pretty formatting
     with open(output_path, 'w') as f:
-        # Write header
-        f.write("timestamp,model-path\n")
-        
-        # Write data rows
-        for timestamp, model_path in complete_models:
-            # Format timestamp as YYYY-MM-DD-HH-MM-SS in UTC
-            timestamp_str = timestamp.strftime("%Y-%m-%d-%H-%M-%S")
-            f.write(f"{timestamp_str},{model_path}\n")
+        json.dump(models_data, f, indent=2)
+        f.write('\n')  # Add trailing newline
 
 
 def main():
-    """Main function to generate complete-models.csv."""
+    """Main function to generate complete-models.json."""
     repo_root = Path(__file__).parent.parent
-    output_path = repo_root / "complete-models.csv"
+    output_path = repo_root / "complete-models.json"
     
     print("Finding models with complete benchmark results...")
     complete_models = find_complete_models()
@@ -101,7 +106,7 @@ def main():
     print(f"Found {len(complete_models)} complete models")
     
     print(f"Generating {output_path}...")
-    generate_csv(output_path, complete_models)
+    generate_json(output_path, complete_models)
     
     print("Done!")
 
