@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   measure-progress:
     runs-on: ubuntu-latest
@@ -45,6 +50,7 @@ jobs:
           exit 0
 
       - name: Find existing comment
+        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/find-comment@v3
         id: find-comment
         with:
@@ -53,6 +59,7 @@ jobs:
           body-includes: '<!-- validation-progress-report -->'
 
       - name: Create or update PR comment
+        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
@@ -73,6 +80,11 @@ jobs:
             ```
 
             This report measures progress towards the 3D array goal (benchmarks × models × metrics) as described in #2.
+
+      - name: Note skipped PR comment for forked PRs
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "Skipping PR comment because pull_request workflows from forks receive a read-only GITHUB_TOKEN." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail if validation failed
         if: steps.validate.outputs.exit_code != '0'
