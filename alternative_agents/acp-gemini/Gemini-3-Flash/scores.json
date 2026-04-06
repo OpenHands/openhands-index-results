@@ -1,16 +1,21 @@
 [
   {
-    "benchmark": "commit0",
-    "score": 25.0,
-    "metric": "accuracy",
-    "cost_per_instance": 0.89,
-    "average_runtime": 1309.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-flash-preview/23954598555/results.tar.gz",
+    "benchmark": "swe-bench-multimodal",
+    "score": 41.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.86,
+    "average_runtime": 1277.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-flash-preview/23957895398/results.tar.gz",
     "tags": [
-      "commit0"
+      "swe-bench-multimodal"
     ],
     "agent_version": "v1.16.1",
-    "submission_time": "2026-04-03T21:17:39+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/3db2bd88-83c3-490a-8944-33ebb2be70bb"
+    "submission_time": "2026-04-04T08:42:55+00:00",
+    "component_scores": {
+      "solveable_accuracy": 41.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 27.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/6006941d-fac6-495f-bfd1-e6d64b699775"
   }
 ]
