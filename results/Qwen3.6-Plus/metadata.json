@@ -1,0 +1,18 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.11.5",
+  "model": "Qwen3.6-Plus",
+  "openness": "closed_api_available",
+  "country": "cn",
+  "tool_usage": "standard",
+  "submission_time": "2026-04-03T18:23:00+00:00",
+  "directory_name": "Qwen3.6-Plus",
+  "release_date": "2026-04-01",
+  "supports_vision": true,
+  "parameter_count_b": null,
+  "active_parameter_count_b": null,
+  "input_price": 0.5,
+  "output_price": 3.0,
+  "cache_read_price": null,
+  "cache_write_price": null
+}
