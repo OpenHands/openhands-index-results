@@ -1,16 +1,21 @@
 [
   {
-    "benchmark": "swe-bench",
-    "score": 73.8,
-    "metric": "accuracy",
-    "cost_per_instance": 0.4,
-    "average_runtime": 171.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-openai-gpt-5-4/23968384393/results.tar.gz",
+    "benchmark": "swe-bench-multimodal",
+    "score": 30.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 1.22,
+    "average_runtime": 356.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-openai-gpt-5-4/23983222379/results.tar.gz",
     "tags": [
-      "swe-bench"
+      "swe-bench-multimodal"
     ],
     "agent_version": "v1.16.1",
-    "submission_time": "2026-04-04T19:00:29+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/8390b9bc-8bdc-4a55-b6f8-5a9a32d73cb3"
+    "submission_time": "2026-04-04T18:14:15+00:00",
+    "component_scores": {
+      "solveable_accuracy": 30.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 20.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/510f0b23-b51a-4f20-a82d-0c0463ec8a60"
   }
 ]
