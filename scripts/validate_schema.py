@@ -191,6 +191,7 @@ class Model(str, Enum):
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
     QWEN3_5_FLASH = "Qwen3.5-Flash"
+    QWEN3_6_PLUS = "Qwen3.6-Plus"
     NEMOTRON_3_NANO = "Nemotron-3-Nano"
     NEMOTRON_3_SUPER = "Nemotron-3-Super"
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
@@ -213,6 +214,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
+    Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
@@ -256,6 +258,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_2_7: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
     Model.QWEN3_5_FLASH: Country.CN,
+    Model.QWEN3_6_PLUS: Country.CN,
     Model.QWEN3_CODER_NEXT: Country.CN,
 }
 

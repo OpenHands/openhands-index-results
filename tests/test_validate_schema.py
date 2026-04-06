@@ -162,6 +162,32 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_qwen3_6_plus(self, tmp_path):
+        """Test valid metadata for Qwen3.6-Plus passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "Qwen3.6-Plus",
+            "country": "cn",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Qwen3.6-Plus",
+            "release_date": "2026-04-01",
+            "supports_vision": True,
+            "input_price": 0.5,
+            "output_price": 3.0,
+            "parameter_count_b": None,
+            "active_parameter_count_b": None,
+            "cache_read_price": None,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
