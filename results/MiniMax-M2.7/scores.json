@@ -64,7 +64,7 @@
     "benchmark": "swt-bench",
     "score": 69.1,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.1283,
     "average_runtime": 352.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-minimax-MiniMax-M2-7/24039895569/results.tar.gz",
     "tags": [
