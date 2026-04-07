@@ -388,6 +388,30 @@ class ScoreEntry(BaseModel):
     submission_time: datetime = Field(..., description="Submission timestamp")
     eval_visualization_page: Optional[str] = Field(None, description="URL to the evaluation visualization page")
     component_scores: Optional[SweMultimodalComponentScores] = Field(None, description="Component scores for swe-bench-multimodal benchmark")
+    # Optional ACP provenance fields stamped by the evaluation pipeline
+    # (OpenHands/benchmarks PR #646, OpenHands/evaluation PR #440). These
+    # record the ACP binary that handled this run, reported by the ACP
+    # server during its initialize handshake. Both are Optional for
+    # backward compatibility and must be set together — see
+    # validate_acp_fields_paired below. For all runs agent_version
+    # continues to carry the openhands-sdk version.
+    acp_agent_name: Optional[str] = Field(
+        None,
+        description=(
+            "ACP agent package name (e.g. "
+            "'@agentclientprotocol/claude-agent-acp'), reported by the ACP "
+            "server during its initialize handshake. Only set for ACP "
+            "runs; present iff acp_agent_version is also present."
+        ),
+    )
+    acp_agent_version: Optional[str] = Field(
+        None,
+        description=(
+            "ACP agent version (e.g. 'v0.25.3'), reported by the ACP "
+            "server during its initialize handshake. Only set for ACP "
+            "runs; semantic version starting with 'v'."
+        ),
+    )
 
     @field_validator("agent_version")
     @classmethod
@@ -399,6 +423,36 @@ class ScoreEntry(BaseModel):
                 f"(e.g., 'v1.0.0'), got '{v}'"
             )
         return v
+
+    @field_validator("acp_agent_version")
+    @classmethod
+    def validate_acp_agent_version(cls, v: Optional[str]) -> Optional[str]:
+        """Ensure acp_agent_version matches the v-prefixed semver pattern when present."""
+        if v is None:
+            return v
+        if not SEMVER_PATTERN.match(v):
+            raise ValueError(
+                f"acp_agent_version must be a valid semantic version starting "
+                f"with 'v' (e.g., 'v1.0.0'), got '{v}'"
+            )
+        return v
+
+    @model_validator(mode='after')
+    def validate_acp_fields_paired(self):
+        """Ensure acp_agent_name and acp_agent_version are set together.
+
+        The ACP protocol initialize handshake returns both atomically, so a
+        score entry with one but not the other indicates a capture bug.
+        """
+        if bool(self.acp_agent_name) != bool(self.acp_agent_version):
+            raise ValueError(
+                "acp_agent_name and acp_agent_version must either both be "
+                "set or both be omitted — they come from the same ACP "
+                "initialize handshake. "
+                f"Got acp_agent_name={self.acp_agent_name!r}, "
+                f"acp_agent_version={self.acp_agent_version!r}."
+            )
+        return self
 
     @field_validator("full_archive")
     @classmethod
