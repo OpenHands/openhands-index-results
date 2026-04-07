@@ -3,7 +3,7 @@
     "benchmark": "gaia",
     "score": 72.1,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.3398,
     "average_runtime": 308.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-dashscope-qwen3-6-plus/24043637505/results.tar.gz",
     "tags": [
