@@ -641,6 +641,28 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_agent_name_gemini_cli(self, tmp_path):
+        """Test metadata with 'Gemini CLI' agent_name passes validation."""
+        metadata = {
+            "agent_name": "Gemini CLI",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_invalid_agent_name(self, tmp_path):
         """Test metadata with invalid agent_name fails validation."""
         metadata = {
