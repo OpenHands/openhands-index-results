@@ -148,6 +148,7 @@ class AgentName(str, Enum):
     CLAUDE_CODE = "Claude Code"
     OPENCODE = "OpenCode"
     CODEX = "Codex"
+    GEMINI_CLI = "Gemini CLI"
 
 
 class Openness(str, Enum):
@@ -265,7 +266,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
-    agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, Claude Code, OpenCode, Codex)")
+    agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, OpenHands Sub-agents, Claude Code, OpenCode, Codex, Gemini CLI)")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
