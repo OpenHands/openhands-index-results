@@ -12,5 +12,24 @@
     "agent_version": "v1.15.0",
     "submission_time": "2026-03-26T21:42:42+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/cce78b51-685d-4936-a217-ff9fd8b85fe4"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 35.3,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 1.41,
+    "average_runtime": 603.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/24040981135/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.15.0",
+    "submission_time": "2026-04-07T01:42:34+00:00",
+    "component_scores": {
+      "solveable_accuracy": 35.3,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 23.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/f2f96de1-9714-4eaf-8412-938eca58072f"
   }
 ]
