@@ -1,0 +1,15 @@
+[
+  {
+    "benchmark": "swe-bench",
+    "score": 63.2,
+    "metric": "accuracy",
+    "cost_per_instance": 1.25,
+    "average_runtime": 540.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-arcee-ai-trinity-large-thinking/22812345678/results.tar.gz",
+    "tags": [
+      "swe-bench"
+    ],
+    "agent_version": "v1.11.5",
+    "submission_time": "2026-04-08T00:00:00+00:00"
+  }
+]
