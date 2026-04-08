@@ -1,0 +1,15 @@
+{
+  "agent_name": "Gemini CLI",
+  "agent_version": "v1.16.1",
+  "model": "Gemini-3-Flash",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "Gemini-3-Flash",
+  "release_date": "2025-12-22",
+  "supports_vision": true,
+  "input_price": 0.5,
+  "output_price": 3.0,
+  "cache_read_price": null,
+  "cache_write_price": null
+}
