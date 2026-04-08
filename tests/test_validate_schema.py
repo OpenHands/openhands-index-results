@@ -138,6 +138,31 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_glm_5_1(self, tmp_path):
+        """Test valid metadata for glm-5.1 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "GLM-5.1",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "GLM-5.1",
+            "release_date": "2026-04-07",
+            "supports_vision": False,
+            "input_price": 1.0,
+            "output_price": 3.2,
+            "parameter_count_b": 754,
+            "active_parameter_count_b": 40,
+            "cache_read_price": 0.2
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_minimax_m2_5(self, tmp_path):
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
