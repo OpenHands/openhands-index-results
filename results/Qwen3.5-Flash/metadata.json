@@ -1,6 +1,5 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.11.5",
   "model": "Qwen3.5-Flash",
   "openness": "open_weights",
   "country": "cn",

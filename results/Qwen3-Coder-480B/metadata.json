@@ -1,6 +1,5 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.8.3",
   "model": "Qwen3-Coder-480B",
   "openness": "open_weights",
   "country": "cn",

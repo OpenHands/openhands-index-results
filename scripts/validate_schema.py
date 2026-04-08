@@ -267,7 +267,6 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, OpenHands Sub-agents, Claude Code, OpenCode, Codex, Gemini CLI)")
-    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")
@@ -282,17 +281,6 @@ class Metadata(BaseModel):
     output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
     cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
     cache_write_price: Optional[float] = Field(None, gt=0, description="Cache write price per million tokens in USD (None if not supported)")
-
-    @field_validator("agent_version")
-    @classmethod
-    def validate_agent_version(cls, v: str) -> str:
-        """Ensure agent_version is a valid semantic version starting with 'v'."""
-        if not SEMVER_PATTERN.match(v):
-            raise ValueError(
-                f"agent_version must be a valid semantic version starting with 'v' "
-                f"(e.g., 'v1.0.0'), got '{v}'"
-            )
-        return v
 
     @field_validator("openness")
     @classmethod

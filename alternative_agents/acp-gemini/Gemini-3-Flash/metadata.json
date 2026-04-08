@@ -1,6 +1,5 @@
 {
   "agent_name": "Gemini CLI",
-  "agent_version": "v1.16.1",
   "model": "Gemini-3-Flash",
   "openness": "closed_api_available",
   "country": "us",

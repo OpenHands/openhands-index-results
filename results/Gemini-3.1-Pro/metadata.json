@@ -1,6 +1,5 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.11.5",
   "model": "Gemini-3.1-Pro",
   "openness": "closed_api_available",
   "country": "us",

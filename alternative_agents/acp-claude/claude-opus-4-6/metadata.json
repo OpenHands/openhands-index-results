@@ -1,6 +1,5 @@
 {
   "agent_name": "Claude Code",
-  "agent_version": "v1.15.0",
   "model": "claude-opus-4-6",
   "openness": "closed_api_available",
   "country": "us",

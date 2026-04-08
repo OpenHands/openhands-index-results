@@ -1,6 +1,5 @@
 {
   "agent_name": "Codex",
-  "agent_version": "v1.16.1",
   "model": "GPT-5.4",
   "openness": "closed_api_available",
   "country": "us",

@@ -1,6 +1,5 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.14.0",
   "model": "Nemotron-3-Super",
   "openness": "open_weights",
   "country": "us",
@@ -10,8 +9,8 @@
   "supports_vision": false,
   "parameter_count_b": 120.6,
   "active_parameter_count_b": 12.7,
-  "input_price": 0.10,
-  "output_price": 0.50,
+  "input_price": 0.1,
+  "output_price": 0.5,
   "cache_read_price": null,
   "cache_write_price": null,
   "submission_time": "2026-03-14T04:58:09+00:00"

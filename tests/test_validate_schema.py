@@ -27,7 +27,6 @@ class TestMetadataSchema:
         """Test valid metadata passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",  # Must be an expected model name
             "openness": "closed_api_available",
@@ -49,7 +48,6 @@ class TestMetadataSchema:
         """Test valid metadata for gpt-5.2-codex passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2-Codex",
             "country": "us",
             "openness": "closed_api_available",
@@ -71,7 +69,6 @@ class TestMetadataSchema:
         """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "Nemotron-3-Nano",
             "country": "us",
             "openness": "open_weights",
@@ -95,7 +92,6 @@ class TestMetadataSchema:
         """Test valid metadata for kimi-k2.5 passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "Kimi-K2.5",
             "country": "cn",
             "openness": "open_weights",
@@ -119,7 +115,6 @@ class TestMetadataSchema:
         """Test valid metadata for glm-4.7 passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "GLM-4.7",
             "country": "cn",
             "openness": "open_weights",
@@ -142,7 +137,6 @@ class TestMetadataSchema:
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.11.0",
             "model": "MiniMax-M2.5",
             "country": "cn",
             "openness": "open_weights",
@@ -166,7 +160,6 @@ class TestMetadataSchema:
         """Test valid metadata for Qwen3.6-Plus passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.11.5",
             "model": "Qwen3.6-Plus",
             "country": "cn",
             "openness": "closed_api_available",
@@ -192,8 +185,8 @@ class TestMetadataSchema:
         """Test metadata with missing required field fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            # Missing agent_version
             "model": "GPT-5.2",
+            # Missing supports_vision, input_price, output_price
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
@@ -205,13 +198,12 @@ class TestMetadataSchema:
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "agent_version" in msg
+        assert "supports_vision" in msg.lower()
 
     def test_invalid_openness_value(self, tmp_path):
         """Test metadata with invalid openness value fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "invalid_value",  # Invalid
@@ -230,7 +222,6 @@ class TestMetadataSchema:
         """Test metadata with invalid country value fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "invalid_country",
             "openness": "closed_api_available",
@@ -249,7 +240,6 @@ class TestMetadataSchema:
         """Test metadata with incorrect country for model fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "cn",  # Should be "us" for GPT
             "openness": "closed_api_available",
@@ -268,7 +258,6 @@ class TestMetadataSchema:
         """Test metadata with invalid model value fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "invalid-model-name",  # Invalid - not in Model enum
             "openness": "closed_api_available",
             "tool_usage": "standard",
@@ -283,10 +272,9 @@ class TestMetadataSchema:
         assert "model" in msg.lower()
 
     def test_valid_semantic_version(self, tmp_path):
-        """Test metadata with valid semantic version passes validation."""
+        """Test metadata with valid model passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.2",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -304,16 +292,15 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_invalid_semantic_version_commit_hash(self, tmp_path):
-        """Test metadata with commit hash instead of semantic version fails validation."""
+    def test_invalid_model_wrong_format(self, tmp_path):
+        """Test metadata with wrong format model fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "54c5858",  # Invalid - commit hash
-            "model": "GPT-5.2",
+            "model": "gpt-5.2",  # lowercase instead of uppercase
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
-            "directory_name": "GPT-5.2",
+            "directory_name": "gpt-5.2",
             "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -321,51 +308,12 @@ class TestMetadataSchema:
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "agent_version" in msg.lower()
-
-    def test_invalid_semantic_version_no_v_prefix(self, tmp_path):
-        """Test metadata with semantic version without 'v' prefix fails validation."""
-        metadata = {
-            "agent_name": "OpenHands",
-            "agent_version": "1.0.0",  # Invalid - missing 'v' prefix
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "agent_version" in msg.lower()
-
-    def test_invalid_semantic_version_branch_name(self, tmp_path):
-        """Test metadata with branch name instead of semantic version fails validation."""
-        metadata = {
-            "agent_name": "OpenHands",
-            "agent_version": "main",  # Invalid - branch name
-            "model": "GPT-5.2",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is False
-        assert "agent_version" in msg.lower()
+        assert "model" in msg.lower()
 
     def test_valid_directory_name_format(self, tmp_path):
         """Test metadata with valid directory_name format passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
@@ -387,7 +335,6 @@ class TestMetadataSchema:
         """Test metadata with old version-prefixed directory_name format fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
@@ -406,7 +353,6 @@ class TestMetadataSchema:
         """Test metadata with directory_name not matching model fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.8.3",
             "model": "claude-sonnet-4-5",
             "country": "us",
             "openness": "closed_api_available",
@@ -425,7 +371,6 @@ class TestMetadataSchema:
         """Test metadata with missing release_date fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -444,7 +389,6 @@ class TestMetadataSchema:
         """Test that open-weights models require parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",  # Open-weights model
             "openness": "open_weights",
@@ -467,7 +411,6 @@ class TestMetadataSchema:
         """Test that open-weights models pass validation with parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "DeepSeek-V3.2-Reasoner",
             "country": "cn",
             "openness": "open_weights",
@@ -490,7 +433,6 @@ class TestMetadataSchema:
         """Test that open-weights MoE models can include active_parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "Kimi-K2-Thinking",
             "openness": "open_weights",
             "country": "cn",
@@ -514,7 +456,6 @@ class TestMetadataSchema:
         """Test that closed models pass validation without parameter_count_b."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",  # Closed model
             "openness": "closed_api_available",
@@ -537,7 +478,6 @@ class TestMetadataSchema:
         """Test metadata with missing supports_vision fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -557,7 +497,6 @@ class TestMetadataSchema:
         """Test metadata with 'OpenHands' agent_name passes validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -579,7 +518,6 @@ class TestMetadataSchema:
         """Test metadata with 'Claude Code' agent_name passes validation."""
         metadata = {
             "agent_name": "Claude Code",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -601,7 +539,6 @@ class TestMetadataSchema:
         """Test metadata with 'OpenCode' agent_name passes validation."""
         metadata = {
             "agent_name": "OpenCode",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -623,7 +560,6 @@ class TestMetadataSchema:
         """Test metadata with 'Codex' agent_name passes validation."""
         metadata = {
             "agent_name": "Codex",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -645,7 +581,6 @@ class TestMetadataSchema:
         """Test metadata with 'Gemini CLI' agent_name passes validation."""
         metadata = {
             "agent_name": "Gemini CLI",
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -667,7 +602,6 @@ class TestMetadataSchema:
         """Test metadata with invalid agent_name fails validation."""
         metadata = {
             "agent_name": "OpenHands CodeAct",  # Invalid - old name not allowed
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -689,7 +623,6 @@ class TestMetadataSchema:
         """Test metadata with unknown agent_name fails validation."""
         metadata = {
             "agent_name": "Unknown Agent",  # Invalid - not in allowed list
-            "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
@@ -1215,13 +1148,12 @@ class TestErrorMessageFormatting:
     def test_missing_field_error_message(self, tmp_path):
         """Test that missing field errors show clear reason."""
         metadata = {
-            "agent_name": "Test Agent",
-            # Missing agent_version, release_date, etc.
+            "agent_name": "OpenHands",
+            # Missing release_date, supports_vision, input_price, output_price
             "model": "GPT-5.2",
             "openness": "closed_api_available",
             "country": "us",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
             "directory_name": "GPT-5.2"
         }
         metadata_file = tmp_path / "metadata.json"
@@ -1230,8 +1162,8 @@ class TestErrorMessageFormatting:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         # Check that error message clearly states the field is missing
-        assert "Field 'agent_version' is required but missing" in msg
         assert "Field 'release_date' is required but missing" in msg
+        assert "Field 'supports_vision' is required but missing" in msg
 
     def test_invalid_enum_error_message(self, tmp_path):
         """Test that invalid enum errors show the invalid value."""
@@ -1281,15 +1213,13 @@ class TestErrorMessageFormatting:
     def test_custom_validator_error_message(self, tmp_path):
         """Test that custom validator errors show clear reason."""
         metadata = {
-            "agent_name": "Test Agent",
-            "agent_version": "invalid-version",  # Invalid: not semver
-            "model": "GPT-5.2",
-            "openness": "closed_api_available",
+            "agent_name": "OpenHands",
+            "model": "claude-opus-4-5",  # Model requires open_weights openness
+            "openness": "closed",  # Invalid: model requires open_weights
             "country": "us",
             "tool_usage": "standard",
-            "submission_time": "2025-11-24T19:56:00.092865",
-            "directory_name": "GPT-5.2",
-            "release_date": "2025-12-11"
+            "directory_name": "claude-opus-4-5",
+            "release_date": "2025-09-29"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1297,8 +1227,7 @@ class TestErrorMessageFormatting:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         # Check that error message explains the validation rule
-        assert "Field 'agent_version'" in msg
-        assert "semantic version" in msg
+        assert "openness" in msg.lower()
 
     def test_invalid_json_error_message(self, tmp_path):
         """Test that invalid JSON errors show line and column."""
