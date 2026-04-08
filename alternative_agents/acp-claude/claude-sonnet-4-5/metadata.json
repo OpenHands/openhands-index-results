@@ -1,0 +1,8 @@
+{
+  "agent_name": "Claude Code",
+  "agent_version": "v1.15.0",
+  "model": "claude-sonnet-4-5",
+  "openness": "closed_api_available",
+  "tool_usage": "standard",
+  "directory_name": "claude-sonnet-4-5"
+}
