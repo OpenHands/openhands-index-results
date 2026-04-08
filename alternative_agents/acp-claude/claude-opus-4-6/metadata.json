@@ -1,0 +1,15 @@
+{
+  "agent_name": "Claude Code",
+  "agent_version": "v1.15.0",
+  "model": "claude-opus-4-6",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "claude-opus-4-6",
+  "release_date": "2026-02-05",
+  "supports_vision": true,
+  "input_price": 5.0,
+  "output_price": 25.0,
+  "cache_read_price": 0.5,
+  "cache_write_price": 6.25
+}
