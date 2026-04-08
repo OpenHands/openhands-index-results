@@ -388,13 +388,9 @@ class ScoreEntry(BaseModel):
     submission_time: datetime = Field(..., description="Submission timestamp")
     eval_visualization_page: Optional[str] = Field(None, description="URL to the evaluation visualization page")
     component_scores: Optional[SweMultimodalComponentScores] = Field(None, description="Component scores for swe-bench-multimodal benchmark")
-    # Optional ACP provenance fields stamped by the evaluation pipeline
-    # (OpenHands/benchmarks PR #646, OpenHands/evaluation PR #440). These
-    # record the ACP binary that handled this run, reported by the ACP
-    # server during its initialize handshake. Both are Optional for
-    # backward compatibility and must be set together — see
-    # validate_acp_fields_paired below. For all runs agent_version
-    # continues to carry the openhands-sdk version.
+    # Optional ACP binary identity, from the ACP server's initialize
+    # handshake. Both must be set together (see validate_acp_fields_paired).
+    # agent_version still carries the openhands-sdk version for all runs.
     acp_agent_name: Optional[str] = Field(
         None,
         description=(
