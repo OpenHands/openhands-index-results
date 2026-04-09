@@ -148,6 +148,7 @@ class AgentName(str, Enum):
     CLAUDE_CODE = "Claude Code"
     OPENCODE = "OpenCode"
     CODEX = "Codex"
+    GEMINI_CLI = "Gemini CLI"
 
 
 class Openness(str, Enum):
@@ -181,6 +182,7 @@ class Model(str, Enum):
     GEMINI_3_1_PRO = "Gemini-3.1-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
     GLM_5 = "GLM-5"
+    GLM_5_1 = "GLM-5.1"
     GLM_4_7 = "GLM-4.7"
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
@@ -197,6 +199,7 @@ class Model(str, Enum):
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
+    TRINITY_LARGE_THINKING = "trinity-large-thinking"
 
 
 # Mapping of models to their correct openness classification
@@ -217,6 +220,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
+    Model.GLM_5_1: Openness.OPEN_WEIGHTS,
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
@@ -229,6 +233,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.NEMOTRON_3_SUPER: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_2_7: Openness.OPEN_WEIGHTS,
+    Model.TRINITY_LARGE_THINKING: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -247,8 +252,10 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_4: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     Model.NEMOTRON_3_SUPER: Country.US,
+    Model.TRINITY_LARGE_THINKING: Country.US,
     # China models
     Model.GLM_5: Country.CN,
+    Model.GLM_5_1: Country.CN,
     Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
@@ -265,7 +272,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
-    agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, Claude Code, OpenCode, Codex)")
+    agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, OpenHands Sub-agents, Claude Code, OpenCode, Codex, Gemini CLI)")
     agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
@@ -387,6 +394,26 @@ class ScoreEntry(BaseModel):
     submission_time: datetime = Field(..., description="Submission timestamp")
     eval_visualization_page: Optional[str] = Field(None, description="URL to the evaluation visualization page")
     component_scores: Optional[SweMultimodalComponentScores] = Field(None, description="Component scores for swe-bench-multimodal benchmark")
+    # Optional ACP binary identity, from the ACP server's initialize
+    # handshake. Both must be set together (see validate_acp_fields_paired).
+    # agent_version still carries the openhands-sdk version for all runs.
+    acp_agent_name: Optional[str] = Field(
+        None,
+        description=(
+            "ACP agent package name (e.g. "
+            "'@agentclientprotocol/claude-agent-acp'), reported by the ACP "
+            "server during its initialize handshake. Only set for ACP "
+            "runs; present iff acp_agent_version is also present."
+        ),
+    )
+    acp_agent_version: Optional[str] = Field(
+        None,
+        description=(
+            "ACP agent version (e.g. 'v0.25.3'), reported by the ACP "
+            "server during its initialize handshake. Only set for ACP "
+            "runs; semantic version starting with 'v'."
+        ),
+    )
 
     @field_validator("agent_version")
     @classmethod
@@ -398,6 +425,36 @@ class ScoreEntry(BaseModel):
                 f"(e.g., 'v1.0.0'), got '{v}'"
             )
         return v
+
+    @field_validator("acp_agent_version")
+    @classmethod
+    def validate_acp_agent_version(cls, v: Optional[str]) -> Optional[str]:
+        """Ensure acp_agent_version matches the v-prefixed semver pattern when present."""
+        if v is None:
+            return v
+        if not SEMVER_PATTERN.match(v):
+            raise ValueError(
+                f"acp_agent_version must be a valid semantic version starting "
+                f"with 'v' (e.g., 'v1.0.0'), got '{v}'"
+            )
+        return v
+
+    @model_validator(mode='after')
+    def validate_acp_fields_paired(self):
+        """Ensure acp_agent_name and acp_agent_version are set together.
+
+        The ACP protocol initialize handshake returns both atomically, so a
+        score entry with one but not the other indicates a capture bug.
+        """
+        if bool(self.acp_agent_name) != bool(self.acp_agent_version):
+            raise ValueError(
+                "acp_agent_name and acp_agent_version must either both be "
+                "set or both be omitted — they come from the same ACP "
+                "initialize handshake. "
+                f"Got acp_agent_name={self.acp_agent_name!r}, "
+                f"acp_agent_version={self.acp_agent_version!r}."
+            )
+        return self
 
     @field_validator("full_archive")
     @classmethod

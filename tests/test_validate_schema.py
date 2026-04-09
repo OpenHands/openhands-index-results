@@ -138,6 +138,31 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_glm_5_1(self, tmp_path):
+        """Test valid metadata for glm-5.1 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "GLM-5.1",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "GLM-5.1",
+            "release_date": "2026-04-07",
+            "supports_vision": False,
+            "input_price": 1.0,
+            "output_price": 3.2,
+            "parameter_count_b": 754,
+            "active_parameter_count_b": 40,
+            "cache_read_price": 0.2
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_minimax_m2_5(self, tmp_path):
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
@@ -178,6 +203,32 @@ class TestMetadataSchema:
             "output_price": 3.0,
             "parameter_count_b": None,
             "active_parameter_count_b": None,
+            "cache_read_price": None,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_metadata_trinity_large_thinking(self, tmp_path):
+        """Test valid metadata for trinity-large-thinking passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "trinity-large-thinking",
+            "country": "us",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "trinity-large-thinking",
+            "release_date": "2026-04-01",
+            "supports_vision": False,
+            "input_price": 0.25,
+            "output_price": 0.9,
+            "parameter_count_b": 398,
+            "active_parameter_count_b": 13,
             "cache_read_price": None,
             "cache_write_price": None
         }
@@ -623,6 +674,28 @@ class TestMetadataSchema:
         """Test metadata with 'Codex' agent_name passes validation."""
         metadata = {
             "agent_name": "Codex",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_agent_name_gemini_cli(self, tmp_path):
+        """Test metadata with 'Gemini CLI' agent_name passes validation."""
+        metadata = {
+            "agent_name": "Gemini CLI",
             "agent_version": "v1.0.0",
             "model": "GPT-5.2",
             "country": "us",
@@ -1095,6 +1168,97 @@ class TestScoreEntrySchema:
         valid, msg = validate_scores(scores_file)
         assert valid is False
         assert "agent_version" in msg.lower()
+
+
+class TestScoreEntryProvenanceFields:
+    """Tests for the optional ACP provenance fields on ScoreEntry.
+
+    These fields are stamped by OpenHands/benchmarks PR #646 and
+    OpenHands/evaluation PR #440 so ACP runs record exactly which ACP
+    binary handled the evaluation. Both fields must remain Optional for
+    backward compatibility with score entries written before the
+    provenance stamping pipeline landed. agent_version continues to
+    carry the openhands-sdk version for every run.
+    """
+
+    _BASE_ENTRY = {
+        "benchmark": "swe-bench",
+        "score": 68.8,
+        "metric": "accuracy",
+        "cost_per_instance": 0.5,
+        "average_runtime": 300,
+        "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+        "tags": ["swe-bench"],
+        "agent_version": "v1.16.1",
+        "submission_time": "2025-11-24T19:56:00.092865",
+    }
+
+    def _write(self, tmp_path, entry):
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps([entry]))
+        return scores_file
+
+    def test_backward_compat_score_entry_without_provenance_fields(self, tmp_path):
+        """Existing pre-provenance score entries must still validate."""
+        scores_file = self._write(tmp_path, self._BASE_ENTRY)
+        valid, msg = validate_scores(scores_file)
+        assert valid is True, msg
+        assert msg == "OK"
+
+    def test_default_agent_entry_without_acp_fields(self, tmp_path):
+        """Default-agent run: only agent_version (SDK version), no ACP fields."""
+        valid, msg = validate_scores(self._write(tmp_path, self._BASE_ENTRY))
+        assert valid is True, msg
+
+    def test_acp_entry_with_full_provenance(self, tmp_path):
+        """ACP run: agent_version is still the SDK version, ACP fields set together."""
+        entry = {
+            **self._BASE_ENTRY,
+            "agent_version": "v1.16.1",  # SDK version, same as default runs
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+            "acp_agent_version": "v0.25.3",
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is True, msg
+
+    def test_invalid_acp_agent_version_format(self, tmp_path):
+        """acp_agent_version must match the v-prefixed semver pattern."""
+        entry = {
+            **self._BASE_ENTRY,
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+            "acp_agent_version": "0.25.3",  # missing 'v' prefix
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_version" in msg
+
+    def test_acp_name_without_version_is_rejected(self, tmp_path):
+        """Partial ACP pair: name without version is a capture bug."""
+        entry = {
+            **self._BASE_ENTRY,
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_name" in msg and "acp_agent_version" in msg
+
+    def test_acp_version_without_name_is_rejected(self, tmp_path):
+        """Partial ACP pair: version without name is a capture bug."""
+        entry = {**self._BASE_ENTRY, "acp_agent_version": "v0.25.3"}
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_name" in msg and "acp_agent_version" in msg
+
+    def test_unknown_fields_still_ignored(self, tmp_path):
+        """Pydantic's extra='ignore' default must remain in effect.
+
+        This is the safety net that lets the producer pipeline add new
+        provenance fields in the future without needing a simultaneous
+        schema update here.
+        """
+        entry = {**self._BASE_ENTRY, "some_future_field": "hello"}
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is True, msg
 
 
 class TestValidateResultsDirectory:
