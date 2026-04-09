@@ -199,6 +199,7 @@ class Model(str, Enum):
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
+    TRINITY_LARGE_THINKING = "trinity-large-thinking"
 
 
 # Mapping of models to their correct openness classification
@@ -232,6 +233,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.NEMOTRON_3_SUPER: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_5: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_2_7: Openness.OPEN_WEIGHTS,
+    Model.TRINITY_LARGE_THINKING: Openness.OPEN_WEIGHTS,
 }
 
 
@@ -250,6 +252,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_4: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     Model.NEMOTRON_3_SUPER: Country.US,
+    Model.TRINITY_LARGE_THINKING: Country.US,
     # China models
     Model.GLM_5: Country.CN,
     Model.GLM_5_1: Country.CN,
