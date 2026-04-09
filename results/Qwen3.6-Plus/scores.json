@@ -3,7 +3,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 30.9,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 2.2662,
     "average_runtime": 638.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-dashscope-qwen3-6-plus/23949324373/results.tar.gz",
     "tags": [
