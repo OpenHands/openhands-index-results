@@ -1119,6 +1119,97 @@ class TestScoreEntrySchema:
         assert "agent_version" in msg.lower()
 
 
+class TestScoreEntryProvenanceFields:
+    """Tests for the optional ACP provenance fields on ScoreEntry.
+
+    These fields are stamped by OpenHands/benchmarks PR #646 and
+    OpenHands/evaluation PR #440 so ACP runs record exactly which ACP
+    binary handled the evaluation. Both fields must remain Optional for
+    backward compatibility with score entries written before the
+    provenance stamping pipeline landed. agent_version continues to
+    carry the openhands-sdk version for every run.
+    """
+
+    _BASE_ENTRY = {
+        "benchmark": "swe-bench",
+        "score": 68.8,
+        "metric": "accuracy",
+        "cost_per_instance": 0.5,
+        "average_runtime": 300,
+        "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+        "tags": ["swe-bench"],
+        "agent_version": "v1.16.1",
+        "submission_time": "2025-11-24T19:56:00.092865",
+    }
+
+    def _write(self, tmp_path, entry):
+        scores_file = tmp_path / "scores.json"
+        scores_file.write_text(json.dumps([entry]))
+        return scores_file
+
+    def test_backward_compat_score_entry_without_provenance_fields(self, tmp_path):
+        """Existing pre-provenance score entries must still validate."""
+        scores_file = self._write(tmp_path, self._BASE_ENTRY)
+        valid, msg = validate_scores(scores_file)
+        assert valid is True, msg
+        assert msg == "OK"
+
+    def test_default_agent_entry_without_acp_fields(self, tmp_path):
+        """Default-agent run: only agent_version (SDK version), no ACP fields."""
+        valid, msg = validate_scores(self._write(tmp_path, self._BASE_ENTRY))
+        assert valid is True, msg
+
+    def test_acp_entry_with_full_provenance(self, tmp_path):
+        """ACP run: agent_version is still the SDK version, ACP fields set together."""
+        entry = {
+            **self._BASE_ENTRY,
+            "agent_version": "v1.16.1",  # SDK version, same as default runs
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+            "acp_agent_version": "v0.25.3",
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is True, msg
+
+    def test_invalid_acp_agent_version_format(self, tmp_path):
+        """acp_agent_version must match the v-prefixed semver pattern."""
+        entry = {
+            **self._BASE_ENTRY,
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+            "acp_agent_version": "0.25.3",  # missing 'v' prefix
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_version" in msg
+
+    def test_acp_name_without_version_is_rejected(self, tmp_path):
+        """Partial ACP pair: name without version is a capture bug."""
+        entry = {
+            **self._BASE_ENTRY,
+            "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+        }
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_name" in msg and "acp_agent_version" in msg
+
+    def test_acp_version_without_name_is_rejected(self, tmp_path):
+        """Partial ACP pair: version without name is a capture bug."""
+        entry = {**self._BASE_ENTRY, "acp_agent_version": "v0.25.3"}
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is False
+        assert "acp_agent_name" in msg and "acp_agent_version" in msg
+
+    def test_unknown_fields_still_ignored(self, tmp_path):
+        """Pydantic's extra='ignore' default must remain in effect.
+
+        This is the safety net that lets the producer pipeline add new
+        provenance fields in the future without needing a simultaneous
+        schema update here.
+        """
+        entry = {**self._BASE_ENTRY, "some_future_field": "hello"}
+        valid, msg = validate_scores(self._write(tmp_path, entry))
+        assert valid is True, msg
+
+
 class TestValidateResultsDirectory:
     """Tests for validate_results_directory function."""
 
