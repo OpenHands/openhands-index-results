@@ -17,7 +17,7 @@
     "benchmark": "swt-bench",
     "score": 38.3,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 1.6843,
     "average_runtime": 3083.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-dashscope-qwen3-5-flash-2026-02-23/24086513973/results.tar.gz",
     "tags": [
