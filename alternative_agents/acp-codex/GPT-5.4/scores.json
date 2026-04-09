@@ -10,6 +10,8 @@
       "swt-bench"
     ],
     "agent_version": "v1.16.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
     "submission_time": "2026-04-05T11:29:02+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/add01f5c-e387-4085-8cc2-73c895b561dd"
   },
@@ -24,6 +26,8 @@
       "swe-bench"
     ],
     "agent_version": "v1.16.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
     "submission_time": "2026-04-04T19:00:29+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/8390b9bc-8bdc-4a55-b6f8-5a9a32d73cb3"
   },
@@ -38,6 +42,8 @@
       "gaia"
     ],
     "agent_version": "v1.16.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
     "submission_time": "2026-04-06T03:48:35+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/45ff00e9-60cd-4375-ab22-1ab486c82250"
   },
@@ -52,6 +58,8 @@
       "commit0"
     ],
     "agent_version": "v1.16.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
     "submission_time": "2026-04-04T02:17:00+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/3099d3cb-2218-4aab-b804-77cbc45fa066"
   },
@@ -66,6 +74,8 @@
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.16.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
     "submission_time": "2026-04-04T18:14:15+00:00",
     "component_scores": {
       "solveable_accuracy": 30.9,
