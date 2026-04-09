@@ -143,6 +143,31 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_glm_5_1(self, tmp_path):
+        """Test valid metadata for glm-5.1 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "GLM-5.1",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "GLM-5.1",
+            "release_date": "2026-04-07",
+            "supports_vision": False,
+            "input_price": 1.0,
+            "output_price": 3.2,
+            "parameter_count_b": 754,
+            "active_parameter_count_b": 40,
+            "cache_read_price": 0.2
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_minimax_m2_5(self, tmp_path):
         """Test valid metadata for MiniMax-M2.5 passes validation."""
         metadata = {
@@ -183,6 +208,32 @@ class TestMetadataSchema:
             "output_price": 3.0,
             "parameter_count_b": None,
             "active_parameter_count_b": None,
+            "cache_read_price": None,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_metadata_trinity_large_thinking(self, tmp_path):
+        """Test valid metadata for trinity-large-thinking passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "trinity-large-thinking",
+            "country": "us",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "trinity-large-thinking",
+            "release_date": "2026-04-01",
+            "supports_vision": False,
+            "input_price": 0.25,
+            "output_price": 0.9,
+            "parameter_count_b": 398,
+            "active_parameter_count_b": 13,
             "cache_read_price": None,
             "cache_write_price": None
         }
