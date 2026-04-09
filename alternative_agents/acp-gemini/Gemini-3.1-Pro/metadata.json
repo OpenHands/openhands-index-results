@@ -1,5 +1,5 @@
 {
-  "agent_name": "OpenHands",
+  "agent_name": "Gemini CLI",
   "agent_version": "v1.16.1",
   "model": "Gemini-3.1-Pro",
   "openness": "closed_api_available",
