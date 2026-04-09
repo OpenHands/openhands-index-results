@@ -1,16 +1,16 @@
 [
   {
     "benchmark": "gaia",
-    "score": 43.6,
+    "score": 40.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.09,
-    "average_runtime": 559.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-nvidia-nemotron-3-super-120b-a12b/23075505845/results.tar.gz",
+    "cost_per_instance": 0.0,
+    "average_runtime": 527.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-converse-nemotron-super-3-120b/24197982616/results.tar.gz",
     "tags": [
       "gaia"
     ],
-    "agent_version": "v1.14.0",
-    "submission_time": "2026-03-14T06:59:02+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/b7700ea0-5850-489f-b2ff-ce92d236bddb"
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-09T21:31:04+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/83b65b31-9799-4019-844c-815151e4798e"
   }
 ]
