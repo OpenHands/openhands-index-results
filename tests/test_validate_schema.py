@@ -214,15 +214,15 @@ class TestMetadataSchema:
         assert msg == "OK"
 
     def test_valid_metadata_trinity_large_thinking(self, tmp_path):
-        """Test valid metadata for trinity-large-thinking passes validation."""
+        """Test valid metadata for Trinity-Large-Thinking passes validation."""
         metadata = {
             "agent_name": "OpenHands",
             "agent_version": "v1.11.5",
-            "model": "trinity-large-thinking",
+            "model": "Trinity-Large-Thinking",
             "country": "us",
             "openness": "open_weights",
             "tool_usage": "standard",
-            "directory_name": "trinity-large-thinking",
+            "directory_name": "Trinity-Large-Thinking",
             "release_date": "2026-04-01",
             "supports_vision": False,
             "input_price": 0.25,
