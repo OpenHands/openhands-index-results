@@ -82,8 +82,8 @@ def generate_json(output_path: Path, complete_models: List[Tuple[datetime, str]]
     # Convert to list of dictionaries
     models_data = []
     for timestamp, model_path in complete_models:
-        # Format timestamp as YYYY-MM-DD-HH-MM-SS in UTC
-        timestamp_str = timestamp.strftime("%Y-%m-%d-%H-%M-%S")
+        # Format timestamp as ISO 8601 format matching submission_time in metadata.json
+        timestamp_str = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00"
         models_data.append({
             "timestamp": timestamp_str,
             "model-path": model_path

@@ -186,9 +186,9 @@ class TestGenerateJson:
         data = json.loads(content)
         
         assert len(data) == 2
-        assert data[0]["timestamp"] == "2026-04-02-09-01-40"
+        assert data[0]["timestamp"] == "2026-04-02T09:01:40.000+00:00"
         assert data[0]["model-path"] == "alternative_agents/model1"
-        assert data[1]["timestamp"] == "2026-04-01-10-30-15"
+        assert data[1]["timestamp"] == "2026-04-01T10:30:15.000+00:00"
         assert data[1]["model-path"] == "results/model2"
 
     def test_empty_data(self, tmp_path):
@@ -216,6 +216,6 @@ class TestGenerateJson:
         content = output_file.read_text()
         data = json.loads(content)
         
-        # Check timestamp format: YYYY-MM-DD-HH-MM-SS
-        assert data[0]["timestamp"] == "2026-01-05-08-07-06"
+        # Check timestamp format: ISO 8601 format matching metadata.json
+        assert data[0]["timestamp"] == "2026-01-05T08:07:06.000+00:00"
         assert data[0]["model-path"] == "model1"
