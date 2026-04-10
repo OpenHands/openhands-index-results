@@ -1,0 +1,21 @@
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 25.0,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.74,
+    "average_runtime": 930.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-trinity-large-thinking/24216306617/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-10T09:37:30+00:00",
+    "component_scores": {
+      "solveable_accuracy": 25.0,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 16.7
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/f327bc7a-c85b-4a89-b0c9-2da1532bcec4"
+  }
+]
