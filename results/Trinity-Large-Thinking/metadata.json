@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.11.5",
+  "agent_version": "v1.16.1",
   "model": "Trinity-Large-Thinking",
   "openness": "open_weights",
   "country": "us",
