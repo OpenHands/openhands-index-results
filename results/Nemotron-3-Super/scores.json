@@ -17,7 +17,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 20.6,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.7297,
     "average_runtime": 1311.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-converse-nemotron-super-3-120b/24197975725/results.tar.gz",
     "tags": [
