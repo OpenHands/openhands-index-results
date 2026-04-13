@@ -199,7 +199,7 @@ class Model(str, Enum):
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
-    TRINITY_LARGE_THINKING = "trinity-large-thinking"
+    TRINITY_LARGE_THINKING = "Trinity-Large-Thinking"
 
 
 # Mapping of models to their correct openness classification
