@@ -14,6 +14,25 @@
     "eval_visualization_page": "https://laminar.sh/shared/evals/b7700ea0-5850-489f-b2ff-ce92d236bddb"
   },
   {
+    "benchmark": "swe-bench-multimodal",
+    "score": 20.6,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.7297,
+    "average_runtime": 1311.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-converse-nemotron-super-3-120b/24197975725/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-10T01:36:28+00:00",
+    "component_scores": {
+      "solveable_accuracy": 20.6,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 13.7
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/44cc701e-6ecf-4c70-9cca-4246cbd402f4"
+  },
+  {
     "benchmark": "commit0",
     "score": 12.5,
     "metric": "accuracy",
