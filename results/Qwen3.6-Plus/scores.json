@@ -12,7 +12,8 @@
     "agent_version": "v1.16.1",
     "submission_time": "2026-04-06T21:35:31+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/b26a4b3d-0bc2-41d8-b8bf-09453cf2fb53"
-},{
+  },
+  {
     "benchmark": "swe-bench",
     "score": 74.2,
     "metric": "accuracy",
