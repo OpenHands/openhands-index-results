@@ -13,6 +13,19 @@
     "submission_time": "2026-04-04T12:26:22+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/b9cb5405-1049-459f-8d4d-c256091a5549"
 },{
+    "benchmark": "commit0",
+    "score": 43.8,
+    "metric": "accuracy",
+    "cost_per_instance": 4.9301,
+    "average_runtime": 1880.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-dashscope-qwen3-6-plus/23957416254/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-03T23:59:35+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/6632a45a-f169-4fba-bcc8-074b8be70f7d"
+  },{
     "benchmark": "swe-bench-multimodal",
     "score": 30.9,
     "metric": "solveable_accuracy",
