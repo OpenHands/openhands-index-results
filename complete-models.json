@@ -1,14 +1,30 @@
 [
   {
-    "timestamp": "2026-04-08T14:39:22.000+00:00",
-    "model-path": "alternative_agents/acp-gemini/Gemini-3-Flash"
+    "timestamp": "2026-04-13T15:58:55.000+00:00",
+    "model-path": "results/Qwen3.6-Plus"
   },
   {
-    "timestamp": "2026-04-08T14:39:15.000+00:00",
+    "timestamp": "2026-04-13T15:53:23.000+00:00",
+    "model-path": "results/Nemotron-3-Super"
+  },
+  {
+    "timestamp": "2026-04-09T20:39:06.000+00:00",
+    "model-path": "results/MiniMax-M2.5"
+  },
+  {
+    "timestamp": "2026-04-09T17:04:35.000+00:00",
+    "model-path": "results/MiniMax-M2.7"
+  },
+  {
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
     "model-path": "alternative_agents/acp-gemini/Gemini-3.1-Pro"
   },
   {
-    "timestamp": "2026-04-08T14:39:06.000+00:00",
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
+    "model-path": "alternative_agents/acp-gemini/Gemini-3-Flash"
+  },
+  {
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
     "model-path": "alternative_agents/acp-codex/GPT-5.4"
   },
   {
@@ -54,10 +70,6 @@
   {
     "timestamp": "2026-03-05T15:25:17.000+00:00",
     "model-path": "results/Nemotron-3-Nano"
-  },
-  {
-    "timestamp": "2026-03-05T15:25:17.000+00:00",
-    "model-path": "results/MiniMax-M2.5"
   },
   {
     "timestamp": "2026-03-05T15:25:17.000+00:00",
