@@ -1,5 +1,38 @@
 [
   {
+    "benchmark": "swe-bench-multimodal",
+    "score": 25.0,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.74,
+    "average_runtime": 930.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-trinity-large-thinking/24216306617/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-10T09:37:30+00:00",
+    "component_scores": {
+      "solveable_accuracy": 25.0,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 16.7
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/f327bc7a-c85b-4a89-b0c9-2da1532bcec4"
+  },
+    {
+    "benchmark": "gaia",
+    "score": 32.7,
+    "metric": "accuracy",
+    "cost_per_instance": 0.35,
+    "average_runtime": 475.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-trinity-large-thinking/24216307983/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.16.1",
+    "submission_time": "2026-04-10T01:34:45+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/74af64d2-66d2-4cb1-8d23-f981fafc88c6"
+  },
+  {
     "benchmark": "swe-bench",
     "score": 56.8,
     "metric": "accuracy",

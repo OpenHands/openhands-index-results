@@ -1,0 +1,118 @@
+[
+  {
+    "timestamp": "2026-04-13T15:58:55.000+00:00",
+    "model-path": "results/Qwen3.6-Plus"
+  },
+  {
+    "timestamp": "2026-04-13T15:53:23.000+00:00",
+    "model-path": "results/Nemotron-3-Super"
+  },
+  {
+    "timestamp": "2026-04-09T20:39:06.000+00:00",
+    "model-path": "results/MiniMax-M2.5"
+  },
+  {
+    "timestamp": "2026-04-09T17:04:35.000+00:00",
+    "model-path": "results/MiniMax-M2.7"
+  },
+  {
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
+    "model-path": "alternative_agents/acp-gemini/Gemini-3.1-Pro"
+  },
+  {
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
+    "model-path": "alternative_agents/acp-gemini/Gemini-3-Flash"
+  },
+  {
+    "timestamp": "2026-04-09T13:23:25.000+00:00",
+    "model-path": "alternative_agents/acp-codex/GPT-5.4"
+  },
+  {
+    "timestamp": "2026-04-08T08:44:22.000+00:00",
+    "model-path": "alternative_agents/acp-claude/claude-sonnet-4-5"
+  },
+  {
+    "timestamp": "2026-04-08T08:42:26.000+00:00",
+    "model-path": "alternative_agents/acp-claude/claude-opus-4-6"
+  },
+  {
+    "timestamp": "2026-04-02T09:01:40.000+00:00",
+    "model-path": "alternative_agents/openhands_subagents/claude-sonnet-4-5"
+  },
+  {
+    "timestamp": "2026-04-02T09:00:30.000+00:00",
+    "model-path": "alternative_agents/openhands_subagents/claude-opus-4-6"
+  },
+  {
+    "timestamp": "2026-04-02T08:27:36.000+00:00",
+    "model-path": "results/claude-sonnet-4-5"
+  },
+  {
+    "timestamp": "2026-04-02T08:25:46.000+00:00",
+    "model-path": "results/claude-opus-4-6"
+  },
+  {
+    "timestamp": "2026-04-02T03:29:21.000+00:00",
+    "model-path": "results/GPT-5.2-Codex"
+  },
+  {
+    "timestamp": "2026-04-01T18:02:51.000+00:00",
+    "model-path": "results/GPT-5.4"
+  },
+  {
+    "timestamp": "2026-03-12T14:55:11.000+00:00",
+    "model-path": "results/GLM-5"
+  },
+  {
+    "timestamp": "2026-03-06T22:03:40.000+00:00",
+    "model-path": "results/Gemini-3.1-Pro"
+  },
+  {
+    "timestamp": "2026-03-05T15:25:17.000+00:00",
+    "model-path": "results/Nemotron-3-Nano"
+  },
+  {
+    "timestamp": "2026-03-05T15:25:17.000+00:00",
+    "model-path": "results/MiniMax-M2.1"
+  },
+  {
+    "timestamp": "2026-03-05T15:25:17.000+00:00",
+    "model-path": "results/Kimi-K2.5"
+  },
+  {
+    "timestamp": "2026-03-05T15:25:17.000+00:00",
+    "model-path": "results/Gemini-3-Pro"
+  },
+  {
+    "timestamp": "2026-03-05T15:25:17.000+00:00",
+    "model-path": "results/GLM-4.7"
+  },
+  {
+    "timestamp": "2026-03-03T20:22:27.000+00:00",
+    "model-path": "results/claude-sonnet-4-6"
+  },
+  {
+    "timestamp": "2026-02-18T02:40:23.000+00:00",
+    "model-path": "results/Kimi-K2-Thinking"
+  },
+  {
+    "timestamp": "2026-02-18T02:40:07.000+00:00",
+    "model-path": "results/claude-opus-4-5"
+  },
+  {
+    "timestamp": "2026-02-18T02:39:40.000+00:00",
+    "model-path": "results/Qwen3-Coder-480B"
+  },
+  {
+    "timestamp": "2026-02-18T02:39:33.000+00:00",
+    "model-path": "results/Gemini-3-Flash"
+  },
+  {
+    "timestamp": "2026-02-18T02:39:17.000+00:00",
+    "model-path": "results/DeepSeek-V3.2-Reasoner"
+  },
+  {
+    "timestamp": "2026-02-18T02:39:01.000+00:00",
+    "model-path": "results/GPT-5.2"
+  }
+]
