@@ -54,5 +54,24 @@
     "agent_version": "v1.16.1",
     "submission_time": "2026-04-12T21:40:52+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/828c5288-5e15-4660-9f22-c6bfe6e819e5"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 27.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 2459.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-dashscope-qwen3-5-flash-2026-02-23/24426485940/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-15T15:18:37+00:00",
+    "component_scores": {
+      "solveable_accuracy": 27.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 18.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/84c8dc14-d082-430d-b19c-e142de615385"
   }
 ]
