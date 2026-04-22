@@ -12,5 +12,33 @@
     "agent_version": "v1.16.1",
     "submission_time": "2026-04-10T06:58:18+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/edae3592-9be7-4da5-83c3-b6ebe10e1bf6"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 67.3,
+    "metric": "accuracy",
+    "cost_per_instance": 0.47,
+    "average_runtime": 280.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openrouter-z-ai-glm-5-1/24376299760/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-14T04:36:03+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/0d35046a-cbee-473b-b316-d4f57ff7f9d2"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 31.2,
+    "metric": "accuracy",
+    "cost_per_instance": 1.25,
+    "average_runtime": 548.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openrouter-z-ai-glm-5-1/24433504256/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-15T04:33:03+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/e0892684-26a7-4da2-a562-94972633312b"
   }
 ]

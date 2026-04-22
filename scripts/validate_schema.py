@@ -269,6 +269,7 @@ class ToolUsage(str, Enum):
 
 class Model(str, Enum):
     """Expected model names from issue #2."""
+    CLAUDE_OPUS_4_7 = "claude-opus-4-7"
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
     CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
@@ -302,6 +303,7 @@ class Model(str, Enum):
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
+    Model.CLAUDE_OPUS_4_7: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
