@@ -59,5 +59,19 @@
     "agent_version": "v1.17.0",
     "submission_time": "2026-04-17T22:13:04+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/734845e8-b910-414f-a4b7-ad60d464131c"
+  },
+  {
+    "benchmark": "commit0",
+    "score": 56.2,
+    "metric": "accuracy",
+    "cost_per_instance": 5.69,
+    "average_runtime": 636.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-7/24805652683/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-23T02:56:45+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/825aa22d-16cb-49c1-8080-97a46db81099"
   }
 ]
