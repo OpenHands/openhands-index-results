@@ -3,7 +3,7 @@
     "benchmark": "gaia",
     "score": 40.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.1138,
+    "cost_per_instance": 0.0883,
     "average_runtime": 527.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-converse-nemotron-super-3-120b/24197982616/results.tar.gz",
     "tags": [
@@ -17,7 +17,7 @@
     "benchmark": "swe-bench",
     "score": 62.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.4411,
+    "cost_per_instance": 0.4663,
     "average_runtime": 874.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-converse-nemotron-super-3-120b/24135041475/results.tar.gz",
     "tags": [
@@ -31,7 +31,7 @@
     "benchmark": "swt-bench",
     "score": 45.7,
     "metric": "accuracy",
-    "cost_per_instance": 0.3162,
+    "cost_per_instance": 0.3328,
     "average_runtime": 1027.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-converse-nemotron-super-3-120b/24106920313/results.tar.gz",
     "tags": [
@@ -45,7 +45,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 20.6,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.7297,
+    "cost_per_instance": 0.7679,
     "average_runtime": 1311.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-converse-nemotron-super-3-120b/24197975725/results.tar.gz",
     "tags": [
@@ -64,7 +64,7 @@
     "benchmark": "commit0",
     "score": 12.5,
     "metric": "accuracy",
-    "cost_per_instance": 1.2252,
+    "cost_per_instance": 0.7464,
     "average_runtime": 2905.0,
     "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-converse-nemotron-super-3-120b/24197990049/results.tar.gz",
     "tags": [
