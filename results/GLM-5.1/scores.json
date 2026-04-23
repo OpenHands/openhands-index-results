@@ -54,5 +54,24 @@
     "agent_version": "v1.17.0",
     "submission_time": "2026-04-21T06:01:18+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/6543c602-c721-48e6-a0fe-a1abb08fab4b"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 41.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 6.92,
+    "average_runtime": 3031.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-openrouter-z-ai-glm-5-1/24730025059/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-21T19:14:21+00:00",
+    "component_scores": {
+      "solveable_accuracy": 41.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 27.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/26dfa179-9ab7-4b15-988d-b7ed2bf91328"
   }
 ]
