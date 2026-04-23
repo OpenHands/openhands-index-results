@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-04-23T11:19:15.000+00:00",
+    "model-path": "results/claude-opus-4-7"
+  },
+  {
+    "timestamp": "2026-04-23T11:16:03.000+00:00",
+    "model-path": "results/claude-opus-4-6"
+  },
+  {
     "timestamp": "2026-04-13T15:58:55.000+00:00",
     "model-path": "results/Qwen3.6-Plus"
   },
@@ -46,10 +54,6 @@
   {
     "timestamp": "2026-04-02T08:27:36.000+00:00",
     "model-path": "results/claude-sonnet-4-5"
-  },
-  {
-    "timestamp": "2026-04-02T08:25:46.000+00:00",
-    "model-path": "results/claude-opus-4-6"
   },
   {
     "timestamp": "2026-04-02T03:29:21.000+00:00",
