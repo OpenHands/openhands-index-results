@@ -17,7 +17,7 @@
     "benchmark": "gaia",
     "score": 47.9,
     "metric": "accuracy",
-    "cost_per_instance": 0.02,
+    "cost_per_instance": 0.0761,
     "average_runtime": 716.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-jade-spark-2862/21896759788/results.tar.gz",
     "tags": [
@@ -31,7 +31,7 @@
     "benchmark": "swe-bench",
     "score": 72.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.0993,
+    "cost_per_instance": 0.2739,
     "average_runtime": 455.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-jade-spark-2862/21885618644/results.tar.gz",
     "tags": [
@@ -45,7 +45,7 @@
     "benchmark": "swt-bench",
     "score": 68.1,
     "metric": "accuracy",
-    "cost_per_instance": 0.0728,
+    "cost_per_instance": 0.2083,
     "average_runtime": 389.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-jade-spark-2862/21870831025/results.tar.gz",
     "tags": [
@@ -59,7 +59,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 25.0,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.1464,
+    "cost_per_instance": 0.5028,
     "average_runtime": 611.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-jade-spark-2862/21900356665/results.tar.gz",
     "tags": [
