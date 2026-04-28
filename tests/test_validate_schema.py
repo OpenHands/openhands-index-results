@@ -115,6 +115,32 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_kimi_k2_6(self, tmp_path):
+        """Test valid metadata for kimi-k2.6 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "Kimi-K2.6",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "Kimi-K2.6",
+            "release_date": "2026-04-20",
+            "supports_vision": True,
+            "input_price": 0.60,
+            "output_price": 2.80,
+            "parameter_count_b": 1000,
+            "active_parameter_count_b": 32,
+            "cache_read_price": 0.16,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_glm_4_7(self, tmp_path):
         """Test valid metadata for glm-4.7 passes validation."""
         metadata = {

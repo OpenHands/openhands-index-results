@@ -1,0 +1,18 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.11.5",
+  "model": "Kimi-K2.6",
+  "openness": "open_weights",
+  "country": "cn",
+  "tool_usage": "standard",
+  "directory_name": "Kimi-K2.6",
+  "release_date": "2026-04-20",
+  "parameter_count_b": 1000,
+  "active_parameter_count_b": 32,
+  "supports_vision": true,
+  "input_price": 0.60,
+  "output_price": 2.80,
+  "cache_read_price": 0.16,
+  "cache_write_price": null,
+  "submission_time": "2026-04-28T16:37:00.000000+00:00"
+}
