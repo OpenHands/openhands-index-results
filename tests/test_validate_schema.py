@@ -67,6 +67,29 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_supported_gemini_models_remain_valid(self, tmp_path):
+        """Test Gemini 3.1 Pro and Gemini 3 Flash metadata still pass validation."""
+        for model_name in ("Gemini-3.1-Pro", "Gemini-3-Flash"):
+            metadata = {
+                "agent_name": "OpenHands",
+                "agent_version": "v1.11.5",
+                "model": model_name,
+                "country": "us",
+                "openness": "closed_api_available",
+                "tool_usage": "standard",
+                "directory_name": model_name,
+                "release_date": "2026-01-15",
+                "supports_vision": True,
+                "input_price": 0.1,
+                "output_price": 0.1,
+            }
+            metadata_file = tmp_path / f"{model_name}-metadata.json"
+            metadata_file.write_text(json.dumps(metadata))
+
+            valid, msg = validate_metadata(metadata_file)
+            assert valid is True
+            assert msg == "OK"
+
     def test_valid_metadata_nemotron_3_nano_30b(self, tmp_path):
         """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
@@ -314,6 +337,28 @@ class TestMetadataSchema:
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
         assert "country" in msg.lower()
+
+    def test_removed_gemini_3_pro_model_is_invalid(self, tmp_path):
+        """Test Gemini 3 Pro metadata is rejected now that the model is removed."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.8.3",
+            "model": "Gemini-3-Pro",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Gemini-3-Pro",
+            "release_date": "2025-11-18",
+            "supports_vision": True,
+            "input_price": 2.0,
+            "output_price": 12.0,
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "model" in msg.lower()
 
     def test_invalid_model_value(self, tmp_path):
         """Test metadata with invalid model value fails validation."""

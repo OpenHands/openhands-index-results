@@ -89,10 +89,6 @@
   },
   {
     "timestamp": "2026-03-05T15:25:17.000+00:00",
-    "model-path": "results/Gemini-3-Pro"
-  },
-  {
-    "timestamp": "2026-03-05T15:25:17.000+00:00",
     "model-path": "results/GLM-4.7"
   },
   {
