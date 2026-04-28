@@ -17,7 +17,7 @@
     "benchmark": "swe-bench",
     "score": 68.8,
     "metric": "accuracy",
-    "cost_per_instance": 0.4768,
+    "cost_per_instance": 0.4063,
     "average_runtime": 707.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-moonshot-kimi-k2-5/21417485547/results.tar.gz",
     "tags": [
@@ -30,7 +30,7 @@
     "benchmark": "swt-bench",
     "score": 61.9,
     "metric": "accuracy",
-    "cost_per_instance": 0.42,
+    "cost_per_instance": 0.4246,
     "average_runtime": 385.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-moonshot-kimi-k2-5/21535132257/results.tar.gz",
     "tags": [
@@ -43,7 +43,7 @@
     "benchmark": "gaia",
     "score": 63.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.13,
+    "cost_per_instance": 0.3781,
     "average_runtime": 602.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-moonshot-kimi-k2-5/21497407856/results.tar.gz",
     "tags": [
@@ -56,7 +56,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 32.8,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 1.5773,
+    "cost_per_instance": 1.6213,
     "average_runtime": 921.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-moonshot-kimi-k2-5/21492411890/results.tar.gz",
     "tags": [
