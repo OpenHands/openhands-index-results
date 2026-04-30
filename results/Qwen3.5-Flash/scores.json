@@ -59,7 +59,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 27.9,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 2.6218,
     "average_runtime": 2459.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-dashscope-qwen3-5-flash-2026-02-23/24426485940/results.tar.gz",
     "tags": [
