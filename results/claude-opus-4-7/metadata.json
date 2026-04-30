@@ -1,0 +1,16 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.11.0",
+  "model": "claude-opus-4-7",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "claude-opus-4-7",
+  "release_date": "2026-04-16",
+  "supports_vision": true,
+  "input_price": 5.0,
+  "output_price": 25.0,
+  "cache_read_price": 0.5,
+  "cache_write_price": 6.25,
+  "submission_time": "2026-04-16T14:58:54.542729+00:00"
+}

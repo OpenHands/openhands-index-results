@@ -174,6 +174,7 @@ class ToolUsage(str, Enum):
 
 class Model(str, Enum):
     """Expected model names from issue #2."""
+    CLAUDE_OPUS_4_7 = "claude-opus-4-7"
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
     CLAUDE_SONNET_4_6 = "claude-sonnet-4-6"
@@ -187,6 +188,7 @@ class Model(str, Enum):
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
     GPT_5_4 = "GPT-5.4"
+    GPT_5_5 = "GPT-5.5"
     KIMI_K2_THINKING = "Kimi-K2-Thinking"
     KIMI_K2_5 = "Kimi-K2.5"
     MINIMAX_M2_1 = "MiniMax-M2.1"
@@ -207,6 +209,7 @@ class Model(str, Enum):
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
+    Model.CLAUDE_OPUS_4_7: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_SONNET_4_6: Openness.CLOSED_API_AVAILABLE,
@@ -217,6 +220,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_5: Openness.CLOSED_API_AVAILABLE,
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
@@ -250,6 +254,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
     Model.GPT_5_4: Country.US,
+    Model.GPT_5_5: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     Model.NEMOTRON_3_SUPER: Country.US,
     Model.TRINITY_LARGE_THINKING: Country.US,
