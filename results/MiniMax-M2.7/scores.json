@@ -3,7 +3,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 27.9,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 0.3337,
+    "cost_per_instance": 0.388,
     "average_runtime": 1084.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-minimax-MiniMax-M2-7/23369175877/results.tar.gz",
     "tags": [
@@ -22,7 +22,7 @@
     "benchmark": "commit0",
     "score": 25.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.9444,
+    "cost_per_instance": 1.1846,
     "average_runtime": 2520.0,
     "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-minimax-MiniMax-M2-7/23324416020/results.tar.gz",
     "tags": [
@@ -36,7 +36,7 @@
     "benchmark": "swe-bench",
     "score": 75.6,
     "metric": "accuracy",
-    "cost_per_instance": 0.1731,
+    "cost_per_instance": 0.1795,
     "average_runtime": 529.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-minimax-MiniMax-M2-7/23463806447/results.tar.gz",
     "tags": [
@@ -50,7 +50,7 @@
     "benchmark": "gaia",
     "score": 25.5,
     "metric": "accuracy",
-    "cost_per_instance": 0.2092,
+    "cost_per_instance": 0.2163,
     "average_runtime": 676.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-minimax-MiniMax-M2-7/23855930236/results.tar.gz",
     "tags": [

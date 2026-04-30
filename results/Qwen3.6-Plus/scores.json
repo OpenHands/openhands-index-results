@@ -3,7 +3,7 @@
     "benchmark": "gaia",
     "score": 72.1,
     "metric": "accuracy",
-    "cost_per_instance": 0.3398,
+    "cost_per_instance": 0.3377,
     "average_runtime": 308.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-dashscope-qwen3-6-plus/24043637505/results.tar.gz",
     "tags": [
@@ -17,7 +17,7 @@
     "benchmark": "swt-bench",
     "score": 62.1,
     "metric": "accuracy",
-    "cost_per_instance": 2.0405,
+    "cost_per_instance": 2.085,
     "average_runtime": 851.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-dashscope-qwen3-6-plus/24043642717/results.tar.gz",
     "tags": [
@@ -31,7 +31,7 @@
     "benchmark": "swe-bench",
     "score": 74.2,
     "metric": "accuracy",
-    "cost_per_instance": 1.5243,
+    "cost_per_instance": 1.5379,
     "average_runtime": 664.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-dashscope-qwen3-6-plus/23957434539/results.tar.gz",
     "tags": [
@@ -45,7 +45,7 @@
     "benchmark": "commit0",
     "score": 50.0,
     "metric": "accuracy",
-    "cost_per_instance": 4.4049,
+    "cost_per_instance": 4.4184,
     "average_runtime": 1635.0,
     "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-dashscope-qwen3-6-plus/23957367199/results.tar.gz",
     "tags": [
@@ -59,7 +59,7 @@
     "benchmark": "swe-bench-multimodal",
     "score": 30.9,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 2.2662,
+    "cost_per_instance": 2.3158,
     "average_runtime": 638.0,
     "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-dashscope-qwen3-6-plus/23949324373/results.tar.gz",
     "tags": [
