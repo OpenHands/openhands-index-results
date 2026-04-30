@@ -16,15 +16,15 @@
     "benchmark": "commit0",
     "score": 12.5,
     "metric": "accuracy",
-    "cost_per_instance": 2.9,
-    "average_runtime": 846.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-claude-sonnet-4-5-20250929/22098654823/results.tar.gz",
+    "cost_per_instance": 3.23,
+    "average_runtime": 756.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-claude-sonnet-4-5-20250929/25079432235/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.11.0",
-    "submission_time": "2026-02-17T13:00:09+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/6b5434be-df9b-4117-961c-838081a4853b"
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-28T23:43:06+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/17fc5d57-6aae-4dda-8f56-f6275df7db8e"
   },
   {
     "benchmark": "gaia",
