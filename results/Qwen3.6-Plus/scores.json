@@ -45,7 +45,7 @@
     "benchmark": "commit0",
     "score": 25.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 7.4936,
     "average_runtime": 1037.0,
     "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-dashscope-qwen3-6-plus/25079439356/results.tar.gz",
     "tags": [
