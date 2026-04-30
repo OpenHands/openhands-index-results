@@ -67,6 +67,30 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_gpt_5_5(self, tmp_path):
+        """Test valid metadata for GPT-5.5 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "GPT-5.5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.5",
+            "release_date": "2026-04-23",
+            "supports_vision": True,
+            "input_price": 5.0,
+            "output_price": 30.0,
+            "cache_read_price": 0.5,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_nemotron_3_nano_30b(self, tmp_path):
         """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
