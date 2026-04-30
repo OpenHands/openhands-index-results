@@ -27,17 +27,17 @@
   },
   {
     "benchmark": "commit0",
-    "score": 37.5,
+    "score": 43.8,
     "metric": "accuracy",
-    "cost_per_instance": 1.34,
-    "average_runtime": 399.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openai-gpt-5-2-2025-12-11/22101816078/results.tar.gz",
+    "cost_per_instance": 3.04,
+    "average_runtime": 1092.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-openai-gpt-5-2-2025-12-11/25079303649/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.11.0",
-    "submission_time": "2026-02-17T14:39:30+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/94cf07a1-020d-4f2e-8da7-1e2a8586dec3"
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-29T02:07:48+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/2e840618-c3d1-4421-8b81-1a0b34f012d2"
   },
   {
     "benchmark": "swt-bench",
