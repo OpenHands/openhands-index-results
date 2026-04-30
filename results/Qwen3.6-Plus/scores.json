@@ -43,17 +43,17 @@
   },
   {
     "benchmark": "commit0",
-    "score": 50.0,
+    "score": 25.0,
     "metric": "accuracy",
-    "cost_per_instance": 4.4184,
-    "average_runtime": 1635.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-dashscope-qwen3-6-plus/23957367199/results.tar.gz",
+    "cost_per_instance": 0.0,
+    "average_runtime": 1037.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-dashscope-qwen3-6-plus/25079439356/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.16.1",
-    "submission_time": "2026-04-03T21:22:12+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/3dacdd45-0f09-4540-8443-99a49a797882"
+    "agent_version": "v1.17.0",
+    "submission_time": "2026-04-29T03:13:01+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/c5f31dca-5471-4ce3-830a-938de77baece"
   },
   {
     "benchmark": "swe-bench-multimodal",
