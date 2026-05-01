@@ -30,5 +30,19 @@
     "acp_agent_version": "v0.30.0",
     "submission_time": "2026-04-23T20:42:16+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/2a4b6a0b-75dd-42c8-ab9c-003fd869369f"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 74.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.71,
+    "average_runtime": 264.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-7/24852541001/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.18.1",
+    "submission_time": "2026-04-23T18:56:24+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/39ba5dfd-749a-444c-82a2-9da63303db83"
   }
 ]
