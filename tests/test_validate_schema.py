@@ -4,6 +4,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
@@ -16,6 +18,9 @@ from validate_schema import (
     validate_scores,
     validate_results_directory,
     validate_alternative_agents_directory,
+    parse_semver,
+    is_version_earlier_or_equal,
+    validate_metadata_agent_version,
 )
 from pydantic import ValidationError
 
@@ -67,6 +72,30 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_gpt_5_5(self, tmp_path):
+        """Test valid metadata for GPT-5.5 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "GPT-5.5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.5",
+            "release_date": "2026-04-23",
+            "supports_vision": True,
+            "input_price": 5.0,
+            "output_price": 30.0,
+            "cache_read_price": 0.5,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_nemotron_3_nano_30b(self, tmp_path):
         """Test valid metadata for nemotron-3-nano passes validation."""
         metadata = {
@@ -107,6 +136,32 @@ class TestMetadataSchema:
             "output_price": 0.1,
             "parameter_count_b": 1000,
             "active_parameter_count_b": 32
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_metadata_kimi_k2_6(self, tmp_path):
+        """Test valid metadata for kimi-k2.6 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.11.5",
+            "model": "Kimi-K2.6",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "Kimi-K2.6",
+            "release_date": "2026-04-20",
+            "supports_vision": True,
+            "input_price": 0.95,
+            "output_price": 4.00,
+            "parameter_count_b": 1000,
+            "active_parameter_count_b": 32,
+            "cache_read_price": 0.16,
+            "cache_write_price": None
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
@@ -1850,3 +1905,369 @@ class TestValidateAlternativeAgentsDirectory:
         assert passed == 0
         assert failed == 0
         assert len(errors) == 0
+
+
+class TestParseSemver:
+    """Tests for parse_semver helper function."""
+
+    def test_valid_version(self):
+        """Test parsing a valid semver string."""
+        major, minor, patch = parse_semver("v1.2.3")
+        assert major == 1
+        assert minor == 2
+        assert patch == 3
+
+    def test_version_with_single_digits(self):
+        """Test parsing version with single digits."""
+        major, minor, patch = parse_semver("v0.1.0")
+        assert major == 0
+        assert minor == 1
+        assert patch == 0
+
+    def test_version_with_large_numbers(self):
+        """Test parsing version with large numbers."""
+        major, minor, patch = parse_semver("v123.456.789")
+        assert major == 123
+        assert minor == 456
+        assert patch == 789
+
+    def test_invalid_version_missing_v(self):
+        """Test that version without 'v' prefix raises ValueError."""
+        with pytest.raises(ValueError):
+            parse_semver("1.2.3")
+
+    def test_invalid_version_wrong_format(self):
+        """Test that invalid format raises ValueError."""
+        with pytest.raises(ValueError):
+            parse_semver("v1.2")
+
+
+class TestIsVersionEarlierOrEqual:
+    """Tests for is_version_earlier_or_equal helper function."""
+
+    def test_same_version(self):
+        """Test same versions are equal."""
+        assert is_version_earlier_or_equal("v1.0.0", "v1.0.0") is True
+
+    def test_earlier_major(self):
+        """Test earlier major version."""
+        assert is_version_earlier_or_equal("v1.0.0", "v2.0.0") is True
+
+    def test_later_major(self):
+        """Test later major version."""
+        assert is_version_earlier_or_equal("v2.0.0", "v1.0.0") is False
+
+    def test_earlier_minor(self):
+        """Test earlier minor version."""
+        assert is_version_earlier_or_equal("v1.1.0", "v1.2.0") is True
+
+    def test_later_minor(self):
+        """Test later minor version."""
+        assert is_version_earlier_or_equal("v1.3.0", "v1.2.0") is False
+
+    def test_earlier_patch(self):
+        """Test earlier patch version."""
+        assert is_version_earlier_or_equal("v1.0.1", "v1.0.2") is True
+
+    def test_later_patch(self):
+        """Test later patch version."""
+        assert is_version_earlier_or_equal("v1.0.3", "v1.0.2") is False
+
+    def test_earlier_complex(self):
+        """Test earlier complex version."""
+        assert is_version_earlier_or_equal("v1.10.0", "v1.11.0") is True
+
+
+class TestValidateMetadataAgentVersion:
+    """Tests for validate_metadata_agent_version function."""
+
+    def _make_model_dir(self, tmp_path, model_name="GPT-5.2"):
+        """Helper to create a model directory with metadata.json and scores.json."""
+        model_dir = tmp_path / model_name
+        model_dir.mkdir(parents=True, exist_ok=True)
+        return model_dir
+
+    def _make_scores(self, agent_versions):
+        """Helper to create scores entries with given agent_versions."""
+        scores = []
+        for i, version in enumerate(agent_versions):
+            scores.append({
+                "benchmark": "swe-bench",
+                "score": 68.8,
+                "metric": "accuracy",
+                "cost_per_instance": 0.5,
+                "average_runtime": 300,
+                "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+                "tags": ["swe-bench"],
+                "agent_version": version,
+                "submission_time": "2025-11-24T19:56:00.092865"
+            })
+        return scores
+
+    def test_metadata_version_is_earliest(self, tmp_path):
+        """Test validation passes when metadata version is the earliest."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        scores = self._make_scores(["v1.0.0", "v1.1.0", "v1.2.0"])
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is True
+        assert msg == "OK"
+
+    def test_metadata_version_matches_earliest_with_duplicates(self, tmp_path):
+        """Test validation passes when metadata version matches earliest with duplicates."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.1.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        # Earliest is v1.1.0 (appears twice)
+        scores = self._make_scores(["v1.1.0", "v1.1.0", "v1.2.0"])
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is True
+        assert msg == "OK"
+
+    def test_metadata_version_later_than_earliest_fails(self, tmp_path):
+        """Test validation fails when metadata version is later than earliest in scores."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.8.3",  # This is LATER than scores versions
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        scores = self._make_scores(["v1.0.0", "v1.1.0", "v1.2.0"])  # Earliest is v1.0.0
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is False
+        assert "v1.8.3" in msg
+        assert "v1.0.0" in msg
+
+    def test_empty_scores_list_is_valid(self, tmp_path):
+        """Test validation passes with empty scores list."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.8.3",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        scores = []  # Empty list
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is True
+        assert msg == "OK"
+
+    def test_no_agent_version_in_scores_is_valid(self, tmp_path):
+        """Test validation passes when scores have no agent_version."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.8.3",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        # Scores without agent_version
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+            "tags": ["swe-bench"],
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is True
+        assert msg == "OK"
+
+    def test_invalid_json_in_metadata(self, tmp_path):
+        """Test validation handles invalid JSON in metadata."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        (model_dir / "metadata.json").write_text("not valid json {")
+        scores = self._make_scores(["v1.0.0"])
+
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is False
+        assert "Invalid JSON" in msg
+
+    def test_invalid_json_in_scores(self, tmp_path):
+        """Test validation handles invalid JSON in scores."""
+        model_dir = self._make_model_dir(tmp_path)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text("not valid json [")
+
+        valid, msg = validate_metadata_agent_version(
+            model_dir / "metadata.json",
+            model_dir / "scores.json"
+        )
+        assert valid is False
+        assert "Invalid JSON" in msg
+
+
+class TestAgentVersionConsistencyInValidation:
+    """Tests for agent_version consistency validation in _validate_model_dirs."""
+
+    def _make_model_dir_with_version_mismatch(self, tmp_path, model_name="GPT-5.2"):
+        """Helper to create a model directory where metadata version is later than scores versions."""
+        model_dir = tmp_path / model_name
+        model_dir.mkdir(parents=True, exist_ok=True)
+
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.8.3",  # Later than scores versions
+            "model": model_name,
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": model_name,
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        scores = [{
+            "benchmark": "swe-bench",
+            "score": 68.8,
+            "metric": "accuracy",
+            "cost_per_instance": 0.5,
+            "average_runtime": 300,
+            "full_archive": "https://results.eval.all-hands.dev/eval-21386738547-test_litellm_proxy-test_26-01-27-12-57.tar.gz",
+            "tags": ["swe-bench"],
+            "agent_version": "v1.0.0",  # Earlier than metadata version
+            "submission_time": "2025-11-24T19:56:00.092865"
+        }]
+
+        (model_dir / "metadata.json").write_text(json.dumps(metadata))
+        (model_dir / "scores.json").write_text(json.dumps(scores))
+
+        return model_dir
+
+    def test_version_mismatch_caught_in_results_dir(self, tmp_path):
+        """Test that version mismatch is caught in results directory validation."""
+        results_dir = tmp_path / "results"
+        results_dir.mkdir()
+        self._make_model_dir_with_version_mismatch(results_dir, "GPT-5.2")
+
+        passed, failed, errors = validate_results_directory(results_dir)
+
+        # Should have at least 3 validations:
+        # 1. metadata.json schema (passed)
+        # 2. scores.json schema (passed)
+        # 3. agent_version consistency (failed)
+        assert failed >= 1
+        assert any("not the earliest version" in e for e in errors)
+
+    def test_version_mismatch_caught_in_alternative_agents(self, tmp_path):
+        """Test that version mismatch is caught in alternative_agents validation."""
+        alt_dir = tmp_path / "alternative_agents"
+        agent_dir = alt_dir / "claude_code"
+        agent_dir.mkdir(parents=True)
+        self._make_model_dir_with_version_mismatch(agent_dir, "GPT-5.2")
+
+        passed, failed, errors = validate_alternative_agents_directory(alt_dir)
+
+        # Should catch the version mismatch error
+        assert failed >= 1
+        assert any("not the earliest version" in e for e in errors)
