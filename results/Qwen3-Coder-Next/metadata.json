@@ -1,6 +1,6 @@
 {
   "agent_name": "OpenHands",
-  "agent_version": "v1.11.1",
+  "agent_version": "v1.11.0",
   "model": "Qwen3-Coder-Next",
   "openness": "open_weights",
   "country": "cn",

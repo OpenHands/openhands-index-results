@@ -49,19 +49,19 @@
   },
   {
     "benchmark": "commit0",
-    "score": 68.8,
+    "score": 43.8,
     "metric": "accuracy",
-    "cost_per_instance": 8.04,
-    "average_runtime": 696.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/23983343698/results.tar.gz",
+    "cost_per_instance": 7.55,
+    "average_runtime": 1072.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/25038817375/results.tar.gz",
     "tags": [
       "commit0"
     ],
-    "agent_version": "v1.16.1",
+    "agent_version": "v1.19.0",
     "acp_agent_name": "gemini-cli",
-    "acp_agent_version": "v0.36.0",
-    "submission_time": "2026-04-04T18:03:01+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/a7259ccf-6b63-4716-9e35-c0e9f2cd7a0a"
+    "acp_agent_version": "v0.38.0",
+    "submission_time": "2026-04-28T10:01:02+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/4a760cca-c1e2-4b81-af5e-7a97d4bb2394"
   },
   {
     "benchmark": "swe-bench-multimodal",
