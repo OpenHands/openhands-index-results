@@ -1,0 +1,18 @@
+[
+  {
+    "benchmark": "commit0",
+    "score": 43.8,
+    "metric": "accuracy",
+    "cost_per_instance": 7.34,
+    "average_runtime": 1433.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-7/24863774497/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.18.1",
+    "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+    "acp_agent_version": "v0.30.0",
+    "submission_time": "2026-04-27T17:03:39.913993+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/22382ee0-7c69-466c-9cb3-21d31c11d85f"
+  }
+]
