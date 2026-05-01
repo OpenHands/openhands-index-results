@@ -51,6 +51,101 @@ def format_validation_error(error: ValidationError) -> str:
     return "\n".join(messages)
 
 
+def parse_semver(version: str) -> tuple[int, int, int]:
+    """Parse a semantic version string into components.
+
+    Args:
+        version: A version string like 'v1.2.3'
+
+    Returns:
+        Tuple of (major, minor, patch) integers
+
+    Raises:
+        ValueError: If the version string is not a valid semver
+    """
+    if not SEMVER_PATTERN.match(version):
+        raise ValueError(
+            f"agent_version must be a valid semantic version starting with 'v' "
+            f"(e.g., 'v1.0.0'), got '{version}'"
+        )
+    # Remove 'v' prefix and parse
+    parts = version[1:].split(".")
+    return int(parts[0]), int(parts[1]), int(parts[2])
+
+
+def is_version_earlier_or_equal(version1: str, version2: str) -> bool:
+    """Check if version1 is earlier than or equal to version2.
+
+    Args:
+        version1: First version string (e.g., 'v1.2.3')
+        version2: Second version string (e.g., 'v1.3.0')
+
+    Returns:
+        True if version1 <= version2
+    """
+    v1 = parse_semver(version1)
+    v2 = parse_semver(version2)
+    return v1 <= v2
+
+
+def validate_metadata_agent_version(metadata_file: Path, scores_file: Path) -> tuple[bool, str]:
+    """Validate that metadata.agent_version matches the earliest version in scores.json.
+
+    The agent_version in metadata.json should be the earliest (minimum) agent_version
+    found in the scores.json entries. This ensures consistency when summarising results.
+
+    Args:
+        metadata_file: Path to metadata.json
+        scores_file: Path to scores.json
+
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    try:
+        # Load both files
+        with open(metadata_file) as f:
+            metadata = json.load(f)
+        with open(scores_file) as f:
+            scores = json.load(f)
+
+        metadata_version = metadata.get("agent_version")
+        if not metadata_version:
+            return True, "OK"  # No agent_version in metadata, skip check
+
+        # If scores.json is empty or empty list, any metadata version is fine
+        if not scores:
+            return True, "OK"
+
+        # Find the earliest agent_version in scores
+        earliest_version = None
+        for entry in scores:
+            entry_version = entry.get("agent_version")
+            if entry_version:
+                if earliest_version is None:
+                    earliest_version = entry_version
+                elif is_version_earlier_or_equal(entry_version, earliest_version):
+                    earliest_version = entry_version
+
+        # If no agent_version found in scores, any metadata version is fine
+        if earliest_version is None:
+            return True, "OK"
+
+        # Check that metadata version is the earliest
+        if not is_version_earlier_or_equal(metadata_version, earliest_version):
+            return False, (
+                f"metadata.agent_version '{metadata_version}' is not the earliest version. "
+                f"The earliest version in scores.json is '{earliest_version}'. "
+                f"metadata.agent_version must be <= all agent_version values in scores.json."
+            )
+
+        return True, "OK"
+
+    except json.JSONDecodeError as e:
+        return False, f"Invalid JSON: {e.msg} at line {e.lineno}, column {e.colno}"
+    except Exception as e:
+        return False, str(e)
+
+
 def check_for_duplicate_dict_keys() -> None:
     """Check for duplicate keys in MODEL_OPENNESS_MAP and MODEL_COUNTRY_MAP.
     
@@ -188,8 +283,10 @@ class Model(str, Enum):
     GPT_5_2 = "GPT-5.2"
     GPT_5_2_CODEX = "GPT-5.2-Codex"
     GPT_5_4 = "GPT-5.4"
+    GPT_5_5 = "GPT-5.5"
     KIMI_K2_THINKING = "Kimi-K2-Thinking"
     KIMI_K2_5 = "Kimi-K2.5"
+    KIMI_K2_6 = "Kimi-K2.6"
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
     QWEN_3_CODER = "Qwen3-Coder-480B"
@@ -219,6 +316,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
+    Model.GPT_5_5: Openness.CLOSED_API_AVAILABLE,
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
@@ -226,6 +324,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GLM_4_7: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_THINKING: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
+    Model.KIMI_K2_6: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
@@ -252,6 +351,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
     Model.GPT_5_4: Country.US,
+    Model.GPT_5_5: Country.US,
     Model.NEMOTRON_3_NANO: Country.US,
     Model.NEMOTRON_3_SUPER: Country.US,
     Model.TRINITY_LARGE_THINKING: Country.US,
@@ -261,6 +361,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GLM_4_7: Country.CN,
     Model.KIMI_K2_THINKING: Country.CN,
     Model.KIMI_K2_5: Country.CN,
+    Model.KIMI_K2_6: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
@@ -593,6 +694,14 @@ def _validate_model_dirs(parent_dir: Path) -> tuple[int, int, list[str]]:
         else:
             failed += 1
             errors.append(f"{model_dir}: missing scores.json")
+
+        # Validate agent_version consistency between metadata.json and scores.json
+        if metadata_file.exists() and scores_file.exists():
+            valid, msg = validate_metadata_agent_version(metadata_file, scores_file)
+            if not valid:
+                failed += 1
+                errors.append(f"{model_dir}: {msg}")
+            # If valid, don't increment passed - this is a consistency check, not a separate file check
 
     return passed, failed, errors
 

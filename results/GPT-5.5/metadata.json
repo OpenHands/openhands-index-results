@@ -3,6 +3,13 @@
   "agent_version": "v1.18.1",
   "model": "GPT-5.5",
   "openness": "closed_api_available",
+  "country": "us",
   "tool_usage": "standard",
-  "directory_name": "GPT-5.5"
+  "directory_name": "GPT-5.5",
+  "release_date": "2026-04-23",
+  "supports_vision": true,
+  "input_price": 5.0,
+  "output_price": 30.0,
+  "cache_read_price": 0.5,
+  "cache_write_price": null
 }
