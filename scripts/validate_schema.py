@@ -341,6 +341,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 # Mapping of models to their country of origin
 MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
+    Model.CLAUDE_OPUS_4_7: Country.US,
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
     Model.CLAUDE_SONNET_4_6: Country.US,

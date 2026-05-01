@@ -1,5 +1,9 @@
 [
   {
+    "timestamp": "2026-05-01T20:00:07.000+00:00",
+    "model-path": "alternative_agents/acp-claude/claude-opus-4-7"
+  },
+  {
     "timestamp": "2026-05-01T19:37:50.000+00:00",
     "model-path": "results/Qwen3.6-Plus"
   },
