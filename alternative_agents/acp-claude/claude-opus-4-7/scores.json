@@ -1,0 +1,18 @@
+[
+  {
+    "benchmark": "swt-bench",
+    "score": 64.4,
+    "metric": "accuracy",
+    "cost_per_instance": 1.19,
+    "average_runtime": 247.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-7/24867322013/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.18.0",
+    "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+    "acp_agent_version": "v0.30.0",
+    "submission_time": "2026-04-24T03:39:42+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/7417c7f5-9b2a-44a8-b1a8-80a7154aa352"
+  }
+]
