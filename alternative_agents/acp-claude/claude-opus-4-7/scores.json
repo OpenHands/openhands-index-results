@@ -46,5 +46,26 @@
     "acp_agent_version": "v0.30.0",
     "submission_time": "2026-04-24T03:39:42+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/7417c7f5-9b2a-44a8-b1a8-80a7154aa352"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 35.3,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 2.67,
+    "average_runtime": 641.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-7/24809884231/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.18.0",
+    "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+    "acp_agent_version": "v0.27.0",
+    "submission_time": "2026-04-23T05:49:26+00:00",
+    "component_scores": {
+      "solveable_accuracy": 35.3,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 23.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/7cc7c378-84c5-4844-9bd6-f379702f8623"
   }
 ]
