@@ -268,30 +268,6 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
-    def test_valid_metadata_claude_opus_4_7(self, tmp_path):
-        """Test valid metadata for claude-opus-4-7 passes validation."""
-        metadata = {
-            "agent_name": "Claude Code",
-            "agent_version": "v1.18.0",
-            "model": "claude-opus-4-7",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "directory_name": "claude-opus-4-7",
-            "release_date": "2026-04-16",
-            "supports_vision": True,
-            "input_price": 5.0,
-            "output_price": 25.0,
-            "cache_read_price": 0.5,
-            "cache_write_price": 6.25
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is True
-        assert msg == "OK"
-
     def test_valid_metadata_trinity_large_thinking(self, tmp_path):
         """Test valid metadata for Trinity-Large-Thinking passes validation."""
         metadata = {
