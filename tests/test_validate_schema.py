@@ -298,20 +298,20 @@ class TestMetadataSchema:
         """Test metadata with missing required field fails validation."""
         metadata = {
             "agent_name": "OpenHands",
-            "agent_version": "v1.0.0",
+            # Missing agent_version
             "model": "GPT-5.2",
             "country": "us",
             "openness": "closed_api_available",
             "tool_usage": "standard",
             "directory_name": "GPT-5.2",
-            # Missing release_date, supports_vision, input_price, output_price
+            "release_date": "2025-12-11"
         }
         metadata_file = tmp_path / "metadata.json"
         metadata_file.write_text(json.dumps(metadata))
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "release_date" in msg
+        assert "agent_version" in msg
 
     def test_invalid_openness_value(self, tmp_path):
         """Test metadata with invalid openness value fails validation."""
@@ -1426,7 +1426,8 @@ class TestErrorMessageFormatting:
 
         valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        # agent_version is now optional; check other required fields are still caught
+        # Check that error message clearly states the field is missing
+        assert "Field 'agent_version' is required but missing" in msg
         assert "Field 'release_date' is required but missing" in msg
 
     def test_invalid_enum_error_message(self, tmp_path):
