@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "benchmark": "gaia",
+    "score": 84.8,
+    "metric": "accuracy",
+    "cost_per_instance": 0.28,
+    "average_runtime": 111.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-openai-gpt-5-5/25297923625/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.19.1",
+    "acp_agent_name": "codex-acp",
+    "acp_agent_version": "v0.11.1",
+    "submission_time": "2026-05-04T03:11:56+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/d635f611-1e95-4934-a8b6-02eee6fb3fed"
+  }
+]
