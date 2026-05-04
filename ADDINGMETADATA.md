@@ -171,7 +171,7 @@ Every field listed below must be sourced from the model's **official provider**.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `agent_name` | string | Yes | Always `"OpenHands"` for main results (or `"Claude Code"`, `"Codex"`, etc. for alternative agents). |
-| `agent_version` | string | Yes | Semantic version of the agent, e.g. `"v1.18.1"`. Use the latest agent version at time of submission. |
+| `agent_version` | string | Yes | Semantic version of the OpenHands SDK (or alternative agent) used for the runs, e.g. `"v1.18.1"`. **Required for consistency enforcement:** the schema validates that this value is ≤ the `agent_version` of every score entry in `scores.json`, ensuring all runs of the same model use the same or a newer agent. Set it to the earliest SDK version used across all runs for this model. |
 | `model` | string | Yes | Model name, must match one of the `Model` enum values in `validate_schema.py`. |
 | `openness` | string | Yes | One of: `"closed_api_available"`, `"open_weights"`, `"closed"`. |
 | `country` | string | Yes | Country of origin: `"us"`, `"cn"`, or `"fr"`. |
