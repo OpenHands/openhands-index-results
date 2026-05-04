@@ -1,5 +1,9 @@
 [
   {
+    "timestamp": "2026-05-04T06:31:06.000+00:00",
+    "model-path": "alternative_agents/acp-codex/GPT-5.5"
+  },
+  {
     "timestamp": "2026-05-01T20:00:07.000+00:00",
     "model-path": "alternative_agents/acp-claude/claude-opus-4-7"
   },
