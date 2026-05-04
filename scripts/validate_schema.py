@@ -377,7 +377,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, OpenHands Sub-agents, Claude Code, OpenCode, Codex, Gemini CLI)")
-    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
+    agent_version: Optional[str] = Field(None, description="Version of the agent (semantic version starting with 'v'). Optional in metadata.json — agent version is a run-level property recorded per score entry.")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")
