@@ -61,3 +61,69 @@ jobs:
             neubig
           labels: |
             automated
+
+  update-verified-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Checkout software-agent-sdk
+        uses: actions/checkout@v4
+        with:
+          repository: OpenHands/software-agent-sdk
+          token: ${{ secrets.SDK_PAT }}
+          path: software-agent-sdk
+
+      - name: Find missing verified models
+        id: find_missing
+        run: |
+          python scripts/update_verified_models.py > /tmp/update_output.txt 2>&1 || true
+          cat /tmp/update_output.txt
+
+          if [ -f verified_models_updated.py ]; then
+            if ! diff -q verified_models_updated.py software-agent-sdk/openhands-sdk/openhands/sdk/llm/utils/verified_models.py > /dev/null 2>&1; then
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "Updates needed for verified_models.py"
+            else
+              echo "has_updates=false" >> $GITHUB_OUTPUT
+              echo "No updates needed"
+            fi
+          else
+            echo "has_updates=false" >> $GITHUB_OUTPUT
+            echo "No updates needed (script produced no output file)"
+          fi
+
+      - name: Create PR in software-agent-sdk
+        if: steps.find_missing.outputs.has_updates == 'true'
+        run: |
+          cp verified_models_updated.py software-agent-sdk/openhands-sdk/openhands/sdk/llm/utils/verified_models.py
+          cd software-agent-sdk
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="automated/update-verified-models-$(date +%Y%m%d%H%M%S)"
+          git checkout -b "$BRANCH"
+          git add openhands-sdk/openhands/sdk/llm/utils/verified_models.py
+          git commit -m "Update verified_models.py with latest completed benchmark models"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --repo OpenHands/software-agent-sdk \
+            --base main \
+            --head "$BRANCH" \
+            --title "Update verified_models.py with latest completed benchmark models" \
+            --body "This PR was automatically created by the Update Complete Models workflow in [openhands-index-results](https://github.com/OpenHands/openhands-index-results).
+
+          It adds models that have completed all 5 benchmarks to the verified model lists in \`verified_models.py\`.
+
+          See [complete-models.json](https://github.com/OpenHands/openhands-index-results/blob/main/complete-models.json) for the full list of completed models." \
+            --assignee juanmichelini
+        env:
+          GH_TOKEN: ${{ secrets.SDK_PAT }}
