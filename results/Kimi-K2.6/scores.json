@@ -1,17 +1,17 @@
 [
   {
     "benchmark": "swt-bench",
-    "score": 70.4,
+    "score": 67.0,
     "metric": "accuracy",
-    "cost_per_instance": 0.33,
-    "average_runtime": 717.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-moonshot-kimi-k2-6/24901879531/results.tar.gz",
+    "cost_per_instance": 0.0,
+    "average_runtime": 279.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-accounts-graham-openhands-deployments-mghcd1dc/25328867381/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
-    "agent_version": "v1.18.1",
-    "submission_time": "2026-04-25T03:39:06+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/9a4d9991-37b4-44a1-acff-2057c6525748"
+    "agent_version": "v1.20.0",
+    "submission_time": "2026-05-05T00:41:42+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/99fcc805-0e68-400b-8e73-51c452cc4762"
   },
   {
     "benchmark": "swe-bench",
