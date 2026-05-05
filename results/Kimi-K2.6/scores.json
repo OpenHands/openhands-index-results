@@ -26,5 +26,24 @@
     "agent_version": "v1.18.1",
     "submission_time": "2026-04-27T16:55:58+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/e024c27b-0bc2-437c-8b36-f3695942dcef"
+  },
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 27.9,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 620.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-accounts-graham-openhands-deployments-mghcd1dc/25199947785/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.19.0",
+    "submission_time": "2026-05-01T05:35:37+00:00",
+    "component_scores": {
+      "solveable_accuracy": 27.9,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 18.6
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/e9285cf2-2b20-4f38-9b70-fc8edb48030a"
   }
 ]
