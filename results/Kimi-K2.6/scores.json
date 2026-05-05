@@ -17,7 +17,7 @@
     "benchmark": "swe-bench",
     "score": 71.4,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.704,
     "average_runtime": 595.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-accounts-graham-openhands-deployments-mghcd1dc/25200072711/results.tar.gz",
     "tags": [
