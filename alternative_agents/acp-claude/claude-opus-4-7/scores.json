@@ -19,9 +19,9 @@
     "benchmark": "swe-bench",
     "score": 75.8,
     "metric": "accuracy",
-    "cost_per_instance": 1.15,
+    "cost_per_instance": 1.21,
     "average_runtime": 260.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-opus-4-7/24840336632/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-opus-4-7/1778053911/results.tar.gz",
     "tags": [
       "swe-bench"
     ],
