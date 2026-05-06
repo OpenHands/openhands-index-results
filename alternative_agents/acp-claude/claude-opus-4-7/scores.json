@@ -74,7 +74,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.87,
     "average_runtime": 264.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-7/24852541001/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-7/1778053897/results.tar.gz",
     "tags": [
       "gaia"
     ],
