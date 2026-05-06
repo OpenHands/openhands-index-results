@@ -47,7 +47,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 1.36,
     "average_runtime": 547.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-6/24040981135/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-6/1778053903/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
