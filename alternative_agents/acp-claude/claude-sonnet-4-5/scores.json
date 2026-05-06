@@ -19,7 +19,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 1.41,
     "average_runtime": 603.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/24040981135/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/1778053905/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
