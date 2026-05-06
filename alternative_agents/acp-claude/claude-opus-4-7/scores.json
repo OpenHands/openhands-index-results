@@ -35,9 +35,9 @@
     "benchmark": "swt-bench",
     "score": 64.4,
     "metric": "accuracy",
-    "cost_per_instance": 1.19,
+    "cost_per_instance": 2.16,
     "average_runtime": 247.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-7/24867322013/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-7/1778053918/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
