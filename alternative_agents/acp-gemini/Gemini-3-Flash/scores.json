@@ -5,7 +5,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 0.86,
     "average_runtime": 1277.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-flash-preview/23957895398/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-flash-preview/1778132361/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
