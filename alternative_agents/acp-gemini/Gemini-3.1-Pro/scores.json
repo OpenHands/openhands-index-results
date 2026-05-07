@@ -49,11 +49,11 @@
   },
   {
     "benchmark": "commit0",
-    "score": 43.8,
+    "score": 37.5,
     "metric": "accuracy",
     "cost_per_instance": 7.55,
     "average_runtime": 1072.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/25038817375/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/1778132348/results.tar.gz",
     "tags": [
       "commit0"
     ],
