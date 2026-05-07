@@ -38,7 +38,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.81,
     "average_runtime": 270.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-claude-sonnet-4-5-20250929/23600239729/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-claude-sonnet-4-5-20250929/1778132353/results.tar.gz",
     "tags": [
       "gaia"
     ],
