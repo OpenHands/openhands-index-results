@@ -5,7 +5,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 1.88,
     "average_runtime": 221.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-openai-gpt-5-5/25233013876/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-openai-gpt-5-5/1778132364/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
