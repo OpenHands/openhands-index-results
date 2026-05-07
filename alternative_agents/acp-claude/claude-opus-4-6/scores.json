@@ -15,11 +15,11 @@
   },
   {
     "benchmark": "commit0",
-    "score": 50.0,
+    "score": 37.5,
     "metric": "accuracy",
     "cost_per_instance": 10.39,
     "average_runtime": 1522.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-6/23564974275/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-6/1778132344/results.tar.gz",
     "tags": [
       "commit0"
     ],
