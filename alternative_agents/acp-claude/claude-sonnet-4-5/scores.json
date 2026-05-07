@@ -17,13 +17,14 @@
     "benchmark": "swe-bench-multimodal",
     "score": 35.3,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 1.41,
+    "cost_per_instance": 1.48,
     "average_runtime": 603.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/24040981135/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-claude-sonnet-4-5-20250929/1778132360/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
     "agent_version": "v1.15.0",
+    "acp_agent_name": "claude-code",
     "submission_time": "2026-04-07T01:42:34+00:00",
     "component_scores": {
       "solveable_accuracy": 35.3,
