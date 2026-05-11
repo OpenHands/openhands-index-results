@@ -1,0 +1,27 @@
+name: Restart HF Space
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'complete-models.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::error::HF_TOKEN secret is not set. Add a Hugging Face token with write access to the OpenHands/openhands-index Space."
+            exit 1
+          fi
+          curl -sS -f -X POST \
+            -H "Authorization: Bearer $HF_TOKEN" \
+            "https://huggingface.co/api/spaces/OpenHands/openhands-index/restart"
