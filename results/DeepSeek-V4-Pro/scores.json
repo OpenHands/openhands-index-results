@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "benchmark": "gaia",
+    "score": 14.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 355.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-deepseek-deepseek-v4-pro/25967358261/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.22.1",
+    "submission_time": "2026-05-16T20:29:23+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/b03505b0-df65-4f54-97cf-42627c3f8e91"
+  }
+]
