@@ -3,7 +3,7 @@
     "benchmark": "swe-bench",
     "score": 73.2,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.1579,
     "average_runtime": 751.0,
     "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-deepseek-deepseek-v4-pro/25967325971/results.tar.gz",
     "tags": [
