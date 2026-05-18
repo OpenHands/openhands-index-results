@@ -3,7 +3,7 @@
     "benchmark": "gaia",
     "score": 14.5,
     "metric": "accuracy",
-    "cost_per_instance": 0.0,
+    "cost_per_instance": 0.1324,
     "average_runtime": 355.0,
     "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-deepseek-deepseek-v4-pro/25967358261/results.tar.gz",
     "tags": [
