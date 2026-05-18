@@ -289,6 +289,7 @@ class Model(str, Enum):
     KIMI_K2_6 = "Kimi-K2.6"
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
+    DEEPSEEK_V4_PRO = "DeepSeek-V4-Pro"
     QWEN_3_CODER = "Qwen3-Coder-480B"
     QWEN3_5_FLASH = "Qwen3.5-Flash"
     QWEN3_6_PLUS = "Qwen3.6-Plus"
@@ -327,6 +328,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.KIMI_K2_6: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
+    Model.DEEPSEEK_V4_PRO: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
     Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
@@ -366,6 +368,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
+    Model.DEEPSEEK_V4_PRO: Country.CN,
     Model.MINIMAX_2_7: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
     Model.QWEN3_5_FLASH: Country.CN,
