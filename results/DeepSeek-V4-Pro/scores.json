@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 36.8,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.0,
+    "average_runtime": 1034.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-deepseek-deepseek-v4-pro/25967365988/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.22.1",
+    "submission_time": "2026-05-16T23:02:48+00:00",
+    "component_scores": {
+      "solveable_accuracy": 36.8,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 24.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/926fc133-2a36-4c9c-b40b-353aa98057a9"
+  }
+]
