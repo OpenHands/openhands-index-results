@@ -28,6 +28,25 @@
     "eval_visualization_page": "https://laminar.sh/shared/evals/e024c27b-0bc2-437c-8b36-f3695942dcef"
   },
   {
+    "benchmark": "swe-bench-multimodal",
+    "score": 41.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.64,
+    "average_runtime": 746.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-moonshot-kimi-k2-6/25924060044/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.21.1",
+    "submission_time": "2026-05-15T19:26:14+00:00",
+    "component_scores": {
+      "solveable_accuracy": 41.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 27.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/bf318301-2c72-4fe2-a705-d104161d05c0"
+    },
+    {
     "benchmark": "commit0",
     "score": 25.0,
     "metric": "accuracy",
