@@ -11,7 +11,7 @@
   "active_parameter_count_b": 32,
   "supports_vision": true,
   "input_price": 0.95,
-  "output_price": 4.00,
+  "output_price": 4.0,
   "cache_read_price": 0.16,
   "cache_write_price": null,
   "submission_time": "2026-04-28T16:37:00.000000+00:00"
