@@ -268,6 +268,32 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_deepseek_v4_pro(self, tmp_path):
+        """Test valid metadata for DeepSeek-V4-Pro passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "DeepSeek-V4-Pro",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "DeepSeek-V4-Pro",
+            "release_date": "2026-04-24",
+            "supports_vision": False,
+            "input_price": 1.74,
+            "output_price": 3.48,
+            "parameter_count_b": 1600,
+            "active_parameter_count_b": 49,
+            "cache_read_price": 0.0145,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_trinity_large_thinking(self, tmp_path):
         """Test valid metadata for Trinity-Large-Thinking passes validation."""
         metadata = {
