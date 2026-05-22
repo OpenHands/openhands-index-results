@@ -1,5 +1,17 @@
 [
   {
+    "timestamp": "2026-05-22T20:58:48.000+00:00",
+    "model-path": "results/Qwen3-Coder-Next"
+  },
+  {
+    "timestamp": "2026-05-19T01:58:04.000+00:00",
+    "model-path": "results/Kimi-K2.6"
+  },
+  {
+    "timestamp": "2026-05-18T18:19:01.000+00:00",
+    "model-path": "results/Trinity-Large-Thinking"
+  },
+  {
     "timestamp": "2026-05-09T00:55:28.000+00:00",
     "model-path": "results/GPT-5.5"
   },
