@@ -10,8 +10,8 @@
   "parameter_count_b": 1600,
   "active_parameter_count_b": 49,
   "supports_vision": false,
-  "input_price": 1.74,
-  "output_price": 3.48,
-  "cache_read_price": 0.0145,
+  "input_price": 0.435,
+  "output_price": 0.87,
+  "cache_read_price": 0.003625,
   "cache_write_price": null
 }

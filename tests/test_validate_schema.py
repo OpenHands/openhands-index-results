@@ -280,11 +280,11 @@ class TestMetadataSchema:
             "directory_name": "DeepSeek-V4-Pro",
             "release_date": "2026-04-24",
             "supports_vision": False,
-            "input_price": 1.74,
-            "output_price": 3.48,
+            "input_price": 0.435,
+            "output_price": 0.87,
             "parameter_count_b": 1600,
             "active_parameter_count_b": 49,
-            "cache_read_price": 0.0145,
+            "cache_read_price": 0.003625,
             "cache_write_price": None
         }
         metadata_file = tmp_path / "metadata.json"
