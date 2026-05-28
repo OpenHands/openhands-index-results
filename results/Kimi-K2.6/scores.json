@@ -26,5 +26,52 @@
     "agent_version": "v1.18.1",
     "submission_time": "2026-04-27T16:55:58+00:00",
     "eval_visualization_page": "https://laminar.sh/shared/evals/e024c27b-0bc2-437c-8b36-f3695942dcef"
+  },
+  {
+    "benchmark": "gaia",
+    "score": 74.5,
+    "metric": "accuracy",
+    "cost_per_instance": 0.42,
+    "average_runtime": 729.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-moonshot-kimi-k2-6/25710749383/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.22.0",
+    "submission_time": "2026-05-12T07:16:05+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/f9cb5c66-98fb-48d9-87d6-08d7b16e66c3"
+    },
+    {
+    "benchmark": "swe-bench-multimodal",
+    "score": 41.2,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 0.64,
+    "average_runtime": 746.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-moonshot-kimi-k2-6/25924060044/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.21.1",
+    "submission_time": "2026-05-15T19:26:14+00:00",
+    "component_scores": {
+      "solveable_accuracy": 41.2,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 27.5
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/bf318301-2c72-4fe2-a705-d104161d05c0"
+    },
+    {
+    "benchmark": "commit0",
+    "score": 25.0,
+    "metric": "accuracy",
+    "cost_per_instance": 1.52,
+    "average_runtime": 1012.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-moonshot-kimi-k2-6/25710683155/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.22.0",
+    "submission_time": "2026-05-12T07:06:51+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/65cee637-c137-4253-8fab-616dfbeda695"
   }
 ]
