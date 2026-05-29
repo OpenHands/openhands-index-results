@@ -31,9 +31,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'scripts/requirements-publish.txt'
 
       - name: Install dependencies
-        run: pip install "huggingface_hub>=0.30" "pandas>=2.0" "pyarrow>=15" tabulate
+        run: pip install -r scripts/requirements-publish.txt
 
       - name: Build and publish dataset
         env:

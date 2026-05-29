@@ -87,7 +87,14 @@ def _flatten(model_dir: Path, agent_label: str) -> dict[str, Any] | None:
         logger.warning("Skipping %s: %s", model_dir, e)
         return None
 
-    by_bench = {entry["benchmark"]: entry for entry in scores if "benchmark" in entry}
+    by_bench: dict[str, Any] = {}
+    for entry in scores:
+        b = entry.get("benchmark")
+        if not b:
+            continue
+        if b in by_bench:
+            logger.warning("Duplicate benchmark %r in %s/scores.json; keeping last.", b, model_dir.name)
+        by_bench[b] = entry
 
     bench_scores: dict[str, dict[str, Any]] = {}
     for b in BENCHMARKS:
@@ -293,7 +300,11 @@ def main() -> int:
         logger.error("create_repo failed: %s", e)
         return 1
 
-    source_sha, _, version, _ = resolve_source_version()
+    try:
+        source_sha, _, version, _ = resolve_source_version()
+    except subprocess.CalledProcessError as e:
+        logger.error("Failed to resolve source version: %s", e)
+        return 1
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     buf = io.BytesIO()
