@@ -23,5 +23,5 @@ jobs:
             exit 1
           fi
           curl -sS -f -X POST \
-            -H "Authorization: Bearer $HF_TOKEN" \
+            -H "Authorization: Bearer $HF_REPO_TOKEN" \
             "https://huggingface.co/api/spaces/OpenHands/openhands-index/restart"
