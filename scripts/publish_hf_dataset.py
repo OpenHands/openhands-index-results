@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Build a flat leaderboard table from results/ and alternative_agents/, then
-publish it to the HF Dataset repo `OpenHands/openhands-index` so consumers
-can do:
+Build a flat leaderboard table from results/, then publish it to the HF
+Dataset repo `OpenHands/openhands-index` so consumers can do:
 
     from datasets import load_dataset
     ds = load_dataset("OpenHands/openhands-index", split="test")
@@ -48,29 +47,21 @@ BENCHMARKS = list(BENCHMARK_TO_CATEGORY.keys())
 
 
 def _iter_model_dirs() -> Iterable[tuple[Path, str]]:
-    """Yield (model_dir, agent_label) pairs from results/ and alternative_agents/.
+    """Yield (model_dir, agent_label) pairs from results/.
 
-    Layouts handled:
+    Layout handled:
       results/<model>/{metadata.json,scores.json}          -> agent_label="OpenHands"
-      alternative_agents/<agent_type>/<model>/{...}        -> agent_label="<agent_type>"
 
-    Anything nested deeper than that is ignored; if the layout changes,
-    extend this function rather than the call sites.
+    Alternative agents under `alternative_agents/` are intentionally not
+    published to the HF dataset yet (see #1145). Anything nested deeper than
+    the documented layout is ignored; if the layout changes, extend this
+    function rather than the call sites.
     """
     results_dir = REPO_ROOT / "results"
     if results_dir.is_dir():
         for d in sorted(results_dir.iterdir()):
             if d.is_dir() and (d / "metadata.json").exists():
                 yield d, "OpenHands"
-
-    alt_root = REPO_ROOT / "alternative_agents"
-    if alt_root.is_dir():
-        for agent_type_dir in sorted(alt_root.iterdir()):
-            if not agent_type_dir.is_dir():
-                continue
-            for d in sorted(agent_type_dir.iterdir()):
-                if d.is_dir() and (d / "metadata.json").exists():
-                    yield d, agent_type_dir.name
 
 
 def _load_json(path: Path) -> Any:
@@ -122,8 +113,8 @@ def _flatten(model_dir: Path, agent_label: str) -> dict[str, Any] | None:
         return round(sum(vals) / len(vals), 4) if vals else None
 
     # `id` mirrors the on-disk path, which the repo already treats as unique
-    # (e.g. "OpenHands/GPT-5.2", "acp-codex/GPT-5.5"). Stable across runs and
-    # never empty, regardless of which optional metadata fields are filled in.
+    # (e.g. "OpenHands/GPT-5.2"). Stable across runs and never empty,
+    # regardless of which optional metadata fields are filled in.
     row: dict[str, Any] = {
         "id": f"{agent_label}/{model_dir.name}",
         "agent_name": meta.get("agent_name", agent_label),
