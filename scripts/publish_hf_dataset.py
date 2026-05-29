@@ -191,7 +191,7 @@ def resolve_source_version() -> tuple[str, str, str, datetime]:
     short = sha[:7]
     iso = _git("show", "-s", "--format=%cI", sha)
     dt = datetime.fromisoformat(iso).astimezone(timezone.utc)
-    version = f"{dt.year}.{dt.month}.{dt.day}-{short}"
+    version = f"{dt.year}.{dt.month:02d}.{dt.day:02d}-{short}"
     return sha, short, version, dt
 
 
