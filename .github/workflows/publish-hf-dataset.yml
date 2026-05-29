@@ -1,0 +1,43 @@
+name: Publish HF Dataset
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'results/**'
+      - 'alternative_agents/**'
+      - 'scripts/publish_hf_dataset.py'
+      - '.github/workflows/publish-hf-dataset.yml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Push even if content hash matches remote'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-hf-dataset
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install "huggingface_hub>=0.30" "pandas>=2.0" "pyarrow>=15" tabulate
+
+      - name: Build and publish dataset
+        env:
+          HF_TOKEN: ${{ secrets.HF_DATASET_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
+          FORCE: ${{ github.event.inputs.force }}
+        run: python scripts/publish_hf_dataset.py
