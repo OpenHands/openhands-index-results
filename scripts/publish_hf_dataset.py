@@ -17,13 +17,14 @@ import io
 import json
 import logging
 import os
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
 import pandas as pd
-from huggingface_hub import HfApi, hf_hub_download
+from huggingface_hub import CommitOperationAdd, HfApi, hf_hub_download
 from huggingface_hub.utils import EntryNotFoundError, HfHubHTTPError
 
 logger = logging.getLogger("publish_hf_dataset")
@@ -42,12 +43,19 @@ BENCHMARK_TO_CATEGORY = {
     "swt-bench": "Testing",
     "gaia": "Information Gathering",
 }
-CATEGORIES = list(BENCHMARK_TO_CATEGORY.values())
 BENCHMARKS = list(BENCHMARK_TO_CATEGORY.keys())
 
 
 def _iter_model_dirs() -> Iterable[tuple[Path, str]]:
-    """Yield (model_dir, agent_label) pairs from results/ and alternative_agents/."""
+    """Yield (model_dir, agent_label) pairs from results/ and alternative_agents/.
+
+    Layouts handled:
+      results/<model>/{metadata.json,scores.json}          -> agent_label="OpenHands"
+      alternative_agents/<agent_type>/<model>/{...}        -> agent_label="<agent_type>"
+
+    Anything nested deeper than that is ignored; if the layout changes,
+    extend this function rather than the call sites.
+    """
     results_dir = REPO_ROOT / "results"
     if results_dir.is_dir():
         for d in sorted(results_dir.iterdir()):
@@ -100,8 +108,11 @@ def _flatten(model_dir: Path, agent_label: str) -> dict[str, Any] | None:
         vals = [c[key] for c in completed if c.get(key) is not None]
         return round(sum(vals) / len(vals), 4) if vals else None
 
+    # `id` mirrors the on-disk path, which the repo already treats as unique
+    # (e.g. "OpenHands/GPT-5.2", "acp-codex/GPT-5.5"). Stable across runs and
+    # never empty, regardless of which optional metadata fields are filled in.
     row: dict[str, Any] = {
-        "id": f"{agent_label}_{meta.get('agent_version', '')}_{meta.get('model', model_dir.name)}",
+        "id": f"{agent_label}/{model_dir.name}",
         "agent_name": meta.get("agent_name", agent_label),
         "agent_type": agent_label,
         "language_model": meta.get("model", model_dir.name),
@@ -143,6 +154,11 @@ def content_hash(df: pd.DataFrame) -> str:
 
 
 def get_remote_hash(api: HfApi) -> str | None:
+    """Best-effort fetch of the previously-published content hash.
+
+    Returns None on missing file, missing repo, or transient network errors —
+    a missing remote hash just forces a publish, which is the safe default.
+    """
     try:
         path = hf_hub_download(
             repo_id=DATASET_REPO, repo_type="dataset", filename=HASH_PATH,
@@ -151,13 +167,40 @@ def get_remote_hash(api: HfApi) -> str | None:
         return Path(path).read_text().strip()
     except (EntryNotFoundError, HfHubHTTPError):
         return None
+    except Exception as e:  # network blip, DNS, etc.
+        logger.warning("Could not fetch remote hash (%s); will publish anyway.", e)
+        return None
 
 
-def dataset_card(df: pd.DataFrame, generated_at: str, source_sha: str | None) -> str:
+def resolve_source_version() -> tuple[str, str, datetime]:
+    """Return (short_sha, version_string, commit_datetime_utc).
+
+    version_string = "YYYY.M.D-<short_sha>" (e.g. 2026.5.29-4c92417).
+    Date comes from the source commit's committer date so the version
+    reflects when the data was finalized, not when CI happened to run.
+    """
+    sha = os.environ.get("GITHUB_SHA") or _git("rev-parse", "HEAD")
+    short = sha[:7]
+    iso = os.environ.get("GITHUB_COMMIT_DATE") or _git(
+        "show", "-s", "--format=%cI", sha
+    )
+    dt = datetime.fromisoformat(iso).astimezone(timezone.utc)
+    version = f"{dt.year}.{dt.month}.{dt.day}-{short}"
+    return short, version, dt
+
+
+def _git(*args: str) -> str:
+    return subprocess.run(
+        ["git", *args], cwd=REPO_ROOT, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+
+def dataset_card(
+    df: pd.DataFrame, generated_at: str, source_sha: str, version: str
+) -> str:
     top = df[["language_model", "sdk_version", "agent_name", "average_score",
               "categories_completed", "release_date"]].head(15)
     top_md = top.to_markdown(index=False, floatfmt=".2f") if not top.empty else "_(empty)_"
-    src = f"`{source_sha[:8]}`" if source_sha else "_unknown_"
     return f"""---
 license: apache-2.0
 pretty_name: OpenHands Index Leaderboard
@@ -166,6 +209,12 @@ tags:
 - code
 - agents
 - benchmark
+dataset_info:
+  config_name: default
+  version: {version}
+  description: >-
+    Snapshot of the OpenHands Index leaderboard built from
+    openhands-index-results commit {source_sha} on {generated_at}.
 configs:
 - config_name: default
   data_files:
@@ -181,8 +230,13 @@ on every push to `main`. Matches the table shown at the
 
 ```python
 from datasets import load_dataset
+
+# latest
 ds = load_dataset("{DATASET_REPO}", split="test")
-df = ds.to_pandas()
+ds.info.version          # → "{version}"
+
+# pin to this exact snapshot
+ds = load_dataset("{DATASET_REPO}", split="test", revision="v{version}")
 ```
 
 ## Categories
@@ -198,11 +252,12 @@ df = ds.to_pandas()
 `average_score` is the mean of the per-benchmark scores actually completed.
 `categories_completed` tells you how many benchmarks the model has run.
 
-## Snapshot
+## This snapshot
 
+- Version: **`{version}`**
 - Rows: **{len(df)}**
 - Generated: `{generated_at}`
-- Source commit: {src}
+- Source commit: [`{source_sha}`](https://github.com/OpenHands/openhands-index-results/commit/{source_sha})
 
 ## Top 15 by average score
 
@@ -217,7 +272,13 @@ def main() -> int:
         return 2
 
     api = HfApi(token=token)
-    df = build_dataframe()
+
+    try:
+        df = build_dataframe()
+    except RuntimeError as e:
+        logger.error("%s", e)
+        return 1
+
     new_hash = content_hash(df)
     logger.info("Built %d rows; content hash %s", len(df), new_hash[:12])
 
@@ -233,27 +294,44 @@ def main() -> int:
         logger.error("create_repo failed: %s", e)
         return 1
 
+    short_sha, version, _ = resolve_source_version()
+    source_sha = os.environ.get("GITHUB_SHA") or _git("rev-parse", "HEAD")
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+
     buf = io.BytesIO()
     df.to_parquet(buf, index=False)
     parquet_bytes = buf.getvalue()
+    readme_bytes = dataset_card(df, generated_at, source_sha, version).encode("utf-8")
 
-    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    source_sha = os.environ.get("GITHUB_SHA")
-    readme_bytes = dataset_card(df, generated_at, source_sha).encode("utf-8")
-
-    from huggingface_hub import CommitOperationAdd
     ops = [
         CommitOperationAdd(path_in_repo=PARQUET_PATH, path_or_fileobj=parquet_bytes),
         CommitOperationAdd(path_in_repo=README_PATH, path_or_fileobj=readme_bytes),
         CommitOperationAdd(path_in_repo=HASH_PATH, path_or_fileobj=new_hash.encode()),
     ]
-    short_sha = (source_sha or "")[:7]
-    msg = f"Update leaderboard: {len(df)} models" + (f" (source {short_sha})" if short_sha else "")
-    api.create_commit(
-        repo_id=DATASET_REPO, repo_type="dataset",
-        operations=ops, commit_message=msg,
-    )
-    logger.info("Published %d rows to %s", len(df), DATASET_REPO)
+    try:
+        commit_info = api.create_commit(
+            repo_id=DATASET_REPO, repo_type="dataset",
+            operations=ops,
+            commit_message=f"Update leaderboard v{version} ({len(df)} models)",
+        )
+    except HfHubHTTPError as e:
+        logger.error("create_commit failed: %s", e)
+        return 1
+    logger.info("Published %d rows to %s as v%s", len(df), DATASET_REPO, version)
+
+    # Immutable tag so users can pin: load_dataset(..., revision="v2026.5.29-4c92417")
+    tag = f"v{version}"
+    try:
+        api.create_tag(
+            repo_id=DATASET_REPO, repo_type="dataset",
+            tag=tag, tag_message=f"Leaderboard snapshot from {source_sha}",
+            revision=commit_info.oid,
+            exist_ok=True,
+        )
+        logger.info("Tagged %s", tag)
+    except HfHubHTTPError as e:
+        logger.warning("Could not create tag %s: %s", tag, e)
+
     return 0
 
 
