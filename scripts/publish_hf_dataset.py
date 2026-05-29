@@ -162,7 +162,7 @@ def build_dataframe() -> pd.DataFrame:
 
 
 def content_hash(df: pd.DataFrame) -> str:
-    payload = df.reindex(sorted(df.columns), axis=1).to_csv(index=False).encode("utf-8")
+    payload = df.reindex(sorted(df.columns), axis=1).to_csv(index=False, float_format="%.10g").encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
 
 
