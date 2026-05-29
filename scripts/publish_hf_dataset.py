@@ -334,7 +334,7 @@ def main() -> int:
         return 1
     logger.info("Published %d rows to %s as v%s", len(df), DATASET_REPO, version)
 
-    # Immutable tag so users can pin: load_dataset(..., revision="v2026.5.29-4c92417")
+    # Immutable tag so users can pin: load_dataset(..., revision="v2026.05.29-4c92417")
     tag = f"v{version}"
     try:
         api.create_tag(
