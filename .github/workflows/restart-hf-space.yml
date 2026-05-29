@@ -16,10 +16,10 @@ jobs:
     steps:
       - name: Restart Hugging Face Space
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_REPO_TOKEN: ${{ secrets.HF_REPO_TOKEN }}
         run: |
           if [ -z "$HF_REPO_TOKEN" ]; then
-            echo "::error::HF_TOKEN secret is not set. Add a Hugging Face token with write access to the OpenHands/openhands-index Space."
+            echo "::error::HF_REPO_TOKEN secret is not set. Add a Hugging Face token with write access to the OpenHands/openhands-index Space."
             exit 1
           fi
           curl -sS -f -X POST \
