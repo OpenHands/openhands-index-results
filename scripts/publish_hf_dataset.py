@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import pandas as pd
+import tabulate  # noqa: F401  # required by DataFrame.to_markdown(); fail loudly at startup if missing
 from huggingface_hub import CommitOperationAdd, HfApi, hf_hub_download
 from huggingface_hub.utils import EntryNotFoundError, HfHubHTTPError
 
@@ -172,8 +173,8 @@ def get_remote_hash(api: HfApi) -> str | None:
         return None
 
 
-def resolve_source_version() -> tuple[str, str, datetime]:
-    """Return (short_sha, version_string, commit_datetime_utc).
+def resolve_source_version() -> tuple[str, str, str, datetime]:
+    """Return (full_sha, short_sha, version_string, commit_datetime_utc).
 
     version_string = "YYYY.M.D-<short_sha>" (e.g. 2026.5.29-4c92417).
     Date comes from the source commit's committer date so the version
@@ -181,12 +182,10 @@ def resolve_source_version() -> tuple[str, str, datetime]:
     """
     sha = os.environ.get("GITHUB_SHA") or _git("rev-parse", "HEAD")
     short = sha[:7]
-    iso = os.environ.get("GITHUB_COMMIT_DATE") or _git(
-        "show", "-s", "--format=%cI", sha
-    )
+    iso = _git("show", "-s", "--format=%cI", sha)
     dt = datetime.fromisoformat(iso).astimezone(timezone.utc)
     version = f"{dt.year}.{dt.month}.{dt.day}-{short}"
-    return short, version, dt
+    return sha, short, version, dt
 
 
 def _git(*args: str) -> str:
@@ -294,8 +293,7 @@ def main() -> int:
         logger.error("create_repo failed: %s", e)
         return 1
 
-    short_sha, version, _ = resolve_source_version()
-    source_sha = os.environ.get("GITHUB_SHA") or _git("rev-parse", "HEAD")
+    source_sha, _, version, _ = resolve_source_version()
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     buf = io.BytesIO()
