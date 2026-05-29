@@ -18,7 +18,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          if [ -z "$HF_TOKEN" ]; then
+          if [ -z "$HF_REPO_TOKEN" ]; then
             echo "::error::HF_TOKEN secret is not set. Add a Hugging Face token with write access to the OpenHands/openhands-index Space."
             exit 1
           fi
