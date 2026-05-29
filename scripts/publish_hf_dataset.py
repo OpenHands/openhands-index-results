@@ -183,7 +183,7 @@ def get_remote_hash(api: HfApi) -> str | None:
 def resolve_source_version() -> tuple[str, str, str, datetime]:
     """Return (full_sha, short_sha, version_string, commit_datetime_utc).
 
-    version_string = "YYYY.M.D-<short_sha>" (e.g. 2026.5.29-4c92417).
+    version_string = "YYYY.MM.DD-<short_sha>" (e.g. 2026.05.29-4c92417).
     Date comes from the source commit's committer date so the version
     reflects when the data was finalized, not when CI happened to run.
     """
