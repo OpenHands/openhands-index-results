@@ -110,7 +110,6 @@ def _flatten(model_dir: Path, agent_label: str) -> dict[str, Any] | None:
 
     completed = [bench_scores[b] for b in BENCHMARKS if b in bench_scores and bench_scores[b]["score"] is not None]
     if not completed:
-    if not completed:
         logger.info(
             "Skipping %s (%s): no completed benchmarks with non-null scores.",
             model_dir.name,
