@@ -6,16 +6,13 @@ gets pushed to Hugging Face (see issue #1145).
 """
 
 import json
-import sys
 from pathlib import Path
 from unittest.mock import patch
-
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 import publish_hf_dataset
 
 
-def _write_model(model_dir: Path, *, scored: bool = True) -> None:
+def _write_model(model_dir: Path) -> None:
     """Write minimal valid metadata.json/scores.json for one model."""
     model_dir.mkdir(parents=True, exist_ok=True)
     (model_dir / "metadata.json").write_text(json.dumps({
@@ -24,7 +21,7 @@ def _write_model(model_dir: Path, *, scored: bool = True) -> None:
     }))
     scores = [{
         "benchmark": "swe-bench",
-        "score": 0.5 if scored else None,
+        "score": 0.5,
         "cost_per_instance": 0.1,
         "average_runtime": 60,
     }]
