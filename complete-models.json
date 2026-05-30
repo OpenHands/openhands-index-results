@@ -1,5 +1,9 @@
 [
   {
+    "timestamp": "2026-05-30T03:47:27.000+00:00",
+    "model-path": "results/Gemini-3.5-Flash"
+  },
+  {
     "timestamp": "2026-05-22T20:58:48.000+00:00",
     "model-path": "results/Qwen3-Coder-Next"
   },

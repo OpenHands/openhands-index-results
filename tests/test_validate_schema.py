@@ -320,6 +320,30 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_gemini_3_5_flash(self, tmp_path):
+        """Test valid metadata for Gemini-3.5-Flash passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.24.0",
+            "model": "Gemini-3.5-Flash",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Gemini-3.5-Flash",
+            "release_date": "2026-05-19",
+            "supports_vision": True,
+            "input_price": 1.5,
+            "output_price": 9.0,
+            "cache_read_price": 0.15,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_missing_required_field(self, tmp_path):
         """Test metadata with missing required field fails validation."""
         metadata = {
