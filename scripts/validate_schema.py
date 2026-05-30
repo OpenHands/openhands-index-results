@@ -269,6 +269,7 @@ class ToolUsage(str, Enum):
 
 class Model(str, Enum):
     """Expected model names from issue #2."""
+    CLAUDE_OPUS_4_8 = "claude-opus-4-8"
     CLAUDE_OPUS_4_7 = "claude-opus-4-7"
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
@@ -307,6 +308,7 @@ class Model(str, Enum):
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
+    Model.CLAUDE_OPUS_4_8: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_7: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
@@ -345,6 +347,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 # Mapping of models to their country of origin
 MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
+    Model.CLAUDE_OPUS_4_8: Country.US,
     Model.CLAUDE_OPUS_4_7: Country.US,
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
