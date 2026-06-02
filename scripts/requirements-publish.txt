@@ -1,0 +1,7 @@
+# Pinned dependencies for scripts/publish_hf_dataset.py.
+# Upper bounds prevent silent breakage from major version bumps; the workflow
+# also uses this file as the pip cache key so re-runs skip redundant downloads.
+huggingface_hub>=0.30,<2.0
+pandas>=2.0,<4.0
+pyarrow>=15,<25
+tabulate>=0.9,<1.0
