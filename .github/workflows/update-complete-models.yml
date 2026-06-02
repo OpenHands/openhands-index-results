@@ -80,50 +80,53 @@ jobs:
           token: ${{ secrets.SDK_PAT }}
           path: software-agent-sdk
 
-      - name: Find missing verified models
-        id: find_missing
+      - name: Update verified_models.py in place
+        id: update
+        # `continue-on-error` so we still open a PR for the resolvable additions
+        # if SOME models are skipped (the script exits non-zero in that case).
+        # The "Fail if any model was skipped" step below turns the workflow red
+        # so the gap is loudly visible -- no `|| true`, no silent swallowing.
+        continue-on-error: true
         run: |
-          python scripts/update_verified_models.py > /tmp/update_output.txt 2>&1 || true
-          cat /tmp/update_output.txt
+          python scripts/update_verified_models.py --write
 
-          if [ -f verified_models_updated.py ]; then
-            if ! diff -q verified_models_updated.py software-agent-sdk/openhands-sdk/openhands/sdk/llm/utils/verified_models.py > /dev/null 2>&1; then
-              echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "Updates needed for verified_models.py"
-            else
-              echo "has_updates=false" >> $GITHUB_OUTPUT
-              echo "No updates needed"
-            fi
+      - name: Detect changes to verified_models.py
+        id: detect_changes
+        working-directory: software-agent-sdk
+        run: |
+          if git diff --quiet openhands-sdk/openhands/sdk/llm/utils/verified_models.py; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to verified_models.py"
           else
-            echo "has_updates=false" >> $GITHUB_OUTPUT
-            echo "No updates needed (script produced no output file)"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Detected changes to verified_models.py:"
+            git --no-pager diff openhands-sdk/openhands/sdk/llm/utils/verified_models.py
           fi
 
       - name: Create PR in software-agent-sdk
-        if: steps.find_missing.outputs.has_updates == 'true'
+        if: steps.detect_changes.outputs.changed == 'true'
+        # A stable branch name + peter-evans/create-pull-request keeps this
+        # idempotent: subsequent runs update the same PR instead of opening
+        # a duplicate every time main moves.
+        uses: peter-evans/create-pull-request@v6
+        with:
+          path: software-agent-sdk
+          token: ${{ secrets.SDK_PAT }}
+          branch: automated/update-verified-models
+          delete-branch: true
+          commit-message: "Update verified_models.py with latest completed benchmark models"
+          title: "Update verified_models.py with latest completed benchmark models"
+          body: |
+            This PR was automatically created by the Update Complete Models workflow in [openhands-index-results](https://github.com/OpenHands/openhands-index-results).
+
+            It adds models that have completed all 5 benchmarks to the verified model lists in `verified_models.py`.
+
+            See [complete-models.json](https://github.com/OpenHands/openhands-index-results/blob/main/complete-models.json) for the full list of completed models.
+          assignees: juanmichelini
+          labels: automated
+
+      - name: Fail if any model was skipped for missing canonical ID
+        if: steps.update.outcome == 'failure'
         run: |
-          cp verified_models_updated.py software-agent-sdk/openhands-sdk/openhands/sdk/llm/utils/verified_models.py
-          cd software-agent-sdk
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          BRANCH="automated/update-verified-models-$(date +%Y%m%d%H%M%S)"
-          git checkout -b "$BRANCH"
-          git add openhands-sdk/openhands/sdk/llm/utils/verified_models.py
-          git commit -m "Update verified_models.py with latest completed benchmark models"
-          git push origin "$BRANCH"
-
-          gh pr create \
-            --repo OpenHands/software-agent-sdk \
-            --base main \
-            --head "$BRANCH" \
-            --title "Update verified_models.py with latest completed benchmark models" \
-            --body "This PR was automatically created by the Update Complete Models workflow in [openhands-index-results](https://github.com/OpenHands/openhands-index-results).
-
-          It adds models that have completed all 5 benchmarks to the verified model lists in \`verified_models.py\`.
-
-          See [complete-models.json](https://github.com/OpenHands/openhands-index-results/blob/main/complete-models.json) for the full list of completed models." \
-            --assignee juanmichelini
-        env:
-          GH_TOKEN: ${{ secrets.SDK_PAT }}
+          echo "::error::update_verified_models.py reported one or more completed models with no canonical litellm_model_id. See the 'Update verified_models.py in place' step log for the list."
+          exit 1

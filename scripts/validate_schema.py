@@ -392,6 +392,15 @@ class Metadata(BaseModel):
     output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
     cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
     cache_write_price: Optional[float] = Field(None, gt=0, description="Cache write price per million tokens in USD (None if not supported)")
+    litellm_model_id: Optional[str] = Field(
+        None,
+        description=(
+            "Canonical LiteLLM model ID (e.g. 'qwen3-5-flash'). When set, "
+            "update_verified_models.py uses this exact string instead of guessing "
+            "from the directory name. Required for any model whose directory name "
+            "does not already lowercase into the LiteLLM-recognised ID."
+        ),
+    )
 
     @field_validator("agent_version")
     @classmethod

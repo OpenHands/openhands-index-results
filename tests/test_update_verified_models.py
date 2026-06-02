@@ -1,323 +1,410 @@
-"""Tests for the update_verified_models script."""
+"""Tests for scripts/update_verified_models.py."""
 
+from __future__ import annotations
+
+import ast
 import json
 import sys
 from pathlib import Path
 
-# Add scripts directory to path
+import pytest
+
+# Make the script importable.
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
-from update_verified_models import (
-    add_models_to_list,
-    detect_provider,
-    extract_completed_model_ids,
-    find_missing_models,
-    generate_updated_content,
-    normalize_model_name,
-    parse_all_verified_lists,
-    parse_verified_list,
+import update_verified_models as uvm  # noqa: E402
+
+FIXTURES = Path(__file__).parent / "fixtures"
+LIVE_VERIFIED_MODELS = FIXTURES / "verified_models.py"
+
+
+# ---------------------------------------------------------------------------
+# detect_provider
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "model_id,expected",
+    [
+        ("gpt-5.5", "openai"),
+        ("gpt-5.1-codex-max", "openai"),
+        ("o4-mini", "openai"),
+        ("o3", "openai"),
+        ("codex-mini-latest", "openai"),
+        ("claude-opus-4-5", "anthropic"),
+        # Regression: ^devstral- must map to mistral (was missing pre-fix).
+        ("devstral-medium-2512", "mistral"),
+        ("devstral-small-2505", "mistral"),
+        ("gemini-3-flash", "gemini"),
+        ("deepseek-v3.2-reasoner", "deepseek"),
+        ("kimi-k2-thinking", "moonshot"),
+        ("minimax-m2.1", "minimax"),
+        ("glm-4.7", "glm"),
+        ("nemotron-3-nano", "nvidia"),
+        ("qwen3-coder-480b", "qwen"),
+        ("qwen3.6-plus", "qwen"),
+        ("trinity-large-thinking", None),
+        ("unknown-model", None),
+    ],
 )
+def test_detect_provider(model_id: str, expected: str | None) -> None:
+    assert uvm.detect_provider(model_id) == expected
 
 
-class TestNormalizeModelName:
-    """Tests for normalize_model_name function."""
-
-    def test_lowercase(self):
-        assert normalize_model_name("GPT-5.2") == "gpt-5.2"
-
-    def test_already_lowercase(self):
-        assert normalize_model_name("claude-opus-4-5") == "claude-opus-4-5"
-
-    def test_mixed_case(self):
-        assert normalize_model_name("MiniMax-M2.1") == "minimax-m2.1"
-
-    def test_complex_name(self):
-        assert normalize_model_name("DeepSeek-V3.2-Reasoner") == "deepseek-v3.2-reasoner"
-
-    def test_with_uppercase_suffix(self):
-        assert normalize_model_name("Qwen3-Coder-480B") == "qwen3-coder-480b"
-
-
-class TestDetectProvider:
-    """Tests for detect_provider function."""
-
-    def test_openai_gpt(self):
-        assert detect_provider("gpt-5.2") == "openai"
-
-    def test_openai_o_series(self):
-        assert detect_provider("o4-mini") == "openai"
-
-    def test_anthropic(self):
-        assert detect_provider("claude-opus-4-5") == "anthropic"
-
-    def test_gemini(self):
-        assert detect_provider("gemini-3-flash") == "gemini"
-
-    def test_deepseek(self):
-        assert detect_provider("deepseek-v3.2-reasoner") == "deepseek"
-
-    def test_moonshot(self):
-        assert detect_provider("kimi-k2-thinking") == "moonshot"
-
-    def test_minimax(self):
-        assert detect_provider("minimax-m2.1") == "minimax"
-
-    def test_glm(self):
-        assert detect_provider("glm-4.7") == "glm"
-
-    def test_nvidia(self):
-        assert detect_provider("nemotron-3-nano") == "nvidia"
-
-    def test_qwen(self):
-        assert detect_provider("qwen3-coder-480b") == "qwen"
-
-    def test_unknown(self):
-        assert detect_provider("unknown-model") is None
+def test_provider_table_covers_every_sdk_list() -> None:
+    """
+    Every ``VERIFIED_<X>_MODELS`` list in the SDK file (except OPENHANDS, which
+    is cross-provider) must be reachable from at least one entry in
+    PROVIDER_RULES. This is the test that would have caught the missing
+    `^devstral-` rule.
+    """
+    lists = uvm.parse_verified_lists(LIVE_VERIFIED_MODELS.read_text())
+    provider_list_names = {
+        name for name in lists if name != "VERIFIED_OPENHANDS_MODELS"
+    }
+    reachable = {
+        uvm.provider_list_name(provider) for _, provider in uvm.PROVIDER_RULES
+    }
+    missing = provider_list_names - reachable
+    assert not missing, (
+        f"PROVIDER_RULES does not cover these SDK lists: {sorted(missing)}. "
+        "Add a regex rule mapping a model-ID prefix to the provider key."
+    )
 
 
-class TestExtractCompletedModelIds:
-    """Tests for extract_completed_model_ids function."""
-
-    def test_extracts_results_only(self, tmp_path):
-        """Only models from results/ should be extracted."""
-        data = [
-            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": "results/GPT-5.2"},
-            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": "results/claude-opus-4-5"},
-            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": "alternative_agents/acp-claude/claude-opus-4-7"},
-        ]
-        complete_models = tmp_path / "complete-models.json"
-        complete_models.write_text(json.dumps(data))
-
-        result = extract_completed_model_ids(complete_models, tmp_path)
-
-        assert result == {"gpt-5.2", "claude-opus-4-5"}
-
-    def test_deduplicates(self, tmp_path):
-        """Duplicate model names should be deduplicated."""
-        data = [
-            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": "results/GPT-5.2"},
-            {"timestamp": "2026-03-01T00:00:00.000+00:00", "model-path": "results/GPT-5.2"},
-        ]
-        complete_models = tmp_path / "complete-models.json"
-        complete_models.write_text(json.dumps(data))
-
-        result = extract_completed_model_ids(complete_models, tmp_path)
-
-        assert result == {"gpt-5.2"}
-
-    def test_empty_list(self, tmp_path):
-        complete_models = tmp_path / "complete-models.json"
-        complete_models.write_text("[]")
-
-        result = extract_completed_model_ids(complete_models, tmp_path)
-
-        assert result == set()
-
-    def test_normalizes_names(self, tmp_path):
-        data = [
-            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": "results/MiniMax-M2.5"},
-        ]
-        complete_models = tmp_path / "complete-models.json"
-        complete_models.write_text(json.dumps(data))
-
-        result = extract_completed_model_ids(complete_models, tmp_path)
-
-        assert result == {"minimax-m2.5"}
+# ---------------------------------------------------------------------------
+# parse_verified_lists
+# ---------------------------------------------------------------------------
 
 
-class TestParseVerifiedLists:
-    """Tests for parsing verified model lists."""
-
-    SAMPLE_CONTENT = '''VERIFIED_OPENAI_MODELS = [
-    "gpt-5.2",
-    "gpt-5.4",
-]
-
-VERIFIED_ANTHROPIC_MODELS = [
-    "claude-opus-4-5",
-    "claude-sonnet-4-5",
-]
-
-VERIFIED_OPENHANDS_MODELS = [
-    "claude-opus-4-5",
-    "gpt-5.2",
-]
-
-VERIFIED_MODELS = {
-    "openhands": VERIFIED_OPENHANDS_MODELS,
-    "anthropic": VERIFIED_ANTHROPIC_MODELS,
-    "openai": VERIFIED_OPENAI_MODELS,
-}
-'''
-
-    def test_parse_single_list(self):
-        result = parse_verified_list(self.SAMPLE_CONTENT, "VERIFIED_OPENAI_MODELS")
-        assert result == ["gpt-5.2", "gpt-5.4"]
-
-    def test_parse_all_lists(self):
-        result = parse_all_verified_lists(self.SAMPLE_CONTENT)
-        assert "VERIFIED_OPENAI_MODELS" in result
-        assert "VERIFIED_ANTHROPIC_MODELS" in result
-        assert "VERIFIED_OPENHANDS_MODELS" in result
-        assert result["VERIFIED_OPENAI_MODELS"] == ["gpt-5.2", "gpt-5.4"]
-        assert result["VERIFIED_ANTHROPIC_MODELS"] == ["claude-opus-4-5", "claude-sonnet-4-5"]
-
-    def test_parse_empty_list(self):
-        content = 'VERIFIED_EMPTY_MODELS = [\n]\n'
-        result = parse_verified_list(content, "VERIFIED_EMPTY_MODELS")
-        assert result == []
-
-    def test_parse_nonexistent_list(self):
-        result = parse_verified_list(self.SAMPLE_CONTENT, "VERIFIED_NONEXISTENT_MODELS")
-        assert result == []
+def test_parse_verified_lists_handles_live_file() -> None:
+    """
+    Round-trip test: every list parsed from the live ``verified_models.py``
+    must be a non-empty list of strings, and the cross-provider OPENHANDS
+    list must exist.
+    """
+    lists = uvm.parse_verified_lists(LIVE_VERIFIED_MODELS.read_text())
+    assert "VERIFIED_OPENHANDS_MODELS" in lists
+    for name, values in lists.items():
+        assert values, f"{name} parsed as empty"
+        assert all(isinstance(v, str) for v in values)
+    # Smoke-check a few known entries.
+    assert "gpt-5.5" in lists["VERIFIED_OPENAI_MODELS"]
+    assert "devstral-medium-2512" in lists["VERIFIED_MISTRAL_MODELS"]
 
 
-class TestFindMissingModels:
-    """Tests for find_missing_models function."""
-
-    def test_all_present(self):
-        completed = {"gpt-5.2", "claude-opus-4-5"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": ["gpt-5.2", "claude-opus-4-5"],
-            "VERIFIED_OPENAI_MODELS": ["gpt-5.2"],
-            "VERIFIED_ANTHROPIC_MODELS": ["claude-opus-4-5"],
-        }
-        missing_oh, missing_prov = find_missing_models(completed, verified)
-        assert missing_oh == []
-        assert missing_prov == {}
-
-    def test_missing_from_openhands(self):
-        completed = {"gpt-5.2", "claude-opus-4-5"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": ["gpt-5.2"],
-            "VERIFIED_OPENAI_MODELS": ["gpt-5.2"],
-            "VERIFIED_ANTHROPIC_MODELS": ["claude-opus-4-5"],
-        }
-        missing_oh, missing_prov = find_missing_models(completed, verified)
-        assert missing_oh == ["claude-opus-4-5"]
-        assert missing_prov == {}
-
-    def test_missing_from_provider(self):
-        completed = {"gpt-5.2", "gpt-5.5"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": ["gpt-5.2", "gpt-5.5"],
-            "VERIFIED_OPENAI_MODELS": ["gpt-5.2"],
-        }
-        missing_oh, missing_prov = find_missing_models(completed, verified)
-        assert missing_oh == []
-        assert missing_prov == {"VERIFIED_OPENAI_MODELS": ["gpt-5.5"]}
-
-    def test_missing_from_both(self):
-        completed = {"gemini-3-flash"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": [],
-            "VERIFIED_GEMINI_MODELS": [],
-        }
-        missing_oh, missing_prov = find_missing_models(completed, verified)
-        assert missing_oh == ["gemini-3-flash"]
-        assert missing_prov == {"VERIFIED_GEMINI_MODELS": ["gemini-3-flash"]}
-
-    def test_unknown_provider(self):
-        """Models with unknown provider only appear in openhands missing list."""
-        completed = {"unknown-model-x"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": [],
-        }
-        missing_oh, missing_prov = find_missing_models(completed, verified)
-        assert missing_oh == ["unknown-model-x"]
-        assert missing_prov == {}
-
-    def test_sorted_output(self):
-        completed = {"glm-5", "claude-opus-4-5", "gpt-5.2"}
-        verified = {
-            "VERIFIED_OPENHANDS_MODELS": [],
-            "VERIFIED_OPENAI_MODELS": [],
-            "VERIFIED_ANTHROPIC_MODELS": [],
-            "VERIFIED_GLM_MODELS": [],
-        }
-        missing_oh, _ = find_missing_models(completed, verified)
-        assert missing_oh == ["claude-opus-4-5", "glm-5", "gpt-5.2"]
+def test_parse_verified_lists_skips_dict_assignment() -> None:
+    """The trailing ``VERIFIED_MODELS = {...}`` dict must not be parsed as a list."""
+    lists = uvm.parse_verified_lists(LIVE_VERIFIED_MODELS.read_text())
+    assert "VERIFIED_MODELS" not in lists
 
 
-class TestAddModelsToList:
-    """Tests for add_models_to_list function."""
+def test_parse_verified_lists_synthetic() -> None:
+    content = (
+        'VERIFIED_OPENAI_MODELS = ["gpt-5.2", "gpt-5.4"]\n'
+        'VERIFIED_OPENHANDS_MODELS = []\n'
+        'OTHER = ["ignore-me"]\n'
+    )
+    lists = uvm.parse_verified_lists(content)
+    assert lists == {
+        "VERIFIED_OPENAI_MODELS": ["gpt-5.2", "gpt-5.4"],
+        "VERIFIED_OPENHANDS_MODELS": [],
+    }
 
-    def test_add_to_existing_list(self):
-        content = 'VERIFIED_OPENAI_MODELS = [\n    "gpt-5.2",\n]\n'
-        result = add_models_to_list(content, "VERIFIED_OPENAI_MODELS", ["gpt-5.5"])
-        assert '"gpt-5.2"' in result
-        assert '"gpt-5.5"' in result
 
-    def test_add_multiple_models(self):
-        content = 'VERIFIED_OPENAI_MODELS = [\n    "gpt-5.2",\n]\n'
-        result = add_models_to_list(
-            content, "VERIFIED_OPENAI_MODELS", ["gpt-5.4", "gpt-5.5"]
+# ---------------------------------------------------------------------------
+# resolve_model_id
+# ---------------------------------------------------------------------------
+
+
+def _write_metadata(model_dir: Path, **fields: object) -> None:
+    model_dir.mkdir(parents=True, exist_ok=True)
+    (model_dir / "metadata.json").write_text(json.dumps(fields))
+
+
+def test_resolve_model_id_prefers_explicit_field(tmp_path: Path) -> None:
+    _write_metadata(
+        tmp_path / "results" / "Qwen3.5-Flash", litellm_model_id="qwen3-5-flash"
+    )
+    model_id, reason = uvm.resolve_model_id(
+        "results/Qwen3.5-Flash", tmp_path, known_ids=set()
+    )
+    assert model_id == "qwen3-5-flash"
+    assert reason is None
+
+
+def test_resolve_model_id_lowercase_when_already_known(tmp_path: Path) -> None:
+    """Lowercased name is accepted iff already verified somewhere -- proves it's valid."""
+    _write_metadata(tmp_path / "results" / "GPT-5.2", model="GPT-5.2")
+    model_id, reason = uvm.resolve_model_id(
+        "results/GPT-5.2", tmp_path, known_ids={"gpt-5.2"}
+    )
+    assert model_id == "gpt-5.2"
+    assert reason is None
+
+
+def test_resolve_model_id_skips_unknown_lowercase(tmp_path: Path) -> None:
+    """
+    The qwen3.5-flash regression: lowercased dir doesn't match any verified ID
+    and there's no litellm_model_id, so we MUST refuse rather than guess.
+    """
+    _write_metadata(tmp_path / "results" / "Qwen3.5-Flash", model="Qwen3.5-Flash")
+    model_id, reason = uvm.resolve_model_id(
+        "results/Qwen3.5-Flash", tmp_path, known_ids={"qwen3-coder-480b"}
+    )
+    assert model_id is None
+    assert reason is not None
+    assert "Qwen3.5-Flash" in reason
+    assert "litellm_model_id" in reason
+
+
+def test_resolve_model_id_skips_when_metadata_absent(tmp_path: Path) -> None:
+    (tmp_path / "results" / "NoMeta").mkdir(parents=True)
+    model_id, reason = uvm.resolve_model_id(
+        "results/NoMeta", tmp_path, known_ids=set()
+    )
+    # No metadata, no fallback match -> skipped.
+    assert model_id is None
+    assert reason is not None
+
+
+# ---------------------------------------------------------------------------
+# extract_completed_model_paths
+# ---------------------------------------------------------------------------
+
+
+def test_extract_completed_model_paths_filters_results_only(tmp_path: Path) -> None:
+    data = [
+        {"timestamp": "t", "model-path": "results/GPT-5.2"},
+        {"timestamp": "t", "model-path": "results/Qwen3.6-Plus"},
+        {"timestamp": "t", "model-path": "alternative_agents/acp-claude/claude-opus-4-7"},
+    ]
+    path = tmp_path / "complete-models.json"
+    path.write_text(json.dumps(data))
+    assert uvm.extract_completed_model_paths(path) == [
+        "results/GPT-5.2",
+        "results/Qwen3.6-Plus",
+    ]
+
+
+# ---------------------------------------------------------------------------
+# find_missing_models
+# ---------------------------------------------------------------------------
+
+
+def test_find_missing_models_handles_provider_and_openhands() -> None:
+    verified = {
+        "VERIFIED_OPENHANDS_MODELS": ["gpt-5.2"],
+        "VERIFIED_OPENAI_MODELS": ["gpt-5.2"],
+        "VERIFIED_MISTRAL_MODELS": [],
+    }
+    missing_oh, missing_prov = uvm.find_missing_models(
+        {"gpt-5.2", "gpt-5.5", "devstral-medium-2512"}, verified
+    )
+    assert missing_oh == ["devstral-medium-2512", "gpt-5.5"]
+    assert missing_prov == {
+        "VERIFIED_MISTRAL_MODELS": ["devstral-medium-2512"],
+        "VERIFIED_OPENAI_MODELS": ["gpt-5.5"],
+    }
+
+
+def test_find_missing_models_unknown_provider_only_hits_openhands() -> None:
+    verified = {"VERIFIED_OPENHANDS_MODELS": []}
+    missing_oh, missing_prov = uvm.find_missing_models(
+        {"trinity-large-thinking"}, verified
+    )
+    assert missing_oh == ["trinity-large-thinking"]
+    assert missing_prov == {}
+
+
+# ---------------------------------------------------------------------------
+# insert_into_list / generate_updated_content
+# ---------------------------------------------------------------------------
+
+
+def test_insert_into_list_preserves_indent() -> None:
+    content = LIVE_VERIFIED_MODELS.read_text()
+    updated = uvm.insert_into_list(
+        content, "VERIFIED_OPENAI_MODELS", ["gpt-test-new"]
+    )
+    # The new entry must use the same indent as existing entries (4 spaces).
+    assert '    "gpt-test-new",\n' in updated
+    # Original entries are untouched.
+    assert '    "gpt-5.5",\n' in updated
+
+
+def test_insert_into_list_handles_missing_list_unchanged() -> None:
+    content = LIVE_VERIFIED_MODELS.read_text()
+    updated = uvm.insert_into_list(content, "VERIFIED_DOESNOTEXIST_MODELS", ["x"])
+    assert updated == content
+
+
+def test_insert_into_list_no_models_is_noop() -> None:
+    content = LIVE_VERIFIED_MODELS.read_text()
+    assert uvm.insert_into_list(content, "VERIFIED_OPENAI_MODELS", []) == content
+
+
+def test_generate_updated_content_roundtrip_parses() -> None:
+    """The updated file must still be valid Python (the core safety property)."""
+    content = LIVE_VERIFIED_MODELS.read_text()
+    updated = uvm.generate_updated_content(
+        content,
+        missing_openhands=["gpt-test-new"],
+        missing_providers={"VERIFIED_OPENAI_MODELS": ["gpt-test-new"]},
+    )
+    # Must parse as Python.
+    ast.parse(updated)
+    # Both lists got the new entry.
+    lists = uvm.parse_verified_lists(updated)
+    assert "gpt-test-new" in lists["VERIFIED_OPENAI_MODELS"]
+    assert "gpt-test-new" in lists["VERIFIED_OPENHANDS_MODELS"]
+
+
+def test_generate_updated_content_preserves_existing_entries() -> None:
+    """
+    Critical: adding new entries must not remove or reorder existing ones.
+    Round-trip the live fixture and assert every existing entry is still there.
+    """
+    content = LIVE_VERIFIED_MODELS.read_text()
+    original_lists = uvm.parse_verified_lists(content)
+
+    updated = uvm.generate_updated_content(
+        content,
+        missing_openhands=["trinity-new-model"],
+        missing_providers={"VERIFIED_MISTRAL_MODELS": ["devstral-future-2999"]},
+    )
+    updated_lists = uvm.parse_verified_lists(updated)
+
+    # Every original entry still present (no accidental deletion).
+    for name, values in original_lists.items():
+        assert set(values).issubset(set(updated_lists[name])), (
+            f"existing entries dropped from {name}"
         )
-        assert '"gpt-5.4"' in result
-        assert '"gpt-5.5"' in result
 
-    def test_preserves_other_content(self):
-        content = 'BEFORE = 1\n\nVERIFIED_X_MODELS = [\n    "a",\n]\n\nAFTER = 2\n'
-        result = add_models_to_list(content, "VERIFIED_X_MODELS", ["b"])
-        assert "BEFORE = 1" in result
-        assert "AFTER = 2" in result
-        assert '"b"' in result
-
-    def test_nonexistent_list_unchanged(self):
-        content = 'VERIFIED_X_MODELS = [\n    "a",\n]\n'
-        result = add_models_to_list(content, "VERIFIED_NONEXISTENT_MODELS", ["b"])
-        assert result == content
+    assert "trinity-new-model" in updated_lists["VERIFIED_OPENHANDS_MODELS"]
+    assert "devstral-future-2999" in updated_lists["VERIFIED_MISTRAL_MODELS"]
 
 
-class TestGenerateUpdatedContent:
-    """Tests for generate_updated_content function."""
+def test_generate_updated_content_empty_diff_unchanged() -> None:
+    content = LIVE_VERIFIED_MODELS.read_text()
+    assert uvm.generate_updated_content(content, [], {}) == content
 
-    def test_adds_to_both_lists(self):
-        content = '''VERIFIED_OPENAI_MODELS = [
-    "gpt-5.2",
-]
 
-VERIFIED_OPENHANDS_MODELS = [
-    "gpt-5.2",
-]
-'''
-        updated = generate_updated_content(
-            content,
-            missing_openhands=["gpt-5.5"],
-            missing_providers={"VERIFIED_OPENAI_MODELS": ["gpt-5.5"]},
+# ---------------------------------------------------------------------------
+# end-to-end via main()
+# ---------------------------------------------------------------------------
+
+
+def _make_repo(tmp_path: Path, model_dirs: dict[str, dict[str, object]]) -> Path:
+    """
+    Build a fake repo layout with ``results/<name>/metadata.json`` per entry
+    and a ``complete-models.json`` pointing to each. Returns the repo root.
+    """
+    sdk_target = tmp_path / "sdk_verified_models.py"
+    sdk_target.write_text(LIVE_VERIFIED_MODELS.read_text())
+
+    entries: list[dict[str, str]] = []
+    for dir_name, meta in model_dirs.items():
+        _write_metadata(tmp_path / "results" / dir_name, **meta)
+        entries.append(
+            {"timestamp": "2026-04-01T00:00:00.000+00:00", "model-path": f"results/{dir_name}"}
         )
-        # gpt-5.5 should appear in both lists
-        assert updated.count('"gpt-5.5"') == 2
+    (tmp_path / "complete-models.json").write_text(json.dumps(entries))
+    return sdk_target
 
-    def test_no_changes_when_empty(self):
-        content = 'VERIFIED_OPENHANDS_MODELS = [\n    "gpt-5.2",\n]\n'
-        updated = generate_updated_content(content, [], {})
-        assert updated == content
 
-    def test_only_openhands_missing(self):
-        content = '''VERIFIED_OPENAI_MODELS = [
-    "gpt-5.2",
-    "gpt-5.5",
-]
+def test_main_writes_resolvable_additions_and_returns_zero(tmp_path: Path) -> None:
+    sdk_target = _make_repo(
+        tmp_path,
+        {"GPT-5.2": {"model": "GPT-5.2"}},  # lowercase 'gpt-5.2' already known
+    )
+    rc = uvm.main(
+        [
+            "--repo-root",
+            str(tmp_path),
+            "--sdk-verified-models",
+            str(sdk_target),
+            "--write",
+        ]
+    )
+    assert rc == 0
+    # gpt-5.2 already in OPENHANDS list, so nothing actually added.
+    assert sdk_target.read_text() == LIVE_VERIFIED_MODELS.read_text()
 
-VERIFIED_OPENHANDS_MODELS = [
-    "gpt-5.2",
-]
-'''
-        updated = generate_updated_content(
-            content,
-            missing_openhands=["gpt-5.5"],
-            missing_providers={},
-        )
-        # gpt-5.5 should now also be in OPENHANDS list
-        lines = updated.split("\n")
-        oh_section = False
-        found_in_oh = False
-        for line in lines:
-            if "VERIFIED_OPENHANDS_MODELS" in line:
-                oh_section = True
-            elif oh_section and "]" in line:
-                oh_section = False
-            elif oh_section and '"gpt-5.5"' in line:
-                found_in_oh = True
-        assert found_in_oh
+
+def test_main_returns_nonzero_when_models_skipped(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """
+    Regression for the qwen3.5-flash bug: a model without litellm_model_id and
+    whose lowercased dir isn't already verified must NOT be added, and the
+    workflow must see a non-zero exit code.
+    """
+    sdk_target = _make_repo(
+        tmp_path,
+        {"Qwen3.5-Flash": {"model": "Qwen3.5-Flash"}},
+    )
+    rc = uvm.main(
+        [
+            "--repo-root",
+            str(tmp_path),
+            "--sdk-verified-models",
+            str(sdk_target),
+            "--write",
+        ]
+    )
+    assert rc == 1
+    err = capsys.readouterr().err
+    assert "Qwen3.5-Flash" in err
+    # Nothing was added because no resolvable models.
+    assert sdk_target.read_text() == LIVE_VERIFIED_MODELS.read_text()
+
+
+def test_main_writes_explicit_id_and_picks_mistral_for_devstral(tmp_path: Path) -> None:
+    """End-to-end proof that ^devstral- now lands in VERIFIED_MISTRAL_MODELS."""
+    sdk_target = _make_repo(
+        tmp_path,
+        {
+            "Devstral-Future": {
+                "model": "Devstral-Future",
+                "litellm_model_id": "devstral-future-2999",
+            }
+        },
+    )
+    rc = uvm.main(
+        [
+            "--repo-root",
+            str(tmp_path),
+            "--sdk-verified-models",
+            str(sdk_target),
+            "--write",
+        ]
+    )
+    assert rc == 0
+    lists = uvm.parse_verified_lists(sdk_target.read_text())
+    assert "devstral-future-2999" in lists["VERIFIED_MISTRAL_MODELS"]
+    assert "devstral-future-2999" in lists["VERIFIED_OPENHANDS_MODELS"]
+
+
+def test_main_dry_run_does_not_write(tmp_path: Path) -> None:
+    sdk_target = _make_repo(
+        tmp_path,
+        {
+            "Devstral-Future": {
+                "model": "Devstral-Future",
+                "litellm_model_id": "devstral-future-2999",
+            }
+        },
+    )
+    original = sdk_target.read_text()
+    rc = uvm.main(
+        [
+            "--repo-root",
+            str(tmp_path),
+            "--sdk-verified-models",
+            str(sdk_target),
+            # no --write
+        ]
+    )
+    assert rc == 0
+    assert sdk_target.read_text() == original
