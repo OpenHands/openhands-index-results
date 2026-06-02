@@ -2,6 +2,8 @@
 
 This guide explains how to add metadata for a new model to the OpenHands Index Results repository. Every metadata field must be backed by an **official source** from the model's original provider.
 
+> ⚠️ **Do not modify `complete-models.json` in your PR.** That file is maintained exclusively by an automated GitHub Action and must never be edited as part of a metadata or results PR. Any change to `complete-models.json` made alongside metadata or results will be rejected.
+
 ## Source Requirements
 
 - **Only official provider sources are accepted.** For example, use `openai.com` for GPT models, `anthropic.com` / `platform.claude.com` for Claude models, `ai.google.dev` for Gemini models, etc.
@@ -107,21 +109,7 @@ Edit `scripts/validate_schema.py` to register the new model:
    }
    ```
 
-### 5. Update `complete-models.json`
-
-Add the new model entry at the top of the array (most recent first) with the current timestamp:
-
-```json
-[
-  {
-    "timestamp": "2026-04-29T14:48:56.000+00:00",
-    "model-path": "results/Your-Model-Name"
-  },
-  ...
-]
-```
-
-### 6. Add a Test
+### 5. Add a Test
 
 Add a test in `tests/test_validate_schema.py` to validate your new metadata:
 
@@ -151,7 +139,7 @@ def test_valid_metadata_your_model(self, tmp_path):
     assert msg == "OK"
 ```
 
-### 7. Run Validation
+### 6. Run Validation
 
 Before submitting, run both the schema validation and the test suite:
 
@@ -334,8 +322,9 @@ Added <Model-Name> model metadata to the repository.
 1. Created `results/<Model-Name>/metadata.json`
 2. Created `results/<Model-Name>/scores.json` (empty array)
 3. Updated `scripts/validate_schema.py` (Model enum, MODEL_OPENNESS_MAP, MODEL_COUNTRY_MAP)
-4. Updated `complete-models.json`
-5. Added test in `tests/test_validate_schema.py`
+4. Added test in `tests/test_validate_schema.py`
+
+> Do **not** modify `complete-models.json` — it is updated automatically by a GitHub Action after the PR is merged.
 
 ## Verification
 
@@ -365,7 +354,7 @@ Before submitting your PR, verify:
 - [ ] Model added to `Model` enum in `scripts/validate_schema.py`
 - [ ] Model added to `MODEL_OPENNESS_MAP` in `scripts/validate_schema.py`
 - [ ] Model added to `MODEL_COUNTRY_MAP` in `scripts/validate_schema.py`
-- [ ] Model added to `complete-models.json` (at the top, most recent first)
+- [ ] **`complete-models.json` is NOT modified** (it is updated only by the automated GitHub Action)
 - [ ] Test added in `tests/test_validate_schema.py`
 - [ ] `python scripts/validate_schema.py` passes
 - [ ] `pytest tests/ -v` passes
