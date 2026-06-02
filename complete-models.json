@@ -1,9 +1,5 @@
 [
   {
-    "timestamp": "2026-05-28T20:01:05.000+00:00",
-    "model-path": "results/claude-opus-4-8"
-  },
-  {
     "timestamp": "2026-05-22T20:58:48.000+00:00",
     "model-path": "results/Qwen3-Coder-Next"
   },
