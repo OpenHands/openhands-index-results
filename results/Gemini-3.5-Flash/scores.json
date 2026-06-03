@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "benchmark": "commit0",
+    "score": 37.5,
+    "metric": "accuracy",
+    "cost_per_instance": 13.7,
+    "average_runtime": 681.0,
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-5-flash/26649062225/results.tar.gz",
+    "tags": [
+      "commit0"
+    ],
+    "agent_version": "v1.24.0",
+    "submission_time": "2026-05-29T21:13:02+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/508e3c61-eb14-4143-92b9-0af14417b481"
+  }
+]
