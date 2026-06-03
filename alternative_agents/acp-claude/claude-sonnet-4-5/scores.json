@@ -34,17 +34,19 @@
   },
   {
     "benchmark": "gaia",
-    "score": 63.0,
+    "score": 73.3,
     "metric": "accuracy",
-    "cost_per_instance": 0.81,
-    "average_runtime": 270.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-claude-sonnet-4-5-20250929/1778132353/results.tar.gz",
+    "cost_per_instance": 0.57,
+    "average_runtime": 301.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-claude-sonnet-4-5-20250929/26818057217/results.tar.gz",
     "tags": [
       "gaia"
     ],
-    "agent_version": "v1.15.0",
-    "submission_time": "2026-03-26T17:51:20+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/f0c349f4-5e88-48ae-89ea-563610c04d74"
+    "agent_version": "v1.24.0",
+    "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+    "acp_agent_version": "v0.30.0",
+    "submission_time": "2026-06-02T15:19:36+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/3f0b2d54-8b78-423f-846f-54d6194bbeac"
   },
   {
     "benchmark": "commit0",
