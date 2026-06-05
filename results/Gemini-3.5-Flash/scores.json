@@ -3,7 +3,7 @@
     "benchmark": "swt-bench",
     "score": 73.2,
     "metric": "accuracy",
-    "cost_per_instance": 2.29,
+    "cost_per_instance": 2.2785,
     "average_runtime": 322.0,
     "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-5-flash/26622043853/results.tar.gz",
     "tags": [
