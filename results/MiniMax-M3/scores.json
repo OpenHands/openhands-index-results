@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "benchmark": "swt-bench",
+    "score": 81.1,
+    "metric": "accuracy",
+    "cost_per_instance": 0.11,
+    "average_runtime": 649.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-minimax-MiniMax-M3/26850570480/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.24.0",
+    "submission_time": "2026-06-03T08:16:20+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/2203b457-5c29-4b00-be91-c0408f119244"
+  }
+]
