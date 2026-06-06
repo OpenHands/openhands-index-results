@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 42.6,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 8.94,
+    "average_runtime": 730.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-5-flash/27052081405/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.26.0",
+    "submission_time": "2026-06-06T04:32:22+00:00",
+    "component_scores": {
+      "solveable_accuracy": 42.6,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 28.4
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/deb16a2b-f72a-442f-ae94-61cefb2cdc8f"
+  }
+]
