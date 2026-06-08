@@ -1,0 +1,15 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.24.0",
+  "model": "Gemini-3.5-Flash",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "Gemini-3.5-Flash",
+  "release_date": "2026-05-19",
+  "supports_vision": true,
+  "input_price": 1.5,
+  "output_price": 9.0,
+  "cache_read_price": 0.15,
+  "cache_write_price": null
+}

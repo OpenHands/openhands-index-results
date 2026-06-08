@@ -5,7 +5,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 0.86,
     "average_runtime": 1277.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-flash-preview/23957895398/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-flash-preview/1778132361/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
@@ -26,7 +26,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.33,
     "average_runtime": 1151.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-gemini-3-flash-preview/23925785262/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-gemini-3-flash-preview/1778132368/results.tar.gz",
     "tags": [
       "swe-bench"
     ],
@@ -42,7 +42,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.24,
     "average_runtime": 888.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-flash-preview/23925786540/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-flash-preview/1778132375/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
@@ -58,7 +58,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.51,
     "average_runtime": 705.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-gemini-3-flash-preview/23925785249/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-gemini-3-flash-preview/1778132354/results.tar.gz",
     "tags": [
       "gaia"
     ],
@@ -74,7 +74,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.89,
     "average_runtime": 1309.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-flash-preview/23954598555/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-flash-preview/1778132347/results.tar.gz",
     "tags": [
       "commit0"
     ],

@@ -1,0 +1,17 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.0.0",
+  "model": "DeepSeek-V4-Pro",
+  "openness": "open_weights",
+  "country": "cn",
+  "tool_usage": "standard",
+  "directory_name": "DeepSeek-V4-Pro",
+  "release_date": "2026-04-24",
+  "parameter_count_b": 1600,
+  "active_parameter_count_b": 49,
+  "supports_vision": false,
+  "input_price": 0.435,
+  "output_price": 0.87,
+  "cache_read_price": 0.003625,
+  "cache_write_price": null
+}

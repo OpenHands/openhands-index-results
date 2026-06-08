@@ -5,7 +5,7 @@
     "metric": "accuracy",
     "cost_per_instance": 7.34,
     "average_runtime": 1433.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-7/24863774497/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-anthropic-claude-opus-4-7/1778132345/results.tar.gz",
     "tags": [
       "commit0"
     ],
@@ -21,7 +21,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.15,
     "average_runtime": 260.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-opus-4-7/24840336632/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-anthropic-claude-opus-4-7/1778132366/results.tar.gz",
     "tags": [
       "swe-bench"
     ],
@@ -37,7 +37,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.19,
     "average_runtime": 247.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-7/24867322013/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-7/1778132373/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
@@ -53,7 +53,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 2.67,
     "average_runtime": 641.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-7/24809884231/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-7/1778132359/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
@@ -72,9 +72,9 @@
     "benchmark": "gaia",
     "score": 74.5,
     "metric": "accuracy",
-    "cost_per_instance": 0.71,
+    "cost_per_instance": 0.87,
     "average_runtime": 264.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-7/24852541001/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-opus-4-7/1778132352/results.tar.gz",
     "tags": [
       "gaia"
     ],

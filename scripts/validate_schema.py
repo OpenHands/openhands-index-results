@@ -269,6 +269,7 @@ class ToolUsage(str, Enum):
 
 class Model(str, Enum):
     """Expected model names from issue #2."""
+    CLAUDE_OPUS_4_8 = "claude-opus-4-8"
     CLAUDE_OPUS_4_7 = "claude-opus-4-7"
     CLAUDE_OPUS_4_6 = "claude-opus-4-6"
     CLAUDE_OPUS_4_5 = "claude-opus-4-5"
@@ -277,6 +278,7 @@ class Model(str, Enum):
     GEMINI_3_PRO = "Gemini-3-Pro"
     GEMINI_3_1_PRO = "Gemini-3.1-Pro"
     GEMINI_3_FLASH = "Gemini-3-Flash"
+    GEMINI_3_5_FLASH = "Gemini-3.5-Flash"
     GLM_5 = "GLM-5"
     GLM_5_1 = "GLM-5.1"
     GLM_4_7 = "GLM-4.7"
@@ -289,6 +291,7 @@ class Model(str, Enum):
     KIMI_K2_6 = "Kimi-K2.6"
     MINIMAX_M2_1 = "MiniMax-M2.1"
     DEEPSEEK_V3_2_REASONER = "DeepSeek-V3.2-Reasoner"
+    DEEPSEEK_V4_PRO = "DeepSeek-V4-Pro"
     QWEN_3_CODER = "Qwen3-Coder-480B"
     QWEN3_5_FLASH = "Qwen3.5-Flash"
     QWEN3_6_PLUS = "Qwen3.6-Plus"
@@ -297,6 +300,7 @@ class Model(str, Enum):
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
+    MINIMAX_M3 = "MiniMax-M3"
     TRINITY_LARGE_THINKING = "Trinity-Large-Thinking"
 
 
@@ -305,6 +309,7 @@ class Model(str, Enum):
 # Closed API models only provide API access without weight availability
 MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     # Closed API models
+    Model.CLAUDE_OPUS_4_8: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_7: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_6: Openness.CLOSED_API_AVAILABLE,
     Model.CLAUDE_OPUS_4_5: Openness.CLOSED_API_AVAILABLE,
@@ -313,10 +318,12 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GEMINI_3_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_1_PRO: Openness.CLOSED_API_AVAILABLE,
     Model.GEMINI_3_FLASH: Openness.CLOSED_API_AVAILABLE,
+    Model.GEMINI_3_5_FLASH: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_5: Openness.CLOSED_API_AVAILABLE,
+    Model.MINIMAX_M3: Openness.CLOSED_API_AVAILABLE,
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
@@ -327,6 +334,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.KIMI_K2_6: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
+    Model.DEEPSEEK_V4_PRO: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
     Model.QWEN3_5_FLASH: Openness.OPEN_WEIGHTS,
     Model.QWEN3_CODER_NEXT: Openness.OPEN_WEIGHTS,
@@ -341,6 +349,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
 # Mapping of models to their country of origin
 MODEL_COUNTRY_MAP: dict[Model, Country] = {
     # US models
+    Model.CLAUDE_OPUS_4_8: Country.US,
     Model.CLAUDE_OPUS_4_7: Country.US,
     Model.CLAUDE_OPUS_4_6: Country.US,
     Model.CLAUDE_OPUS_4_5: Country.US,
@@ -349,6 +358,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.GEMINI_3_PRO: Country.US,
     Model.GEMINI_3_1_PRO: Country.US,
     Model.GEMINI_3_FLASH: Country.US,
+    Model.GEMINI_3_5_FLASH: Country.US,
     Model.GPT_5_2: Country.US,
     Model.GPT_5_2_CODEX: Country.US,
     Model.GPT_5_4: Country.US,
@@ -365,7 +375,9 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.KIMI_K2_6: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
+    Model.MINIMAX_M3: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
+    Model.DEEPSEEK_V4_PRO: Country.CN,
     Model.MINIMAX_2_7: Country.CN,
     Model.QWEN_3_CODER: Country.CN,
     Model.QWEN3_5_FLASH: Country.CN,
@@ -377,7 +389,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
 class Metadata(BaseModel):
     """Schema for metadata.json files."""
     agent_name: AgentName = Field(..., description="Name of the agent (must be one of: OpenHands, OpenHands Sub-agents, Claude Code, OpenCode, Codex, Gemini CLI)")
-    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v')")
+    agent_version: str = Field(..., description="Version of the agent (semantic version starting with 'v'). Required to enforce consistency: the schema validates that this value is <= the agent_version of every score entry in scores.json, ensuring all runs of the same model use the same or a newer agent version.")
     model: Model = Field(..., description="Model name (must be one of the expected models)")
     openness: Openness = Field(..., description="Model openness classification")
     country: Country = Field(..., description="Country of origin for the model")

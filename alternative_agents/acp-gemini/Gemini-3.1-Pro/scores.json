@@ -5,7 +5,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.8,
     "average_runtime": 265.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-1-pro-preview/23983342857/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-1-pro-preview/1778132376/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
@@ -21,7 +21,7 @@
     "metric": "accuracy",
     "cost_per_instance": 1.4,
     "average_runtime": 403.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-gemini-3-1-pro-preview/23983342682/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebench/litellm_proxy-gemini-3-1-pro-preview/1778132369/results.tar.gz",
     "tags": [
       "swe-bench"
     ],
@@ -37,7 +37,7 @@
     "metric": "accuracy",
     "cost_per_instance": 0.61,
     "average_runtime": 324.0,
-    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-gemini-3-1-pro-preview/23983343258/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-gemini-3-1-pro-preview/1778132355/results.tar.gz",
     "tags": [
       "gaia"
     ],
@@ -49,11 +49,11 @@
   },
   {
     "benchmark": "commit0",
-    "score": 43.8,
+    "score": 37.5,
     "metric": "accuracy",
     "cost_per_instance": 7.55,
     "average_runtime": 1072.0,
-    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/25038817375/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/commit0/litellm_proxy-gemini-3-1-pro-preview/1778132348/results.tar.gz",
     "tags": [
       "commit0"
     ],
@@ -69,7 +69,7 @@
     "metric": "solveable_accuracy",
     "cost_per_instance": 2.42,
     "average_runtime": 546.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-1-pro-preview/23983344719/results.tar.gz",
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-gemini-3-1-pro-preview/1778132362/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],

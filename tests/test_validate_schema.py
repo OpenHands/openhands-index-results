@@ -242,6 +242,30 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_minimax_m3(self, tmp_path):
+        """Test valid metadata for MiniMax-M3 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "MiniMax-M3",
+            "country": "cn",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "MiniMax-M3",
+            "release_date": "2026-06-01",
+            "supports_vision": True,
+            "input_price": 0.6,
+            "output_price": 2.4,
+            "cache_read_price": 0.12,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_qwen3_6_plus(self, tmp_path):
         """Test valid metadata for Qwen3.6-Plus passes validation."""
         metadata = {
@@ -268,6 +292,56 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_deepseek_v4_pro(self, tmp_path):
+        """Test valid metadata for DeepSeek-V4-Pro passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "DeepSeek-V4-Pro",
+            "country": "cn",
+            "openness": "open_weights",
+            "tool_usage": "standard",
+            "directory_name": "DeepSeek-V4-Pro",
+            "release_date": "2026-04-24",
+            "supports_vision": False,
+            "input_price": 0.435,
+            "output_price": 0.87,
+            "parameter_count_b": 1600,
+            "active_parameter_count_b": 49,
+            "cache_read_price": 0.003625,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_metadata_claude_opus_4_8(self, tmp_path):
+        """Test valid metadata for claude-opus-4-8 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "claude-opus-4-8",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "claude-opus-4-8",
+            "release_date": "2026-05-28",
+            "supports_vision": True,
+            "input_price": 5.0,
+            "output_price": 25.0,
+            "cache_read_price": 0.5,
+            "cache_write_price": 6.25
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_trinity_large_thinking(self, tmp_path):
         """Test valid metadata for Trinity-Large-Thinking passes validation."""
         metadata = {
@@ -285,6 +359,30 @@ class TestMetadataSchema:
             "parameter_count_b": 398,
             "active_parameter_count_b": 13,
             "cache_read_price": None,
+            "cache_write_price": None
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_valid_metadata_gemini_3_5_flash(self, tmp_path):
+        """Test valid metadata for Gemini-3.5-Flash passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.24.0",
+            "model": "Gemini-3.5-Flash",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Gemini-3.5-Flash",
+            "release_date": "2026-05-19",
+            "supports_vision": True,
+            "input_price": 1.5,
+            "output_price": 9.0,
+            "cache_read_price": 0.15,
             "cache_write_price": None
         }
         metadata_file = tmp_path / "metadata.json"
