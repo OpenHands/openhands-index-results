@@ -62,16 +62,18 @@
   },
   {
     "benchmark": "swt-bench",
-    "score": 66.7,
+    "score": 80.1,
     "metric": "accuracy",
-    "cost_per_instance": 1.04,
-    "average_runtime": 220.0,
-    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/1778132372/results.tar.gz",
+    "cost_per_instance": 0.67,
+    "average_runtime": 249.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-anthropic-claude-opus-4-6/27006729815/results.tar.gz",
     "tags": [
       "swt-bench"
     ],
-    "agent_version": "v1.15.0",
-    "submission_time": "2026-03-28T19:13:08+00:00",
-    "eval_visualization_page": "https://laminar.sh/shared/evals/70bcf9b9-e251-4250-b07e-5eaae508bb71"
+    "agent_version": "v1.25.0",
+    "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
+    "acp_agent_version": "v0.30.0",
+    "submission_time": "2026-06-05T18:10:59+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/31cf0af2-3c93-41f9-b451-bfc003a0f392"
   }
 ]
