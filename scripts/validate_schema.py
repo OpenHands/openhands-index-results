@@ -300,6 +300,7 @@ class Model(str, Enum):
     QWEN3_CODER_NEXT = "Qwen3-Coder-Next"
     MINIMAX_M2_5 = "MiniMax-M2.5"
     MINIMAX_2_7 = "Minimax-2.7"
+    MINIMAX_M3 = "MiniMax-M3"
     TRINITY_LARGE_THINKING = "Trinity-Large-Thinking"
 
 
@@ -322,6 +323,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_5: Openness.CLOSED_API_AVAILABLE,
+    Model.MINIMAX_M3: Openness.CLOSED_API_AVAILABLE,
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
@@ -373,6 +375,7 @@ MODEL_COUNTRY_MAP: dict[Model, Country] = {
     Model.KIMI_K2_6: Country.CN,
     Model.MINIMAX_M2_1: Country.CN,
     Model.MINIMAX_M2_5: Country.CN,
+    Model.MINIMAX_M3: Country.CN,
     Model.DEEPSEEK_V3_2_REASONER: Country.CN,
     Model.DEEPSEEK_V4_PRO: Country.CN,
     Model.MINIMAX_2_7: Country.CN,
@@ -401,6 +404,15 @@ class Metadata(BaseModel):
     output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
     cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
     cache_write_price: Optional[float] = Field(None, gt=0, description="Cache write price per million tokens in USD (None if not supported)")
+    litellm_model_id: Optional[str] = Field(
+        None,
+        description=(
+            "Canonical LiteLLM model ID (e.g. 'qwen3-5-flash'). When set, "
+            "update_verified_models.py uses this exact string instead of guessing "
+            "from the directory name. Required for any model whose directory name "
+            "does not already lowercase into the LiteLLM-recognised ID."
+        ),
+    )
 
     @field_validator("agent_version")
     @classmethod
