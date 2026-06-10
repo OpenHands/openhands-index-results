@@ -176,19 +176,32 @@ def get_remote_hash(api: HfApi) -> str | None:
         return None
 
 
-def resolve_source_version() -> tuple[str, str, str, datetime]:
-    """Return (full_sha, short_sha, version_string, commit_datetime_utc).
+def resolve_source_version() -> tuple[str, str, str, str, datetime]:
+    """Return (full_sha, short_sha, version_string, info_version, commit_datetime_utc).
 
-    version_string = "YYYY.MM.DD-<short_sha>" (e.g. 2026.05.29-4c92417).
-    Date comes from the source commit's committer date so the version
-    reflects when the data was finalized, not when CI happened to run.
+    ``version_string`` = ``"YYYY.MM.DD-<short_sha>"`` (e.g. ``2026.05.29-4c92417``)
+    is the human-facing version used in tags, commit messages and the rendered
+    dataset card. It embeds the source commit hash so each published snapshot
+    is unambiguously traceable.
+
+    ``info_version`` = ``"YYYY.M.D"`` (digits only, ``x.y.z`` form) is the
+    *machine-facing* version used for the ``dataset_info.version`` YAML field
+    in the dataset card. The HF ``datasets`` library parses that field as a
+    ``datasets.Version`` and rejects anything other than three dot-separated
+    digit groups — including the ``-<short_sha>`` suffix — which used to break
+    ``get_dataset_config_names()`` for the leaderboard dataset (see #1189).
+
+    The date in both versions comes from the source commit's committer date so
+    the version reflects when the data was finalized, not when CI happened to
+    run.
     """
     sha = os.environ.get("GITHUB_SHA") or _git("rev-parse", "HEAD")
     short = sha[:7]
     iso = _git("show", "-s", "--format=%cI", sha)
     dt = datetime.fromisoformat(iso).astimezone(timezone.utc)
     version = f"{dt.year}.{dt.month:02d}.{dt.day:02d}-{short}"
-    return sha, short, version, dt
+    info_version = f"{dt.year}.{dt.month}.{dt.day}"
+    return sha, short, version, info_version, dt
 
 
 def _git(*args: str) -> str:
@@ -198,11 +211,20 @@ def _git(*args: str) -> str:
 
 
 def dataset_card(
-    df: pd.DataFrame, generated_at: str, source_sha: str, version: str
+    df: pd.DataFrame,
+    generated_at: str,
+    source_sha: str,
+    version: str,
+    info_version: str,
 ) -> str:
     top = df[["language_model", "sdk_version", "agent_name", "average_score",
               "categories_completed", "release_date"]].head(15)
     top_md = top.to_markdown(index=False, floatfmt=".2f") if not top.empty else "_(empty)_"
+    # NOTE: ``dataset_info.version`` MUST be a digits-only ``x.y.z`` string —
+    # the HF datasets library parses it as a ``datasets.Version`` and rejects
+    # anything else (e.g. a ``-<short_sha>`` suffix). Using ``info_version``
+    # here keeps ``get_dataset_config_names()`` working; the full ``version``
+    # with the commit hash is kept further down for human-facing display.
     return f"""---
 license: apache-2.0
 pretty_name: OpenHands Index Leaderboard
@@ -213,7 +235,7 @@ tags:
 - benchmark
 dataset_info:
   config_name: default
-  version: {version}
+  version: {info_version}
   description: >-
     Snapshot of the OpenHands Index leaderboard built from
     openhands-index-results commit {source_sha} on {generated_at}.
@@ -297,7 +319,7 @@ def main() -> int:
         return 1
 
     try:
-        source_sha, _, version, _ = resolve_source_version()
+        source_sha, _, version, info_version, _ = resolve_source_version()
     except subprocess.CalledProcessError as e:
         logger.error("Failed to resolve source version: %s", e)
         return 1
@@ -306,7 +328,9 @@ def main() -> int:
     buf = io.BytesIO()
     df.to_parquet(buf, index=False)
     parquet_bytes = buf.getvalue()
-    readme_bytes = dataset_card(df, generated_at, source_sha, version).encode("utf-8")
+    readme_bytes = dataset_card(
+        df, generated_at, source_sha, version, info_version
+    ).encode("utf-8")
 
     ops = [
         CommitOperationAdd(path_in_repo=PARQUET_PATH, path_or_fileobj=parquet_bytes),
