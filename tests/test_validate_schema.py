@@ -318,6 +318,30 @@ class TestMetadataSchema:
         assert valid is True
         assert msg == "OK"
 
+    def test_valid_metadata_claude_fable_5(self, tmp_path):
+        """Test valid metadata for claude-fable-5 passes validation."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "claude-fable-5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "claude-fable-5",
+            "release_date": "2026-06-09",
+            "supports_vision": True,
+            "input_price": 10.0,
+            "output_price": 50.0,
+            "cache_read_price": 1.0,
+            "cache_write_price": 12.5
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
     def test_valid_metadata_claude_opus_4_8(self, tmp_path):
         """Test valid metadata for claude-opus-4-8 passes validation."""
         metadata = {
