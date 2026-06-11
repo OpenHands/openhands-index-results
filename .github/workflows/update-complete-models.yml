@@ -168,7 +168,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: OpenHands/docs
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.OPENHANDS_BOT_GITHUB_PAT_PUBLIC }}
           path: docs
 
       - name: Apply recommendations to docs
@@ -189,7 +189,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           path: docs
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.OPENHANDS_BOT_GITHUB_PAT_PUBLIC }}
           commit-message: "Refresh recommended LLM models from OpenHands Index"
           branch: openhands/refresh-recommended-llms
           delete-branch: true
