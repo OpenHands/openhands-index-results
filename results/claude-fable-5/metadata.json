@@ -1,0 +1,15 @@
+{
+  "agent_name": "OpenHands",
+  "agent_version": "v1.18.1",
+  "model": "claude-fable-5",
+  "openness": "closed_api_available",
+  "country": "us",
+  "tool_usage": "standard",
+  "directory_name": "claude-fable-5",
+  "release_date": "2026-06-09",
+  "supports_vision": true,
+  "input_price": 10.0,
+  "output_price": 50.0,
+  "cache_read_price": 1.0,
+  "cache_write_price": 12.5
+}
