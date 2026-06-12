@@ -1,5 +1,21 @@
 [
   {
+    "timestamp": "2026-06-12T13:00:20.000+00:00",
+    "model-path": "results/Gemini-3.1-Pro"
+  },
+  {
+    "timestamp": "2026-06-06T15:11:27.000+00:00",
+    "model-path": "results/MiniMax-M3"
+  },
+  {
+    "timestamp": "2026-06-02T22:11:31.000+00:00",
+    "model-path": "results/claude-opus-4-8"
+  },
+  {
+    "timestamp": "2026-05-30T15:10:34.000+00:00",
+    "model-path": "results/DeepSeek-V4-Pro"
+  },
+  {
     "timestamp": "2026-05-22T20:58:48.000+00:00",
     "model-path": "results/Qwen3-Coder-Next"
   },
@@ -78,10 +94,6 @@
   {
     "timestamp": "2026-04-30T16:08:45.000+00:00",
     "model-path": "results/MiniMax-M2.7"
-  },
-  {
-    "timestamp": "2026-04-30T16:08:40.000+00:00",
-    "model-path": "results/Gemini-3.1-Pro"
   },
   {
     "timestamp": "2026-04-30T16:08:34.000+00:00",

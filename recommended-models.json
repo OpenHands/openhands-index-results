@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-05-27T18:55:25+00:00",
+  "generated_at": "2026-06-12T13:00:33+00:00",
   "cloud_by_family": [
     {
-      "model": "claude-opus-4-7",
-      "model_path": "results/claude-opus-4-7",
-      "average_score": 68.2,
+      "model": "claude-opus-4-8",
+      "model_path": "results/claude-opus-4-8",
+      "average_score": 71.9,
       "benchmarks_count": 5,
       "family": "Claude",
       "openness": "closed_api_available",
-      "model_string": "anthropic/claude-opus-4-7"
+      "model_string": null
     },
     {
       "model": "GPT-5.5",
@@ -22,7 +22,7 @@
     {
       "model": "Gemini-3.1-Pro",
       "model_path": "results/Gemini-3.1-Pro",
-      "average_score": 57.0,
+      "average_score": 57.3,
       "benchmarks_count": 5,
       "family": "Gemini",
       "openness": "closed_api_available",
