@@ -935,6 +935,170 @@ class TestMetadataSchema:
         assert valid is False
         assert "agent_name" in msg.lower()
 
+    def test_available_defaults_to_true(self, tmp_path):
+        """Test that available defaults to True when not specified."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_available_explicitly_true(self, tmp_path):
+        """Test that available=True passes validation for an available model."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1,
+            "available": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_available_false_for_gemini_3_pro(self, tmp_path):
+        """Test that available=False is required for Gemini-3-Pro."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "Gemini-3-Pro",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Gemini-3-Pro",
+            "release_date": "2025-11-18",
+            "supports_vision": True,
+            "input_price": 2.0,
+            "output_price": 12.0,
+            "cache_read_price": None,
+            "cache_write_price": None,
+            "available": False
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_available_true_for_gemini_3_pro_fails(self, tmp_path):
+        """Test that available=True for Gemini-3-Pro is rejected."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "Gemini-3-Pro",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "Gemini-3-Pro",
+            "release_date": "2025-11-18",
+            "supports_vision": True,
+            "input_price": 2.0,
+            "output_price": 12.0,
+            "cache_read_price": None,
+            "cache_write_price": None,
+            "available": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "not available" in msg.lower() or "false" in msg.lower()
+
+    def test_available_false_for_claude_fable_5(self, tmp_path):
+        """Test that available=False is required for claude-fable-5."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "claude-fable-5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "claude-fable-5",
+            "release_date": "2026-06-09",
+            "supports_vision": True,
+            "input_price": 10.0,
+            "output_price": 50.0,
+            "available": False
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_available_true_for_claude_fable_5_fails(self, tmp_path):
+        """Test that available=True for claude-fable-5 is rejected."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "claude-fable-5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "claude-fable-5",
+            "release_date": "2026-06-09",
+            "supports_vision": True,
+            "input_price": 10.0,
+            "output_price": 50.0,
+            "available": True
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "not available" in msg.lower() or "false" in msg.lower()
+
+    def test_available_false_for_available_model_fails(self, tmp_path):
+        """Test that available=False for an available model is rejected."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.0.0",
+            "model": "GPT-5.2",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "GPT-5.2",
+            "release_date": "2025-12-11",
+            "supports_vision": True,
+            "input_price": 0.1,
+            "output_price": 0.1,
+            "available": False
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
+        assert valid is False
+        assert "available" in msg.lower()
+
 
 class TestScoreEntrySchema:
     """Tests for ScoreEntry schema validation."""
