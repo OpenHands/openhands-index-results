@@ -14,6 +14,20 @@
     "eval_visualization_page": "https://laminar.sh/shared/evals/95690e32-8d2e-4106-9a37-2f7d424a8494"
   },
   {
+    "benchmark": "gaia",
+    "score": 84.2,
+    "metric": "accuracy",
+    "cost_per_instance": 7.91,
+    "average_runtime": 206.0,
+    "full_archive": "https://results.eval.all-hands.dev/gaia/litellm_proxy-anthropic-claude-fable-5/27377526161/results.tar.gz",
+    "tags": [
+      "gaia"
+    ],
+    "agent_version": "v1.28.0",
+    "submission_time": "2026-06-12T00:28:49+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/1171bd32-73bf-4795-b4a3-40b42cf90fa3"
+  },
+  {
     "benchmark": "swe-bench-multimodal",
     "score": 70.6,
     "metric": "solveable_accuracy",
