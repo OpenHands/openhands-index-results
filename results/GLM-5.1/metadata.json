@@ -14,5 +14,6 @@
   "output_price": 3.2,
   "cache_read_price": 0.2,
   "cache_write_price": null,
-  "submission_time": "2026-04-08T20:00:00.000000+00:00"
+  "submission_time": "2026-04-08T20:00:00.000000+00:00",
+  "available": true
 }
