@@ -49,24 +49,24 @@
   },
   {
     "benchmark": "swe-bench-multimodal",
-    "score": 35.3,
+    "score": 32.4,
     "metric": "solveable_accuracy",
-    "cost_per_instance": 2.67,
-    "average_runtime": 641.0,
-    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-7/1778132359/results.tar.gz",
+    "cost_per_instance": 1.34,
+    "average_runtime": 586.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-opus-4-7/26939250380/results.tar.gz",
     "tags": [
       "swe-bench-multimodal"
     ],
-    "agent_version": "v1.18.0",
+    "agent_version": "v1.24.0",
     "acp_agent_name": "@agentclientprotocol/claude-agent-acp",
-    "acp_agent_version": "v0.27.0",
-    "submission_time": "2026-04-23T05:49:26+00:00",
+    "acp_agent_version": "v0.30.0",
+    "submission_time": "2026-06-04T12:07:49+00:00",
     "component_scores": {
-      "solveable_accuracy": 35.3,
+      "solveable_accuracy": 32.4,
       "unsolveable_accuracy": 0.0,
-      "combined_accuracy": 23.5
+      "combined_accuracy": 21.6
     },
-    "eval_visualization_page": "https://laminar.sh/shared/evals/7cc7c378-84c5-4844-9bd6-f379702f8623"
+    "eval_visualization_page": "https://laminar.sh/shared/evals/79292af3-bd17-48e9-addf-eae39ae540b1"
   },
   {
     "benchmark": "gaia",
