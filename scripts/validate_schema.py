@@ -403,6 +403,7 @@ class Metadata(BaseModel):
     parameter_count_b: Optional[float] = Field(None, description="Total model parameter count in billions. Required for open-weights models.")
     active_parameter_count_b: Optional[float] = Field(None, description="Active parameter count in billions (for MoE models)")
     hide_from_leaderboard: bool = Field(default=False, description="Whether to hide this model from the public leaderboard")
+    available: bool = Field(default=True, description="Whether the model is currently available from the provider")
     input_price: float = Field(..., gt=0, description="Input price per million tokens in USD")
     output_price: float = Field(..., gt=0, description="Output price per million tokens in USD")
     cache_read_price: Optional[float] = Field(None, gt=0, description="Cache read price per million tokens in USD (None if not supported)")
@@ -466,6 +467,25 @@ class Metadata(BaseModel):
             if v != expected_dir_name:
                 raise ValueError(
                     f"directory_name '{v}' does not match expected model name '{expected_dir_name}'"
+                )
+        return v
+
+    @field_validator("available")
+    @classmethod
+    def validate_available(cls, v: bool, info) -> bool:
+        """Ensure available is set correctly for known unavailable models."""
+        model = info.data.get("model")
+        if model is not None:
+            unavailable_models = {Model.GEMINI_3_PRO, Model.CLAUDE_FABLE_5}
+            if model in unavailable_models and v is not False:
+                raise ValueError(
+                    f"Model '{model.value}' is not available from the provider. "
+                    f"'available' must be set to False."
+                )
+            if model not in unavailable_models and v is not True:
+                raise ValueError(
+                    f"Model '{model.value}' is available from the provider. "
+                    f"'available' must be set to True."
                 )
         return v
 
