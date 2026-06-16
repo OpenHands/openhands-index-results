@@ -31,5 +31,19 @@
       "combined_accuracy": 26.5
     },
     "eval_visualization_page": "https://laminar.sh/shared/evals/20d43172-1fef-4d83-af1b-01784887e7ca"
+  },
+  {
+    "benchmark": "swt-bench",
+    "score": 76.2,
+    "metric": "accuracy",
+    "cost_per_instance": 1.03,
+    "average_runtime": 368.0,
+    "full_archive": "https://results.eval.all-hands.dev/swtbench/litellm_proxy-gemini-3-5-flash/27324130544/results.tar.gz",
+    "tags": [
+      "swt-bench"
+    ],
+    "agent_version": "v1.28.0",
+    "submission_time": "2026-06-11T16:11:16+00:00",
+    "eval_visualization_page": "https://laminar.sh/shared/evals/88a0e23e-741b-4eba-a6a6-87056fb23905"
   }
 ]
