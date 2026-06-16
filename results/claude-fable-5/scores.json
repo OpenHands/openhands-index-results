@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "benchmark": "swe-bench-multimodal",
+    "score": 70.6,
+    "metric": "solveable_accuracy",
+    "cost_per_instance": 4.39,
+    "average_runtime": 551.0,
+    "full_archive": "https://results.eval.all-hands.dev/swebenchmultimodal/litellm_proxy-anthropic-claude-fable-5/27366967295/results.tar.gz",
+    "tags": [
+      "swe-bench-multimodal"
+    ],
+    "agent_version": "v1.28.0",
+    "submission_time": "2026-06-11T20:19:29+00:00",
+    "component_scores": {
+      "solveable_accuracy": 70.6,
+      "unsolveable_accuracy": 0.0,
+      "combined_accuracy": 47.1
+    },
+    "eval_visualization_page": "https://laminar.sh/shared/evals/53fd0c2a-c7bf-4efa-b74d-14258d81ed7a"
+  }
+]
