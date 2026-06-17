@@ -325,7 +325,6 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.GPT_5_2_CODEX: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_4: Openness.CLOSED_API_AVAILABLE,
     Model.GPT_5_5: Openness.CLOSED_API_AVAILABLE,
-    Model.MINIMAX_M3: Openness.CLOSED_API_AVAILABLE,
     Model.QWEN3_6_PLUS: Openness.CLOSED_API_AVAILABLE,
     # Open-weights models
     Model.GLM_5: Openness.OPEN_WEIGHTS,
@@ -335,6 +334,7 @@ MODEL_OPENNESS_MAP: dict[Model, Openness] = {
     Model.KIMI_K2_5: Openness.OPEN_WEIGHTS,
     Model.KIMI_K2_6: Openness.OPEN_WEIGHTS,
     Model.MINIMAX_M2_1: Openness.OPEN_WEIGHTS,
+    Model.MINIMAX_M3: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V3_2_REASONER: Openness.OPEN_WEIGHTS,
     Model.DEEPSEEK_V4_PRO: Openness.OPEN_WEIGHTS,
     Model.QWEN_3_CODER: Openness.OPEN_WEIGHTS,
