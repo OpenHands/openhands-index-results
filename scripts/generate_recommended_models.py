@@ -159,6 +159,9 @@ def collect_model_summaries(
         if not isinstance(scores, list) or not isinstance(metadata, dict):
             continue
 
+        if metadata.get("available") is False:
+            continue
+
         benchmarks_seen = {
             entry.get("benchmark")
             for entry in scores

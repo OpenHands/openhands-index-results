@@ -43,12 +43,14 @@ def _write_model(
     model: str,
     scores: list[dict],
     openness: str = "closed_api_available",
+    available: bool = True,
 ) -> None:
     model_dir = parent / name
     model_dir.mkdir(parents=True)
-    (model_dir / "metadata.json").write_text(
-        json.dumps({"model": model, "openness": openness, "directory_name": name})
-    )
+    meta = {"model": model, "openness": openness, "directory_name": name}
+    if available is False:
+        meta["available"] = False
+    (model_dir / "metadata.json").write_text(json.dumps(meta))
     (model_dir / "scores.json").write_text(json.dumps(scores))
 
 
@@ -70,6 +72,23 @@ def test_collect_returns_complete_models_only(tmp_path: Path) -> None:
         {"benchmark": "swt-bench", "score": 30.0, "metric": "accuracy"},
     ]
     _write_model(results, "GPT-5.4", "GPT-5.4", partial_scores)
+
+    summaries = collect_model_summaries(results)
+    assert {s.model for s in summaries} == {"claude-opus-4-7"}
+
+
+def test_collect_skips_unavailable_models(tmp_path: Path) -> None:
+    results = tmp_path / "results"
+    results.mkdir()
+
+    _write_model(results, "claude-opus-4-7", "claude-opus-4-7", _full_scores({}))
+    _write_model(
+        results,
+        "Gemini-3-Pro",
+        "Gemini-3-Pro",
+        _full_scores({}),
+        available=False,
+    )
 
     summaries = collect_model_summaries(results)
     assert {s.model for s in summaries} == {"claude-opus-4-7"}
