@@ -89,7 +89,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: OpenHands/software-agent-sdk
-          token: ${{ secrets.SDK_PAT }}
+          token: ${{ secrets.OPENHANDS_BOT_GITHUB_PAT_PUBLIC }}
           path: software-agent-sdk
 
       - name: Update verified_models.py in place
@@ -123,7 +123,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           path: software-agent-sdk
-          token: ${{ secrets.SDK_PAT }}
+          token: ${{ secrets.OPENHANDS_BOT_GITHUB_PAT_PUBLIC }}
           branch: automated/update-verified-models
           delete-branch: true
           commit-message: "Update verified_models.py with latest completed benchmark models"
