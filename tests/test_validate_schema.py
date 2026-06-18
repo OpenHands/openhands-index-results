@@ -16,6 +16,7 @@ from validate_schema import (
     format_validation_error,
     validate_metadata,
     validate_scores,
+    validate_instance_results,
     validate_results_directory,
     validate_alternative_agents_directory,
     parse_semver,
@@ -2559,3 +2560,56 @@ class TestAgentVersionConsistencyInValidation:
         # Should catch the version mismatch error
         assert failed >= 1
         assert any("not the earliest version" in e for e in errors)
+
+
+class TestInstanceResultsSchema:
+    """Tests for instance_results/{benchmark}.json validation."""
+
+    def test_valid_instance_results(self, tmp_path):
+        path = tmp_path / "swe-bench.json"
+        path.write_text(json.dumps({
+            "django__django-10914": {"resolved": True, "cost": 0.12},
+            "django__django-10554": {"resolved": False, "cost": 0.0},
+            "django__django-11019": {"resolved": None, "cost": None},
+        }))
+
+        valid, msg = validate_instance_results(path)
+
+        assert valid is True
+        assert msg == "OK"
+
+    def test_instance_result_filename_must_be_known_benchmark(self, tmp_path):
+        path = tmp_path / "not-a-benchmark.json"
+        path.write_text(json.dumps({"abc": {"resolved": True, "cost": 0.1}}))
+
+        valid, msg = validate_instance_results(path)
+
+        assert valid is False
+        assert "unknown benchmark filename" in msg
+
+    def test_instance_result_must_be_object(self, tmp_path):
+        path = tmp_path / "gaia.json"
+        path.write_text(json.dumps([{"abc": {"resolved": True, "cost": 0.1}}]))
+
+        valid, msg = validate_instance_results(path)
+
+        assert valid is False
+        assert "must be a JSON object" in msg
+
+    def test_instance_result_values_must_have_required_fields(self, tmp_path):
+        path = tmp_path / "gaia.json"
+        path.write_text(json.dumps({"abc": {"resolved": True}}))
+
+        valid, msg = validate_instance_results(path)
+
+        assert valid is False
+        assert "exactly resolved and cost fields" in msg
+
+    def test_instance_result_cost_must_be_number_or_null(self, tmp_path):
+        path = tmp_path / "gaia.json"
+        path.write_text(json.dumps({"abc": {"resolved": True, "cost": "0.1"}}))
+
+        valid, msg = validate_instance_results(path)
+
+        assert valid is False
+        assert "cost must be a number or null" in msg

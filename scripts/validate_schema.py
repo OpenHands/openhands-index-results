@@ -657,7 +657,6 @@ class ScoreEntry(BaseModel):
         return self
 
 
-
 def load_json(file_path: Path) -> dict | list:
     """Load JSON file."""
     with open(file_path) as f:
@@ -691,6 +690,58 @@ def validate_scores(file_path: Path) -> tuple[bool, str]:
                 return False, f"Entry {i}:\n{format_validation_error(e)}"
             except Exception as e:
                 return False, f"Entry {i}: {e}"
+        return True, "OK"
+    except json.JSONDecodeError as e:
+        return False, f"Invalid JSON: {e.msg} at line {e.lineno}, column {e.colno}"
+    except Exception as e:
+        return False, str(e)
+
+
+def validate_instance_results(file_path: Path) -> tuple[bool, str]:
+    """Validate an instance_results/{benchmark}.json file.
+
+    The file is a compact mapping from instance ID to resolved outcome:
+    each value contains resolved (true, false, or null) and cost (number or
+    null when unavailable).
+    """
+    try:
+        if file_path.stem not in {benchmark.value for benchmark in Benchmark}:
+            return False, f"unknown benchmark filename '{file_path.stem}'"
+
+        data = load_json(file_path)
+        if not isinstance(data, dict):
+            return False, "instance results file must be a JSON object"
+        if not data:
+            return False, "instance results file must contain at least one entry"
+
+        for instance_id, resolved in data.items():
+            if not isinstance(instance_id, str) or not instance_id:
+                return False, "instance IDs must be non-empty strings"
+            if not isinstance(resolved, dict):
+                return False, (
+                    f"instance '{instance_id}' must map to an object with resolved and cost "
+                    f"(got {type(resolved).__name__})"
+                )
+            if set(resolved) != {"resolved", "cost"}:
+                return False, (
+                    f"instance '{instance_id}' must contain exactly resolved and cost fields"
+                )
+            resolved_value = resolved["resolved"]
+            if resolved_value is not None and not isinstance(resolved_value, bool):
+                return False, (
+                    f"instance '{instance_id}'.resolved must be true, false, or null "
+                    f"(got {type(resolved_value).__name__})"
+                )
+            cost_value = resolved["cost"]
+            if isinstance(cost_value, bool) or (
+                cost_value is not None and not isinstance(cost_value, (int, float))
+            ):
+                return False, (
+                    f"instance '{instance_id}'.cost must be a number or null "
+                    f"(got {type(cost_value).__name__})"
+                )
+            if isinstance(cost_value, (int, float)) and cost_value < 0:
+                return False, f"instance '{instance_id}'.cost must be non-negative"
         return True, "OK"
     except json.JSONDecodeError as e:
         return False, f"Invalid JSON: {e.msg} at line {e.lineno}, column {e.colno}"
@@ -747,6 +798,17 @@ def _validate_model_dirs(parent_dir: Path) -> tuple[int, int, list[str]]:
                 failed += 1
                 errors.append(f"{model_dir}: {msg}")
             # If valid, don't increment passed - this is a consistency check, not a separate file check
+
+        # Validate optional per-instance result sidecars.
+        instance_results_dir = model_dir / "instance_results"
+        if instance_results_dir.exists():
+            for instance_file in sorted(instance_results_dir.glob("*.json")):
+                valid, msg = validate_instance_results(instance_file)
+                if valid:
+                    passed += 1
+                else:
+                    failed += 1
+                    errors.append(f"{instance_file}: {msg}")
 
     return passed, failed, errors
 
