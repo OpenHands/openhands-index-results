@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-16T16:09:57+00:00",
+  "generated_at": "2026-06-18T21:06:55+00:00",
   "cloud_by_family": [
     {
-      "model": "claude-fable-5",
-      "model_path": "results/claude-fable-5",
-      "average_score": 81.0,
+      "model": "claude-opus-4-8",
+      "model_path": "results/claude-opus-4-8",
+      "average_score": 71.9,
       "benchmarks_count": 5,
       "family": "Claude",
       "openness": "closed_api_available",
@@ -40,6 +40,15 @@
       "model_string": "openrouter/z-ai/glm-5.1"
     },
     {
+      "model": "MiniMax-M3",
+      "model_path": "results/MiniMax-M3",
+      "average_score": 57.2,
+      "benchmarks_count": 5,
+      "family": null,
+      "openness": "open_weights",
+      "model_string": "openrouter/minimax/minimax-m3"
+    },
+    {
       "model": "Kimi-K2.6",
       "model_path": "results/Kimi-K2.6",
       "average_score": 57.1,
@@ -65,15 +74,6 @@
       "family": null,
       "openness": "open_weights",
       "model_string": "openrouter/moonshotai/kimi-k2.5"
-    },
-    {
-      "model": "DeepSeek-V3.2-Reasoner",
-      "model_path": "results/DeepSeek-V3.2-Reasoner",
-      "average_score": 45.7,
-      "benchmarks_count": 5,
-      "family": null,
-      "openness": "open_weights",
-      "model_string": "openrouter/deepseek/deepseek-v3.2-reasoner"
     }
   ]
 }
