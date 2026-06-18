@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """
-Build a flat leaderboard table from results/, then publish it to the HF
-Dataset repo `OpenHands/openhands-index` so consumers can do:
+Build the OpenHands Index dataset on the HF Hub from ``results/`` and
+publish two configs in lockstep:
+
+* ``default``   — one row per model (leaderboard parquet at ``test.parquet``)
+* ``instances`` — one row per (model × benchmark × instance), sourced from
+  ``results/<model>/instance_results/<benchmark>.json`` sidecars
+  (parquet at ``instances.parquet``)
+
+Consumers do:
 
     from datasets import load_dataset
     ds = load_dataset("OpenHands/openhands-index", split="test")
+    instances = load_dataset("OpenHands/openhands-index", "instances", split="test")
 
 Run from CI on every push to main. Requires HF_TOKEN env var (fine-grained
 token, write-scoped to OpenHands/openhands-index dataset only).
@@ -33,6 +41,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATASET_REPO = os.environ.get("DATASET_REPO", "OpenHands/openhands-index")
 PARQUET_PATH = "test.parquet"
+INSTANCES_PARQUET_PATH = "instances.parquet"
 README_PATH = "README.md"
 HASH_PATH = ".source_hash"  # stored in the dataset to detect no-op runs
 
@@ -44,6 +53,7 @@ BENCHMARK_TO_CATEGORY = {
     "gaia": "Information Gathering",
 }
 BENCHMARKS = list(BENCHMARK_TO_CATEGORY.keys())
+INSTANCE_RESULTS_DIRNAME = "instance_results"
 
 
 def _iter_model_dirs() -> Iterable[tuple[Path, str]]:
@@ -152,9 +162,163 @@ def build_dataframe() -> pd.DataFrame:
     return df
 
 
-def content_hash(df: pd.DataFrame) -> str:
-    payload = df.reindex(sorted(df.columns), axis=1).to_csv(index=False, float_format="%.10g").encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
+# Columns for the ``instances`` config. Declared explicitly (rather than
+# inferred from the first row) so an all-empty publish still produces a
+# parquet with the documented schema, and so downstream consumers can rely
+# on column order. Keep this in sync with the dataset card.
+INSTANCES_COLUMNS = [
+    "id",
+    "agent_name",
+    "agent_type",
+    "language_model",
+    "benchmark",
+    "category",
+    "instance_id",
+    "resolved",
+    "cost",
+]
+
+
+def _iter_instance_results_files() -> Iterable[tuple[Path, str, str, Path]]:
+    """Yield (model_dir, agent_label, benchmark, sidecar_path) for every
+    ``results/<model>/instance_results/<benchmark>.json`` sidecar.
+
+    Mirrors the policy in ``_iter_model_dirs``: only ``results/`` is
+    published (see issue #1145). Sidecars whose stem isn't a known
+    benchmark are skipped — schema validation lives in
+    ``scripts/validate_schema.py`` and runs in its own CI job, so we don't
+    duplicate it here.
+    """
+    for model_dir, agent_label in _iter_model_dirs():
+        instance_dir = model_dir / INSTANCE_RESULTS_DIRNAME
+        if not instance_dir.is_dir():
+            continue
+        for sidecar in sorted(instance_dir.glob("*.json")):
+            benchmark = sidecar.stem
+            if benchmark not in BENCHMARK_TO_CATEGORY:
+                logger.info(
+                    "Skipping unknown benchmark sidecar %s", sidecar.relative_to(REPO_ROOT)
+                )
+                continue
+            yield model_dir, agent_label, benchmark, sidecar
+
+
+def _instance_rows(
+    model_dir: Path, agent_label: str, benchmark: str, sidecar: Path
+) -> list[dict[str, Any]]:
+    """Flatten one ``instance_results/<benchmark>.json`` sidecar into rows.
+
+    The sidecar shape is ``{instance_id: {"resolved": bool|null, "cost": number|null}}``
+    (validated by ``validate_schema.py``). Malformed or non-dict entries are
+    skipped with a warning rather than failing the publish — the per-instance
+    config is best-effort, and a single bad sidecar shouldn't take down the
+    leaderboard push.
+    """
+    try:
+        data = _load_json(sidecar)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.warning("Skipping %s: %s", sidecar.relative_to(REPO_ROOT), e)
+        return []
+
+    if not isinstance(data, dict):
+        logger.warning("Skipping %s: top-level value is not a JSON object", sidecar.relative_to(REPO_ROOT))
+        return []
+
+    try:
+        meta = _load_json(model_dir / "metadata.json")
+    except (FileNotFoundError, json.JSONDecodeError):
+        meta = {}
+
+    row_id = f"{agent_label}/{model_dir.name}"
+    agent_name = meta.get("agent_name", agent_label)
+    language_model = meta.get("model", model_dir.name)
+    category = BENCHMARK_TO_CATEGORY[benchmark]
+
+    rows: list[dict[str, Any]] = []
+    for instance_id, outcome in data.items():
+        if not isinstance(instance_id, str) or not isinstance(outcome, dict):
+            continue
+        resolved = outcome.get("resolved")
+        cost = outcome.get("cost")
+        # Preserve schema types: resolved is bool|None, cost is float|None.
+        if resolved is not None and not isinstance(resolved, bool):
+            resolved = None
+        if cost is not None and (isinstance(cost, bool) or not isinstance(cost, (int, float))):
+            cost = None
+        rows.append({
+            "id": row_id,
+            "agent_name": agent_name,
+            "agent_type": agent_label,
+            "language_model": language_model,
+            "benchmark": benchmark,
+            "category": category,
+            "instance_id": instance_id,
+            "resolved": resolved,
+            "cost": float(cost) if cost is not None else None,
+        })
+    return rows
+
+
+def build_instances_dataframe() -> pd.DataFrame:
+    """Build the long-form per-instance table for the ``instances`` config.
+
+    Returns an empty DataFrame (with the documented schema) when no sidecars
+    are present, rather than raising — unlike the leaderboard, an empty
+    instances table is a legitimate state (e.g. before #1219 landed).
+    """
+    rows: list[dict[str, Any]] = []
+    for model_dir, label, benchmark, sidecar in _iter_instance_results_files():
+        rows.extend(_instance_rows(model_dir, label, benchmark, sidecar))
+
+    if not rows:
+        return pd.DataFrame({c: [] for c in INSTANCES_COLUMNS}).astype({
+            "id": "string",
+            "agent_name": "string",
+            "agent_type": "string",
+            "language_model": "string",
+            "benchmark": "string",
+            "category": "string",
+            "instance_id": "string",
+            "resolved": "boolean",
+            "cost": "float64",
+        })
+
+    df = pd.DataFrame(rows, columns=INSTANCES_COLUMNS)
+    # Nullable dtypes keep ``resolved=None`` / ``cost=None`` round-trippable
+    # through parquet without coercing to NaN/False.
+    df = df.astype({
+        "id": "string",
+        "agent_name": "string",
+        "agent_type": "string",
+        "language_model": "string",
+        "benchmark": "string",
+        "category": "string",
+        "instance_id": "string",
+        "resolved": "boolean",
+        "cost": "float64",
+    })
+    df = df.sort_values(["id", "benchmark", "instance_id"], kind="stable").reset_index(drop=True)
+    return df
+
+
+def content_hash(*dfs: pd.DataFrame) -> str:
+    """Hash all published DataFrames together so sidecar-only updates (which
+    leave the leaderboard table unchanged) still trigger a publish.
+
+    Accepts a variable number of DataFrames in publish order; each is
+    serialised with stable column order and joined by a separator to
+    prevent collisions where the same bytes could be split differently
+    between tables.
+    """
+    h = hashlib.sha256()
+    for i, df in enumerate(dfs):
+        if i:
+            h.update(b"\n--\n")
+        payload = df.reindex(sorted(df.columns), axis=1).to_csv(
+            index=False, float_format="%.10g"
+        ).encode("utf-8")
+        h.update(payload)
+    return h.hexdigest()
 
 
 def get_remote_hash(api: HfApi) -> str | None:
@@ -216,10 +380,12 @@ def dataset_card(
     source_sha: str,
     version: str,
     info_version: str,
+    instances_df: pd.DataFrame | None = None,
 ) -> str:
     top = df[["language_model", "sdk_version", "agent_name", "average_score",
               "categories_completed", "release_date"]].head(15)
     top_md = top.to_markdown(index=False, floatfmt=".2f") if not top.empty else "_(empty)_"
+    instances_rows = 0 if instances_df is None else len(instances_df)
     # NOTE: ``dataset_info.version`` MUST be a digits-only ``x.y.z`` string —
     # the HF datasets library parses it as a ``datasets.Version`` and rejects
     # anything else (e.g. a ``-<short_sha>`` suffix). Using ``info_version``
@@ -234,16 +400,26 @@ tags:
 - agents
 - benchmark
 dataset_info:
-  config_name: default
+- config_name: default
   version: {info_version}
   description: >-
     Snapshot of the OpenHands Index leaderboard built from
     openhands-index-results commit {source_sha} on {generated_at}.
+- config_name: instances
+  version: {info_version}
+  description: >-
+    Per-instance benchmark outcomes (resolved/cost) for every model in the
+    `default` config, sourced from `results/<model>/instance_results/*.json`
+    sidecars at commit {source_sha}.
 configs:
 - config_name: default
   data_files:
   - split: test
     path: test.parquet
+- config_name: instances
+  data_files:
+  - split: test
+    path: instances.parquet
 ---
 
 # OpenHands Index — Leaderboard Snapshot
@@ -255,9 +431,12 @@ on every push to `main`. Matches the table shown at the
 ```python
 from datasets import load_dataset
 
-# latest
+# leaderboard (one row per model)
 ds = load_dataset("{DATASET_REPO}", split="test")
 ds.info.version          # → "{version}"
+
+# per-instance outcomes (one row per model × instance)
+instances = load_dataset("{DATASET_REPO}", "instances", split="test")
 
 # pin to this exact snapshot
 ds = load_dataset("{DATASET_REPO}", split="test", revision="v{version}")
@@ -276,10 +455,34 @@ ds = load_dataset("{DATASET_REPO}", split="test", revision="v{version}")
 `average_score` is the mean of the per-benchmark scores actually completed.
 `categories_completed` tells you how many benchmarks the model has run.
 
+## Configs
+
+### `default` — leaderboard (one row per model)
+
+The aggregate table backing the leaderboard Space. Use this for ranking,
+averages, and per-category scores.
+
+### `instances` — per-instance outcomes (one row per model × benchmark instance)
+
+Long-form table of every benchmark instance's outcome for every model in
+`default`. Join to `default` on `id`.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | string | Matches `default.id` (e.g. `OpenHands/GPT-5.5`) |
+| `agent_name` | string | Display name from `metadata.json` |
+| `agent_type` | string | Currently always `OpenHands` (see [#1145](https://github.com/OpenHands/openhands-index-results/issues/1145)) |
+| `language_model` | string | LLM identifier |
+| `benchmark` | string | One of `swe-bench`, `swe-bench-multimodal`, `commit0`, `swt-bench`, `gaia` |
+| `category` | string | Human-facing category label |
+| `instance_id` | string | Benchmark-specific instance ID |
+| `resolved` | bool? | `true` / `false` / `null` when the archive didn't record an outcome |
+| `cost` | float? | USD; `null` when unavailable |
+
 ## This snapshot
 
 - Version: **`{version}`**
-- Rows: **{len(df)}**
+- Rows: **{len(df)}** (`default`) · **{instances_rows}** (`instances`)
 - Generated: `{generated_at}`
 - Source commit: [`{source_sha}`](https://github.com/OpenHands/openhands-index-results/commit/{source_sha})
 
@@ -303,8 +506,13 @@ def main() -> int:
         logger.error("%s", e)
         return 1
 
-    new_hash = content_hash(df)
-    logger.info("Built %d rows; content hash %s", len(df), new_hash[:12])
+    instances_df = build_instances_dataframe()
+
+    new_hash = content_hash(df, instances_df)
+    logger.info(
+        "Built %d leaderboard rows + %d instance rows; content hash %s",
+        len(df), len(instances_df), new_hash[:12],
+    )
 
     remote_hash = get_remote_hash(api)
     force = os.environ.get("FORCE", "").lower() in {"1", "true", "yes"}
@@ -328,12 +536,19 @@ def main() -> int:
     buf = io.BytesIO()
     df.to_parquet(buf, index=False)
     parquet_bytes = buf.getvalue()
+
+    instances_buf = io.BytesIO()
+    instances_df.to_parquet(instances_buf, index=False)
+    instances_parquet_bytes = instances_buf.getvalue()
+
     readme_bytes = dataset_card(
-        df, generated_at, source_sha, version, info_version
+        df, generated_at, source_sha, version, info_version,
+        instances_df=instances_df,
     ).encode("utf-8")
 
     ops = [
         CommitOperationAdd(path_in_repo=PARQUET_PATH, path_or_fileobj=parquet_bytes),
+        CommitOperationAdd(path_in_repo=INSTANCES_PARQUET_PATH, path_or_fileobj=instances_parquet_bytes),
         CommitOperationAdd(path_in_repo=README_PATH, path_or_fileobj=readme_bytes),
         CommitOperationAdd(path_in_repo=HASH_PATH, path_or_fileobj=new_hash.encode()),
     ]
@@ -341,7 +556,10 @@ def main() -> int:
         commit_info = api.create_commit(
             repo_id=DATASET_REPO, repo_type="dataset",
             operations=ops,
-            commit_message=f"Update leaderboard v{version} ({len(df)} models)",
+            commit_message=(
+                f"Update leaderboard v{version} "
+                f"({len(df)} models, {len(instances_df)} instance rows)"
+            ),
         )
     except HfHubHTTPError as e:
         logger.error("create_commit failed: %s", e)
