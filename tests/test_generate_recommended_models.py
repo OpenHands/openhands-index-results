@@ -231,7 +231,9 @@ def test_pick_recommendations_returns_empty_when_no_models() -> None:
     rec = pick_recommendations([])
     assert rec["cloud_by_family"] == []
     assert rec["open_weights"] == []
-    assert "generated_at" in rec
+    # generated_at is intentionally not set by pick_recommendations; it is
+    # filled in by write_recommendations only when content changes.
+    assert "generated_at" not in rec
 
 
 # ---------------------------------------------------------------------------
@@ -240,25 +242,119 @@ def test_pick_recommendations_returns_empty_when_no_models() -> None:
 
 
 def test_write_recommendations_round_trips(tmp_path: Path) -> None:
-    payload = {
-        "generated_at": "2026-05-27T00:00:00+00:00",
-        "cloud_by_family": [
-            {
-                "model": "claude-opus-4-7",
-                "model_path": "results/claude-opus-4-7",
-                "average_score": 68.2,
-                "benchmarks_count": 5,
-                "family": "Claude",
-                "openness": "closed_api_available",
-                "model_string": "anthropic/claude-opus-4-7",
-            }
-        ],
-        "open_weights": [],
-    }
+    """A first write (no existing file) sets generated_at to now."""
+    cloud_by_family = [
+        {
+            "model": "claude-opus-4-7",
+            "model_path": "results/claude-opus-4-7",
+            "average_score": 68.2,
+            "benchmarks_count": 5,
+            "family": "Claude",
+            "openness": "closed_api_available",
+            "model_string": "anthropic/claude-opus-4-7",
+        }
+    ]
+    recommendations = {"cloud_by_family": cloud_by_family, "open_weights": []}
 
     out = tmp_path / "recommended-models.json"
-    write_recommendations(out, payload)
+    write_recommendations(out, recommendations)
 
     text = out.read_text()
     assert text.endswith("\n")
-    assert json.loads(text) == payload
+    written = json.loads(text)
+    assert written["cloud_by_family"] == cloud_by_family
+    assert written["open_weights"] == []
+    assert "generated_at" in written  # set to now on first write
+
+
+def test_write_recommendations_preserves_timestamp_when_unchanged(
+    tmp_path: Path,
+) -> None:
+    """Re-running with identical content must not bump generated_at.
+
+    This is the guard against churn PRs that touch nothing but a timestamp.
+    """
+    cloud = [
+        {
+            "model": "claude-opus-4-7",
+            "model_path": "results/claude-opus-4-7",
+            "average_score": 68.2,
+            "benchmarks_count": 5,
+            "family": "Claude",
+            "openness": "closed_api_available",
+            "model_string": "anthropic/claude-opus-4-7",
+        }
+    ]
+    out = tmp_path / "recommended-models.json"
+
+    # First write: no existing file, so generated_at is set to now.
+    write_recommendations(out, {"cloud_by_family": cloud, "open_weights": []})
+    first_text = out.read_text()
+    original_ts = json.loads(first_text)["generated_at"]
+
+    # Second write: identical content, should keep the old timestamp and be
+    # byte-identical to the first write.
+    write_recommendations(out, {"cloud_by_family": cloud, "open_weights": []})
+
+    assert json.loads(out.read_text())["generated_at"] == original_ts
+    assert out.read_text() == first_text
+
+
+def test_write_recommendations_bumps_timestamp_on_content_change(
+    tmp_path: Path, monkeypatch
+) -> None:
+    """When the recommendation content changes, generated_at advances."""
+    from datetime import datetime as real_datetime, timezone as real_tz
+
+    import generate_recommended_models as grm
+
+    # Fake clock: first call returns t0, second call returns t1.
+    times = iter(
+        [
+            real_datetime(2026, 6, 1, 12, 0, 0, tzinfo=real_tz.utc),
+            real_datetime(2026, 6, 2, 12, 0, 0, tzinfo=real_tz.utc),
+        ]
+    )
+
+    class _FakeDateTime:
+        @staticmethod
+        def now(tz=None):
+            return next(times)
+
+        timezone = real_tz
+
+    monkeypatch.setattr(grm, "datetime", _FakeDateTime)
+
+    cloud = [
+        {
+            "model": "claude-opus-4-7",
+            "model_path": "results/claude-opus-4-7",
+            "average_score": 68.2,
+            "benchmarks_count": 5,
+            "family": "Claude",
+            "openness": "closed_api_available",
+            "model_string": "anthropic/claude-opus-4-7",
+        }
+    ]
+    out = tmp_path / "recommended-models.json"
+
+    write_recommendations(out, {"cloud_by_family": cloud, "open_weights": []})
+    original_ts = json.loads(out.read_text())["generated_at"]
+
+    # Content changes: a different model now tops the Claude family.
+    new_cloud = [
+        {
+            "model": "claude-opus-4-8",
+            "model_path": "results/claude-opus-4-8",
+            "average_score": 72.0,
+            "benchmarks_count": 5,
+            "family": "Claude",
+            "openness": "closed_api_available",
+            "model_string": "anthropic/claude-opus-4-8",
+        }
+    ]
+    write_recommendations(out, {"cloud_by_family": new_cloud, "open_weights": []})
+    written = json.loads(out.read_text())
+
+    assert written["generated_at"] != original_ts
+    assert written["cloud_by_family"][0]["model"] == "claude-opus-4-8"
