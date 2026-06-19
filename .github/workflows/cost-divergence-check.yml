@@ -1,0 +1,31 @@
+name: Cost Divergence Check
+
+# Advisory, warn-only: when a PR changes a scores.json, compare the estimate
+# (summary.total_cost) vs proxy spend (proxy_cost_summary.total_proxy_cost) in
+# each entry's cost_report.jsonl and flag costs that look estimate-sourced.
+# Never blocks the PR.
+
+on:
+  pull_request:
+    paths:
+      - "**/scores.json"
+
+permissions:
+  contents: read
+
+jobs:
+  cost-divergence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compare estimate vs proxy costs on changed entries
+        run: |
+          git fetch --depth=1 origin "${{ github.base_ref }}" >/dev/null 2>&1 || true
+          files=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- '**/scores.json')
+          [ -z "$files" ] && { echo "No scores.json changed."; exit 0; }
+          python scripts/compare_costs.py $files
