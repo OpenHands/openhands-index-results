@@ -76,6 +76,50 @@ Contains benchmark scores and performance metrics:
 - `average_runtime`: Average runtime per instance in seconds (optional)
 - `tags`: Category tags for grouping (e.g., ["bug_fixing"], ["app_creation"])
 
+#### instance_results/
+
+Per-instance benchmark outcomes are stored as optional JSON sidecars under each model directory:
+
+```
+results/
+└── {model_name}/
+    ├── metadata.json
+    ├── scores.json
+    └── instance_results/
+        ├── swe-bench.json
+        ├── swe-bench-multimodal.json
+        ├── commit0.json
+        ├── swt-bench.json
+        └── gaia.json
+```
+
+Each sidecar is a single JSON object mapping benchmark instance IDs to compact outcomes:
+
+```json
+{
+  "django__django-10914": {
+    "resolved": true,
+    "cost": 0.1234
+  },
+  "django__django-10554": {
+    "resolved": false,
+    "cost": 0.0987
+  },
+  "django__django-11019": {
+    "resolved": null,
+    "cost": null
+  }
+}
+```
+
+`resolved` is `true` for resolved instances, `false` for unresolved or terminal failure states, and `null` when the archive does not expose a resolved/unresolved outcome. `cost` is the per-instance evaluation cost in USD when available, otherwise `null`.
+
+These files are generated from the `full_archive` URLs in `scores.json`:
+
+```bash
+python scripts/extract_instance_results.py
+```
+
 ### Alternative Agents
 
 Results from non-OpenHands agents (Claude Code, Codex, etc.) are stored in the `alternative_agents/` directory, organized by agent type and model:

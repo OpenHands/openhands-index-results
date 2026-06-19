@@ -15,6 +15,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pandas as pd
+import pytest
 
 import publish_hf_dataset
 
@@ -33,6 +34,13 @@ def _write_model(model_dir: Path) -> None:
         "average_runtime": 60,
     }]
     (model_dir / "scores.json").write_text(json.dumps(scores))
+
+
+def _write_sidecar(model_dir: Path, benchmark: str, entries: dict) -> None:
+    """Write a results/<model>/instance_results/<benchmark>.json sidecar."""
+    instance_dir = model_dir / "instance_results"
+    instance_dir.mkdir(parents=True, exist_ok=True)
+    (instance_dir / f"{benchmark}.json").write_text(json.dumps(entries))
 
 
 class TestIterModelDirs:
@@ -203,3 +211,212 @@ class TestDatasetCardVersion:
         m = re.search(r"version:\s*(\S+)", frontmatter)
         assert m is not None
         assert not _HF_VERSION_RE.match(m.group(1))
+
+
+class TestInstancesDataframe:
+    """Tests for ``build_instances_dataframe`` — the per-instance config that
+    gets published alongside the leaderboard. The policy from #1145 (only
+    ``results/`` is published) must apply here too, and the schema must
+    survive an end-to-end parquet round-trip with ``None`` values for both
+    ``resolved`` and ``cost``.
+    """
+
+    def test_excludes_alternative_agents(self, tmp_path):
+        # Both trees have valid sidecars; only the ``results/`` one should
+        # surface in the published instances table.
+        _write_model(tmp_path / "results" / "GPT-X")
+        _write_sidecar(
+            tmp_path / "results" / "GPT-X",
+            "swe-bench",
+            {"django__django-1": {"resolved": True, "cost": 0.1}},
+        )
+        _write_model(tmp_path / "alternative_agents" / "acp-codex" / "GPT-X")
+        _write_sidecar(
+            tmp_path / "alternative_agents" / "acp-codex" / "GPT-X",
+            "swe-bench",
+            {"django__django-2": {"resolved": True, "cost": 0.2}},
+        )
+
+        with patch.object(publish_hf_dataset, "REPO_ROOT", tmp_path):
+            df = publish_hf_dataset.build_instances_dataframe()
+
+        assert list(df["id"].unique()) == ["OpenHands/GPT-X"]
+        assert list(df["instance_id"]) == ["django__django-1"]
+
+    def test_flattens_multiple_benchmarks_per_model(self, tmp_path):
+        # Each sidecar contributes one row per instance; the discriminator
+        # column distinguishes them.
+        m = tmp_path / "results" / "GPT-X"
+        _write_model(m)
+        _write_sidecar(m, "swe-bench", {
+            "a": {"resolved": True, "cost": 0.1},
+            "b": {"resolved": False, "cost": 0.2},
+        })
+        _write_sidecar(m, "gaia", {
+            "g1": {"resolved": None, "cost": None},
+        })
+        # A non-benchmark stem in the sidecar dir must be skipped, not
+        # crash — the script intentionally doesn't re-validate schemas.
+        _write_sidecar(m, "not-a-real-benchmark", {"x": {"resolved": True, "cost": 0.0}})
+
+        with patch.object(publish_hf_dataset, "REPO_ROOT", tmp_path):
+            df = publish_hf_dataset.build_instances_dataframe()
+
+        assert len(df) == 3
+        assert set(df["benchmark"]) == {"swe-bench", "gaia"}
+        # ``category`` is derived from the same mapping used by the
+        # leaderboard so the two configs stay in sync.
+        assert set(df["category"]) == {"Issue Resolution", "Information Gathering"}
+        # All required columns are present and ordered deterministically.
+        assert list(df.columns) == publish_hf_dataset.INSTANCES_COLUMNS
+
+    def test_preserves_null_resolved_and_cost(self, tmp_path):
+        # The sidecar schema explicitly allows ``null`` for both fields when
+        # the archive didn't record an outcome — the published parquet must
+        # preserve that nullability rather than coercing to ``False`` / ``NaN``.
+        m = tmp_path / "results" / "GPT-X"
+        _write_model(m)
+        _write_sidecar(m, "swe-bench", {
+            "known": {"resolved": True, "cost": 0.5},
+            "unknown_outcome": {"resolved": None, "cost": 0.3},
+            "unknown_cost": {"resolved": False, "cost": None},
+        })
+
+        with patch.object(publish_hf_dataset, "REPO_ROOT", tmp_path):
+            df = publish_hf_dataset.build_instances_dataframe()
+
+        df = df.set_index("instance_id")
+        # ``boolean`` (nullable) dtype keeps ``None`` distinct from ``False`` —
+        # the nullable scalars compare ``==`` to native bools but are
+        # ``numpy.bool_`` instances, not ``True``/``False`` singletons.
+        assert df.loc["known", "resolved"] == True  # noqa: E712
+        assert df.loc["unknown_outcome", "resolved"] is pd.NA
+        assert df.loc["unknown_cost", "resolved"] == False  # noqa: E712
+        assert pd.isna(df.loc["unknown_cost", "cost"])
+        assert df.loc["known", "cost"] == 0.5
+
+    def test_empty_when_no_sidecars_present(self, tmp_path):
+        # The leaderboard config refuses to publish empty (RuntimeError);
+        # the instances config returns an empty frame with the documented
+        # schema so the workflow can still publish a leaderboard-only
+        # snapshot when sidecars haven't been generated yet.
+        _write_model(tmp_path / "results" / "GPT-X")
+
+        with patch.object(publish_hf_dataset, "REPO_ROOT", tmp_path):
+            df = publish_hf_dataset.build_instances_dataframe()
+
+        assert df.empty
+        assert list(df.columns) == publish_hf_dataset.INSTANCES_COLUMNS
+
+    def test_parquet_roundtrip_preserves_nullability(self, tmp_path):
+        # Catches regressions where ``to_parquet`` would silently downcast
+        # nullable ``boolean`` to ``object`` and lose the distinction
+        # between ``False`` and ``None``.
+        m = tmp_path / "results" / "GPT-X"
+        _write_model(m)
+        _write_sidecar(m, "swe-bench", {
+            "i1": {"resolved": None, "cost": None},
+            "i2": {"resolved": True, "cost": 1.5},
+        })
+
+        with patch.object(publish_hf_dataset, "REPO_ROOT", tmp_path):
+            df = publish_hf_dataset.build_instances_dataframe()
+
+        out = tmp_path / "instances.parquet"
+        df.to_parquet(out, index=False)
+        rt = pd.read_parquet(out)
+        rt = rt.set_index("instance_id")
+        assert rt.loc["i1", "resolved"] is pd.NA
+        assert pd.isna(rt.loc["i1", "cost"])
+        assert rt.loc["i2", "resolved"] == True  # noqa: E712
+        assert rt.loc["i2", "cost"] == 1.5
+
+
+class TestContentHash:
+    """The publish skip-check hashes *both* DataFrames so sidecar-only
+    changes (leaderboard unchanged) still trigger a publish."""
+
+    def test_hash_changes_when_only_instances_change(self):
+        leaderboard = pd.DataFrame({"id": ["a"], "score": [0.5]})
+        instances_a = pd.DataFrame({
+            "id": ["a"], "benchmark": ["swe-bench"], "instance_id": ["x"],
+            "resolved": [True], "cost": [0.1],
+        })
+        instances_b = pd.DataFrame({
+            "id": ["a"], "benchmark": ["swe-bench"], "instance_id": ["x"],
+            "resolved": [False], "cost": [0.1],
+        })
+        h_a = publish_hf_dataset.content_hash(leaderboard, instances_a)
+        h_b = publish_hf_dataset.content_hash(leaderboard, instances_b)
+        assert h_a != h_b, (
+            "content_hash must distinguish sidecar-only changes; otherwise "
+            "PR #1219-style updates would silently skip publish."
+        )
+
+    def test_hash_stable_when_inputs_unchanged(self):
+        leaderboard = pd.DataFrame({"id": ["a"], "score": [0.5]})
+        instances = pd.DataFrame({
+            "id": ["a"], "benchmark": ["swe-bench"], "instance_id": ["x"],
+            "resolved": [True], "cost": [0.1],
+        })
+        assert (
+            publish_hf_dataset.content_hash(leaderboard, instances)
+            == publish_hf_dataset.content_hash(leaderboard, instances)
+        )
+
+
+class TestDatasetCardConfigs:
+    """The card must declare both configs in the YAML frontmatter so HF
+    exposes them via ``load_dataset(..., name=...)``."""
+
+    def _card(self, instances_df=None):
+        return publish_hf_dataset.dataset_card(
+            df=pd.DataFrame({
+                "language_model": ["m"], "sdk_version": ["1"],
+                "agent_name": ["OpenHands"], "average_score": [0.5],
+                "categories_completed": [1], "release_date": ["2026-06-08"],
+            }),
+            generated_at="2026-06-18 12:00:00 UTC",
+            source_sha="abc1234deadbeef",
+            version="2026.06.18-abc1234",
+            info_version="2026.6.18",
+            instances_df=instances_df,
+        )
+
+    def test_yaml_declares_both_configs(self):
+        # Parsed as YAML so a future formatting tweak (e.g. inline lists)
+        # can't silently break the contract that consumers rely on.
+        yaml = pytest.importorskip("yaml")
+        card = self._card(instances_df=pd.DataFrame({"x": [1, 2, 3]}))
+        frontmatter = card.split("---", 2)[1]
+        meta = yaml.safe_load(frontmatter)
+
+        configs = {c["config_name"]: c for c in meta["configs"]}
+        assert set(configs) == {"default", "instances"}
+        assert configs["default"]["data_files"] == [
+            {"split": "test", "path": "test.parquet"}
+        ]
+        assert configs["instances"]["data_files"] == [
+            {"split": "test", "path": "instances.parquet"}
+        ]
+
+        # ``dataset_info`` must carry one HF-valid version per config —
+        # both share the same source commit so the versions match.
+        infos = {d["config_name"]: d for d in meta["dataset_info"]}
+        assert set(infos) == {"default", "instances"}
+        assert all(_HF_VERSION_RE.match(d["version"]) for d in infos.values())
+
+    def test_body_reports_instances_row_count(self):
+        card = self._card(instances_df=pd.DataFrame({"x": list(range(42))}))
+        body = card.split("---", 2)[2]
+        # The card surfaces both row counts so a quick eyeball of the
+        # dataset page confirms a publish actually included the sidecars.
+        assert "42" in body
+        assert "instances" in body.lower()
+
+    def test_works_without_instances_df(self):
+        # Backwards compatibility: the function still renders if a caller
+        # (e.g. an ad-hoc local invocation) omits ``instances_df``.
+        card = self._card(instances_df=None)
+        body = card.split("---", 2)[2]
+        assert "0" in body  # instances_rows defaults to 0

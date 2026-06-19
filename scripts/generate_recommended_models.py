@@ -77,6 +77,7 @@ DEFAULT_MODEL_STRINGS: dict[str, str] = {
     "MiniMax-M2.7": "openrouter/minimax/minimax-m2.7",
     "MiniMax-M2.5": "openrouter/minimax/minimax-m2.5",
     "MiniMax-M2.1": "openrouter/minimax/minimax-m2.1",
+    "MiniMax-M3": "openrouter/minimax/minimax-m3",
     "Minimax-2.7": "openrouter/minimax/minimax-2.7",
     "Qwen3-Coder-Next": "openrouter/qwen/qwen3-coder-next",
     "Qwen3-Coder-480B": "openrouter/qwen/qwen3-coder-480b",
