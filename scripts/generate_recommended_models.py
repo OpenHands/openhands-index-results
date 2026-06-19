@@ -208,7 +208,14 @@ def pick_recommendations(
     summaries: list[ModelSummary],
     open_weights_limit: int = DEFAULT_OPEN_WEIGHTS_LIMIT,
 ) -> dict:
-    """Pick the best model per cloud family and the top open-weights models."""
+    """Pick the best model per cloud family and the top open-weights models.
+
+    The ``generated_at`` field is intentionally left unset here; it is filled in
+    by :func:`write_recommendations`, which only bumps the timestamp when the
+    substantive content (everything except ``generated_at``) actually changes.
+    This keeps automated runs from opening PRs that touch nothing but a
+    timestamp.
+    """
     closed = [
         s
         for s in summaries
@@ -230,16 +237,56 @@ def pick_recommendations(
     open_weights_data = [s.to_dict() for s in open_weights[:open_weights_limit]]
 
     return {
-        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00"),
         "cloud_by_family": cloud_by_family,
         "open_weights": open_weights_data,
     }
 
 
 def write_recommendations(output_path: Path, recommendations: dict) -> None:
+    """Write recommendations, preserving ``generated_at`` when content is unchanged.
+
+    On every run we compare the new recommendations (excluding ``generated_at``)
+    against the existing file's content (also excluding ``generated_at``). When
+    they match we keep the old ``generated_at`` so the file is byte-identical
+    and no churn PR is created; only real content changes advance the timestamp.
+    """
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    new_content = {
+        "cloud_by_family": recommendations["cloud_by_family"],
+        "open_weights": recommendations["open_weights"],
+    }
+
+    previous_generated_at: Optional[str] = None
+    content_unchanged = False
+    if output_path.exists():
+        try:
+            existing = json.loads(output_path.read_text())
+            if isinstance(existing, dict):
+                previous_generated_at = existing.get("generated_at")
+                existing_content = {
+                    "cloud_by_family": existing.get("cloud_by_family"),
+                    "open_weights": existing.get("open_weights"),
+                }
+                content_unchanged = existing_content == new_content
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"Warning: could not read existing {output_path}: {exc}")
+
+    if content_unchanged:
+        generated_at = previous_generated_at
+    else:
+        generated_at = datetime.now(timezone.utc).strftime(
+            "%Y-%m-%dT%H:%M:%S+00:00"
+        )
+
+    # Always emit keys in a stable order so the file is byte-identical across
+    # runs when the content has not changed.
+    output = {
+        "generated_at": generated_at,
+        **new_content,
+    }
     with output_path.open("w") as fh:
-        json.dump(recommendations, fh, indent=2)
+        json.dump(output, fh, indent=2)
         fh.write("\n")
 
 
