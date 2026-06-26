@@ -6,11 +6,13 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import shutil
 import subprocess
 import sys
 import tarfile
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
@@ -47,6 +49,27 @@ class ScoreRef:
     model_dir: Path
     benchmark: str
     archive_url: str
+    pricing: "Pricing"
+    cost_per_instance: float | None
+
+
+@dataclass(frozen=True)
+class Pricing:
+    input_cache_miss_cost: float
+    input_cache_hit_cost: float
+    output_cost: float
+
+    @property
+    def input_miss_per_token(self) -> float:
+        return self.input_cache_miss_cost / 1_000_000
+
+    @property
+    def input_hit_per_token(self) -> float:
+        return self.input_cache_hit_cost / 1_000_000
+
+    @property
+    def output_per_token(self) -> float:
+        return self.output_cost / 1_000_000
 
 
 def _safe_name(url: str) -> str:
@@ -80,6 +103,7 @@ def _iter_score_refs(repo_root: Path) -> Iterable[ScoreRef]:
             scores = json.loads(scores_path.read_text())
             if not isinstance(scores, list):
                 continue
+            pricing = _pricing_from_model_dir(scores_path.parent)
             for entry in scores:
                 url = entry.get("full_archive")
                 benchmark = entry.get("benchmark")
@@ -90,7 +114,30 @@ def _iter_score_refs(repo_root: Path) -> Iterable[ScoreRef]:
                     model_dir=scores_path.parent,
                     benchmark=benchmark,
                     archive_url=url,
+                    pricing=pricing,
+                    cost_per_instance=_number_or_none(entry.get("cost_per_instance")),
                 )
+
+
+def _pricing_from_model_dir(model_dir: Path) -> Pricing:
+    metadata_path = model_dir / "metadata.json"
+    metadata = json.loads(metadata_path.read_text())
+    input_price = metadata.get("input_price")
+    output_price = metadata.get("output_price")
+    cache_read_price = metadata.get("cache_read_price")
+
+    if input_price is None:
+        raise ValueError(f"{metadata_path} missing input_price")
+    if output_price is None:
+        raise ValueError(f"{metadata_path} missing output_price")
+    if cache_read_price is None:
+        cache_read_price = input_price
+
+    return Pricing(
+        input_cache_miss_cost=float(input_price),
+        input_cache_hit_cost=float(cache_read_price),
+        output_cost=float(output_price),
+    )
 
 
 def _is_appledouble(name: str) -> bool:
@@ -206,6 +253,196 @@ def _number_or_none(value: Any) -> float | None:
     return None
 
 
+def _extract_usage_from_metrics(metrics: dict[str, Any] | None) -> tuple[int, int, int]:
+    usage = ((metrics or {}).get("accumulated_token_usage") or {})
+    return (
+        int(usage.get("prompt_tokens") or 0),
+        int(usage.get("completion_tokens") or 0),
+        int(usage.get("cache_read_tokens") or 0),
+    )
+
+
+def _has_usage(prompt_tokens: int, completion_tokens: int, cache_read_tokens: int) -> bool:
+    return prompt_tokens != 0 or completion_tokens != 0 or cache_read_tokens != 0
+
+
+def _calculate_instance_cost(
+    prompt_tokens: int,
+    completion_tokens: int,
+    cache_read_tokens: int,
+    pricing: Pricing,
+) -> float:
+    non_cached_prompt_tokens = max(prompt_tokens - cache_read_tokens, 0)
+    return (
+        non_cached_prompt_tokens * pricing.input_miss_per_token
+        + cache_read_tokens * pricing.input_hit_per_token
+        + completion_tokens * pricing.output_per_token
+    )
+
+
+def _extract_usage_from_base_state(base_state: dict[str, Any]) -> tuple[int, int, int]:
+    usage_to_metrics = ((base_state.get("stats") or {}).get("usage_to_metrics") or {})
+
+    total_prompt_tokens = 0
+    total_completion_tokens = 0
+    total_cache_read_tokens = 0
+
+    for metrics in usage_to_metrics.values():
+        prompt_tokens, completion_tokens, cache_read_tokens = _extract_usage_from_metrics(metrics)
+        total_prompt_tokens += prompt_tokens
+        total_completion_tokens += completion_tokens
+        total_cache_read_tokens += cache_read_tokens
+
+    return total_prompt_tokens, total_completion_tokens, total_cache_read_tokens
+
+
+def _collect_conversation_usage_by_instance(
+    tf: tarfile.TarFile,
+) -> dict[str, tuple[int, int, int]]:
+    usage_by_instance: dict[str, tuple[int, int, int]] = {}
+    conv_archives = [
+        member
+        for member in tf.getmembers()
+        if member.name.endswith(".tar.gz") and "/conversations/" in member.name
+    ]
+
+    for conv_archive in conv_archives:
+        try:
+            extracted = tf.extractfile(conv_archive)
+            if extracted is None:
+                continue
+            conv_tar_data = extracted.read()
+            instance_id = conv_archive.name.split("/conversations/")[-1].removesuffix(".tar.gz")
+
+            with tarfile.open(fileobj=BytesIO(conv_tar_data), mode="r:gz") as conv_tf:
+                base_state_file = next(
+                    (
+                        member
+                        for member in conv_tf.getmembers()
+                        if member.name.endswith("base_state.json")
+                    ),
+                    None,
+                )
+                if base_state_file is None:
+                    continue
+
+                fileobj = conv_tf.extractfile(base_state_file)
+                if fileobj is None:
+                    continue
+                base_state = json.loads(fileobj.read())
+                usage_by_instance[instance_id] = _extract_usage_from_base_state(base_state)
+        except Exception as exc:
+            logger.debug("Skipping unreadable conversation archive %s: %s", conv_archive.name, exc)
+
+    return usage_by_instance
+
+
+def _add_usage_cost(
+    costs_by_instance: dict[str, float],
+    instance_id: str,
+    usage: tuple[int, int, int],
+    pricing: Pricing,
+) -> None:
+    prompt_tokens, completion_tokens, cache_read_tokens = usage
+    if not _has_usage(prompt_tokens, completion_tokens, cache_read_tokens):
+        return
+    costs_by_instance[instance_id] = costs_by_instance.get(instance_id, 0.0) + _calculate_instance_cost(
+        prompt_tokens,
+        completion_tokens,
+        cache_read_tokens,
+        pricing,
+    )
+
+
+def _costs_from_jsonl_members(
+    tf: tarfile.TarFile,
+    members: list[tarfile.TarInfo],
+    pricing: Pricing,
+) -> dict[str, float]:
+    costs_by_instance: dict[str, float] = {}
+    instance_ids: set[str] = set()
+    instance_ids_with_jsonl_usage: set[str] = set()
+
+    for member in members:
+        fileobj = tf.extractfile(member)
+        if fileobj is None:
+            continue
+
+        for raw_line in fileobj:
+            line = raw_line.decode("utf-8", errors="replace").strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                logger.debug("Skipping malformed JSONL row in %s", member.name)
+                continue
+            if not isinstance(row, dict):
+                continue
+
+            instance_id = row.get("instance_id")
+            if not isinstance(instance_id, str):
+                continue
+            instance_ids.add(instance_id)
+
+            usage = _extract_usage_from_metrics(row.get("metrics"))
+            if not _has_usage(*usage):
+                continue
+            instance_ids_with_jsonl_usage.add(instance_id)
+            _add_usage_cost(costs_by_instance, instance_id, usage, pricing)
+
+    missing_instance_ids = instance_ids - instance_ids_with_jsonl_usage
+    if missing_instance_ids:
+        conversation_usage_by_instance = _collect_conversation_usage_by_instance(tf)
+        for instance_id in sorted(missing_instance_ids):
+            usage = conversation_usage_by_instance.get(instance_id)
+            if usage is not None:
+                _add_usage_cost(costs_by_instance, instance_id, usage, pricing)
+
+    return costs_by_instance
+
+
+def _costs_from_conversation_archives(
+    tf: tarfile.TarFile,
+    pricing: Pricing,
+) -> dict[str, float]:
+    costs_by_instance: dict[str, float] = {}
+    for instance_id, usage in _collect_conversation_usage_by_instance(tf).items():
+        _add_usage_cost(costs_by_instance, instance_id, usage, pricing)
+    return costs_by_instance
+
+
+def _calculated_costs_by_instance(
+    tf: tarfile.TarFile,
+    pricing: Pricing | None,
+) -> dict[str, float]:
+    if pricing is None:
+        return {}
+
+    critic_members = sorted(
+        [
+            member
+            for member in tf.getmembers()
+            if member.isfile() and re.search(r"(^|/)output\.critic_attempt_\d+\.jsonl$", member.name)
+        ],
+        key=lambda member: member.name,
+    )
+    output_members = sorted(
+        [
+            member
+            for member in tf.getmembers()
+            if member.isfile() and re.search(r"(^|/)output\.jsonl$", member.name)
+        ],
+        key=lambda member: member.name,
+    )
+
+    if critic_members:
+        return _costs_from_jsonl_members(tf, critic_members, pricing)
+    if output_members:
+        return _costs_from_jsonl_members(tf, output_members, pricing)
+    return _costs_from_conversation_archives(tf, pricing)
+
+
 def _cost_from_output_row(row: dict[str, Any]) -> float | None:
     metrics = row.get("metrics")
     if isinstance(metrics, dict):
@@ -249,6 +486,7 @@ def _records_from_output_jsonl_payload(
     source_archive: str,
     source_path: str,
     records: dict[str, dict[str, Any]],
+    calculated_costs: dict[str, float] | None = None,
     default_status: str = "unknown",
 ) -> None:
     for line in raw.decode("utf-8", errors="replace").splitlines():
@@ -265,15 +503,23 @@ def _records_from_output_jsonl_payload(
         if not isinstance(instance_id, str):
             continue
         status = _status_from_output_row(row, default_status=default_status)
-        cost = _cost_from_output_row(row)
+        cost = (calculated_costs or {}).get(instance_id)
+        if cost is None:
+            cost = _cost_from_output_row(row)
         _merge_record(records, benchmark, instance_id, status, source_archive, source_path, cost)
 
 
-def extract_records(archive_path: Path, benchmark: str, source_archive: str) -> list[dict[str, Any]]:
+def extract_records(
+    archive_path: Path,
+    benchmark: str,
+    source_archive: str,
+    pricing: Pricing | None = None,
+) -> list[dict[str, Any]]:
     fallback_records: dict[str, dict[str, Any]] = {}
     top_report_found = False
-    with tarfile.open(archive_path, "r|gz") as tf:
-        for member in tf:
+    with tarfile.open(archive_path, "r:gz") as tf:
+        calculated_costs = _calculated_costs_by_instance(tf, pricing)
+        for member in tf.getmembers():
             if not member.isfile():
                 continue
             name = member.name
@@ -295,6 +541,7 @@ def extract_records(archive_path: Path, benchmark: str, source_archive: str) -> 
                     source_archive=source_archive,
                     source_path=name,
                     records=fallback_records,
+                    calculated_costs=calculated_costs,
                     default_status="error" if path.name == "output_errors.jsonl" else "unknown",
                 )
                 continue
@@ -314,6 +561,7 @@ def extract_records(archive_path: Path, benchmark: str, source_archive: str) -> 
                             status=record["status"],
                             source_archive=source_archive,
                             source_path=name,
+                            cost=calculated_costs.get(record["instance_id"]),
                         )
                     top_report_found = True
                 continue
@@ -348,12 +596,66 @@ def _write_resolved_map(path: Path, records: list[dict[str, Any]], dry_run: bool
     path.write_text(json.dumps(results_by_instance, sort_keys=True, separators=(",", ":")) + "\n")
 
 
+def _normalize_costs_to_target_mean(
+    records: list[dict[str, Any]],
+    target_mean: float | None,
+) -> None:
+    if target_mean is None or target_mean <= 0:
+        return
+
+    graded_records = [
+        record
+        for record in records
+        if record.get("resolved") is not None and record.get("cost") is not None
+    ]
+    if not graded_records:
+        missing_cost_records = [
+            record
+            for record in records
+            if record.get("resolved") is not None and record.get("cost") is None
+        ]
+        if not missing_cost_records:
+            logger.warning("Cannot normalize costs: no graded records have costs")
+            return
+        logger.info(
+            "Assigning published cost_per_instance %.4f to %s graded records without costs",
+            target_mean,
+            len(missing_cost_records),
+        )
+        for record in missing_cost_records:
+            record["cost"] = target_mean
+        return
+
+    current_mean = sum(record["cost"] for record in graded_records) / len(graded_records)
+    if current_mean <= 0:
+        logger.info(
+            "Replacing zero graded mean with published cost_per_instance %.4f",
+            target_mean,
+        )
+        for record in graded_records:
+            record["cost"] = target_mean
+        return
+
+    scale = target_mean / current_mean
+    if abs(scale - 1.0) > 0.01:
+        logger.info(
+            "Normalizing per-instance costs by %.4f to match published cost_per_instance %.4f",
+            scale,
+            target_mean,
+        )
+
+    for record in records:
+        if record.get("cost") is not None:
+            record["cost"] *= scale
+
+
 def extract_all(
     repo_root: Path,
     cache_dir: Path,
     force_download: bool = False,
     dry_run: bool = False,
     limit: int | None = None,
+    normalize_costs: bool = True,
 ) -> int:
     refs = list(_iter_score_refs(repo_root))
     if limit is not None:
@@ -365,7 +667,12 @@ def extract_all(
         logger.info("[%s/%s] %s %s", index, len(refs), rel, ref.benchmark)
         try:
             archive_path = _download(ref.archive_url, cache_dir, force=force_download)
-            records = extract_records(archive_path, ref.benchmark, ref.archive_url)
+            records = extract_records(
+                archive_path,
+                ref.benchmark,
+                ref.archive_url,
+                pricing=ref.pricing,
+            )
         except Exception as exc:
             failures += 1
             logger.error("Failed to extract %s %s: %s", rel, ref.benchmark, exc)
@@ -376,6 +683,8 @@ def extract_all(
             logger.error("No instance records extracted for %s %s", rel, ref.benchmark)
             continue
 
+        if normalize_costs:
+            _normalize_costs_to_target_mean(records, ref.cost_per_instance)
         _write_resolved_map(_output_path(ref.model_dir, ref.benchmark), records, dry_run=dry_run)
 
     return failures
@@ -389,6 +698,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--clean-cache", action="store_true")
+    parser.add_argument(
+        "--no-normalize-costs",
+        action="store_true",
+        help="Do not scale calculated per-instance costs to scores.json cost_per_instance",
+    )
     parser.add_argument("--verbose", action="store_true")
     return parser.parse_args(argv)
 
@@ -407,6 +721,7 @@ def main(argv: list[str] | None = None) -> int:
         force_download=args.force_download,
         dry_run=args.dry_run,
         limit=args.limit,
+        normalize_costs=not args.no_normalize_costs,
     )
 
 
