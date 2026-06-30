@@ -4,7 +4,7 @@ import io
 import json
 import tarfile
 
-from extract_instance_results import extract_records
+from extract_instance_results import Pricing, _normalize_costs_to_target_mean, extract_records
 
 
 def _write_tar(path, members):
@@ -14,6 +14,16 @@ def _write_tar(path, members):
             info = tarfile.TarInfo(name)
             info.size = len(raw)
             tf.addfile(info, io.BytesIO(raw))
+
+
+def _conversation_archive(base_state):
+    raw = io.BytesIO()
+    with tarfile.open(fileobj=raw, mode="w:gz") as tf:
+        payload = json.dumps(base_state).encode()
+        info = tarfile.TarInfo("state/base_state.json")
+        info.size = len(payload)
+        tf.addfile(info, io.BytesIO(payload))
+    return raw.getvalue()
 
 
 def test_extract_records_from_top_level_report(tmp_path):
@@ -153,3 +163,98 @@ def test_extract_records_from_output_jsonl_cost(tmp_path):
     assert records[0]["status"] == "resolved"
     assert records[0]["resolved"] is True
     assert records[0]["cost"] == 0.42
+
+
+def test_extract_records_recalculates_zero_output_jsonl_cost_from_usage(tmp_path):
+    archive = tmp_path / "results.tar.gz"
+    _write_tar(
+        archive,
+        {
+            "run/output.jsonl": (
+                b'{"instance_id":"sympy__sympy-1","metrics":{'
+                b'"accumulated_cost":0,'
+                b'"accumulated_token_usage":{'
+                b'"prompt_tokens":1000,"completion_tokens":200,"cache_read_tokens":400'
+                b'}},'
+                b'"test_result":{"resolved":true}}\n'
+            ),
+        },
+    )
+
+    records = extract_records(
+        archive,
+        benchmark="swe-bench",
+        source_archive="https://results.eval.all-hands.dev/swebench/model/run/results.tar.gz",
+        pricing=Pricing(input_cache_miss_cost=1.0, input_cache_hit_cost=0.1, output_cost=2.0),
+    )
+
+    assert records[0]["instance_id"] == "sympy__sympy-1"
+    assert records[0]["cost"] == 0.00104
+
+
+def test_extract_records_supplements_missing_jsonl_usage_from_conversation(tmp_path):
+    archive = tmp_path / "results.tar.gz"
+    _write_tar(
+        archive,
+        {
+            "run/output.jsonl": (
+                b'{"instance_id":"sympy__sympy-1","metrics":{},'
+                b'"test_result":{"resolved":true}}\n'
+            ),
+            "run/conversations/sympy__sympy-1.tar.gz": _conversation_archive(
+                {
+                    "stats": {
+                        "usage_to_metrics": {
+                            "llm": {
+                                "accumulated_token_usage": {
+                                    "prompt_tokens": 1000,
+                                    "completion_tokens": 200,
+                                    "cache_read_tokens": 400,
+                                }
+                            }
+                        }
+                    }
+                }
+            ),
+        },
+    )
+
+    records = extract_records(
+        archive,
+        benchmark="swe-bench",
+        source_archive="https://results.eval.all-hands.dev/swebench/model/run/results.tar.gz",
+        pricing=Pricing(input_cache_miss_cost=1.0, input_cache_hit_cost=0.1, output_cost=2.0),
+    )
+
+    assert records[0]["instance_id"] == "sympy__sympy-1"
+    assert records[0]["cost"] == 0.00104
+
+
+def test_normalize_costs_to_published_graded_mean():
+    records = [
+        {"instance_id": "a", "resolved": True, "cost": 1.0},
+        {"instance_id": "b", "resolved": False, "cost": 3.0},
+        {"instance_id": "c", "resolved": None, "cost": 100.0},
+        {"instance_id": "d", "resolved": True, "cost": None},
+    ]
+
+    _normalize_costs_to_target_mean(records, target_mean=10.0)
+
+    assert records[0]["cost"] == 5.0
+    assert records[1]["cost"] == 15.0
+    assert records[2]["cost"] == 500.0
+    assert records[3]["cost"] is None
+
+
+def test_normalize_assigns_published_cost_when_distribution_missing():
+    records = [
+        {"instance_id": "a", "resolved": True, "cost": None},
+        {"instance_id": "b", "resolved": False, "cost": None},
+        {"instance_id": "c", "resolved": None, "cost": None},
+    ]
+
+    _normalize_costs_to_target_mean(records, target_mean=0.01)
+
+    assert records[0]["cost"] == 0.01
+    assert records[1]["cost"] == 0.01
+    assert records[2]["cost"] is None
