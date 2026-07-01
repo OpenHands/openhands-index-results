@@ -54,6 +54,7 @@ DEFAULT_OPEN_WEIGHTS_LIMIT = 5
 # rather than computing them so the docs stay stable when a provider
 # renames an endpoint or a new alias appears.
 DEFAULT_MODEL_STRINGS: dict[str, str] = {
+    "claude-fable-5": "anthropic/claude-fable-5",
     "claude-opus-4-7": "anthropic/claude-opus-4-7",
     "claude-opus-4-6": "anthropic/claude-opus-4-6",
     "claude-opus-4-5": "anthropic/claude-opus-4-5",

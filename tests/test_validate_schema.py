@@ -1033,31 +1033,8 @@ class TestMetadataSchema:
         assert valid is False
         assert "not available" in msg.lower() or "false" in msg.lower()
 
-    def test_available_false_for_claude_fable_5(self, tmp_path):
-        """Test that available=False is required for claude-fable-5."""
-        metadata = {
-            "agent_name": "OpenHands",
-            "agent_version": "v1.18.1",
-            "model": "claude-fable-5",
-            "country": "us",
-            "openness": "closed_api_available",
-            "tool_usage": "standard",
-            "directory_name": "claude-fable-5",
-            "release_date": "2026-06-09",
-            "supports_vision": True,
-            "input_price": 10.0,
-            "output_price": 50.0,
-            "available": False
-        }
-        metadata_file = tmp_path / "metadata.json"
-        metadata_file.write_text(json.dumps(metadata))
-
-        valid, msg = validate_metadata(metadata_file)
-        assert valid is True
-        assert msg == "OK"
-
-    def test_available_true_for_claude_fable_5_fails(self, tmp_path):
-        """Test that available=True for claude-fable-5 is rejected."""
+    def test_available_true_for_claude_fable_5(self, tmp_path):
+        """Test that available=True is accepted for claude-fable-5."""
         metadata = {
             "agent_name": "OpenHands",
             "agent_version": "v1.18.1",
@@ -1076,8 +1053,31 @@ class TestMetadataSchema:
         metadata_file.write_text(json.dumps(metadata))
 
         valid, msg = validate_metadata(metadata_file)
+        assert valid is True
+        assert msg == "OK"
+
+    def test_available_false_for_claude_fable_5_fails(self, tmp_path):
+        """Test that available=False for claude-fable-5 is rejected."""
+        metadata = {
+            "agent_name": "OpenHands",
+            "agent_version": "v1.18.1",
+            "model": "claude-fable-5",
+            "country": "us",
+            "openness": "closed_api_available",
+            "tool_usage": "standard",
+            "directory_name": "claude-fable-5",
+            "release_date": "2026-06-09",
+            "supports_vision": True,
+            "input_price": 10.0,
+            "output_price": 50.0,
+            "available": False
+        }
+        metadata_file = tmp_path / "metadata.json"
+        metadata_file.write_text(json.dumps(metadata))
+
+        valid, msg = validate_metadata(metadata_file)
         assert valid is False
-        assert "not available" in msg.lower() or "false" in msg.lower()
+        assert "available from the provider" in msg.lower() or "true" in msg.lower()
 
     def test_available_false_for_available_model_fails(self, tmp_path):
         """Test that available=False for an available model is rejected."""
