@@ -476,7 +476,7 @@ class Metadata(BaseModel):
         """Ensure available is set correctly for known unavailable models."""
         model = info.data.get("model")
         if model is not None:
-            unavailable_models = {Model.GEMINI_3_PRO, Model.CLAUDE_FABLE_5}
+            unavailable_models = {Model.GEMINI_3_PRO}
             if model in unavailable_models and v is not False:
                 raise ValueError(
                     f"Model '{model.value}' is not available from the provider. "

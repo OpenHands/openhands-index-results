@@ -12,5 +12,5 @@
   "output_price": 50.0,
   "cache_read_price": 1.0,
   "cache_write_price": 12.5,
-  "available": false
+  "available": true
 }

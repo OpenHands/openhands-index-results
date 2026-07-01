@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-06-18T21:07:32+00:00",
+  "generated_at": "2026-07-01T20:11:42+00:00",
   "cloud_by_family": [
     {
-      "model": "claude-opus-4-8",
-      "model_path": "results/claude-opus-4-8",
-      "average_score": 71.9,
+      "model": "claude-fable-5",
+      "model_path": "results/claude-fable-5",
+      "average_score": 81.0,
       "benchmarks_count": 5,
       "family": "Claude",
       "openness": "closed_api_available",
-      "model_string": null
+      "model_string": "anthropic/claude-fable-5"
     },
     {
       "model": "GPT-5.5",
