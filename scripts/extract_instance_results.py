@@ -606,37 +606,49 @@ def _normalize_costs_to_target_mean(
     graded_records = [
         record
         for record in records
-        if record.get("resolved") is not None and record.get("cost") is not None
+        if record.get("resolved") is not None
     ]
     if not graded_records:
-        missing_cost_records = [
-            record
-            for record in records
-            if record.get("resolved") is not None and record.get("cost") is None
-        ]
-        if not missing_cost_records:
-            logger.warning("Cannot normalize costs: no graded records have costs")
-            return
+        logger.warning("Cannot normalize costs: no graded records")
+        return
+
+    costed_records = [record for record in graded_records if record.get("cost") is not None]
+    missing_cost_records = [record for record in graded_records if record.get("cost") is None]
+
+    if missing_cost_records:
         logger.info(
-            "Assigning published cost_per_instance %.4f to %s graded records without costs",
-            target_mean,
+            "Assigning zero cost to %s graded records without recoverable costs",
             len(missing_cost_records),
         )
         for record in missing_cost_records:
+            record["cost"] = 0.0
+
+    if not costed_records:
+        logger.info(
+            "Assigning published cost_per_instance %.4f to %s graded records with no cost distribution",
+            target_mean,
+            len(graded_records),
+        )
+        for record in graded_records:
             record["cost"] = target_mean
         return
 
-    current_mean = sum(record["cost"] for record in graded_records) / len(graded_records)
-    if current_mean <= 0:
+    current_total = sum(record["cost"] for record in costed_records)
+    if current_total <= 0:
         logger.info(
-            "Replacing zero graded mean with published cost_per_instance %.4f",
+            "Replacing zero graded costs with published cost_per_instance %.4f",
             target_mean,
         )
         for record in graded_records:
             record["cost"] = target_mean
         return
 
-    scale = target_mean / current_mean
+    target_total = target_mean * len(graded_records)
+    current_full_mean = current_total / len(graded_records)
+    if abs((current_full_mean / target_mean) - 1.0) <= 0.005:
+        return
+
+    scale = target_total / current_total
     if abs(scale - 1.0) > 0.01:
         logger.info(
             "Normalizing per-instance costs by %.4f to match published cost_per_instance %.4f",
@@ -644,7 +656,7 @@ def _normalize_costs_to_target_mean(
             target_mean,
         )
 
-    for record in records:
+    for record in costed_records:
         if record.get("cost") is not None:
             record["cost"] *= scale
 

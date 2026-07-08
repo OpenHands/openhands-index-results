@@ -230,7 +230,7 @@ def test_extract_records_supplements_missing_jsonl_usage_from_conversation(tmp_p
     assert records[0]["cost"] == 0.00104
 
 
-def test_normalize_costs_to_published_graded_mean():
+def test_normalize_costs_to_published_mean_over_all_graded_records():
     records = [
         {"instance_id": "a", "resolved": True, "cost": 1.0},
         {"instance_id": "b", "resolved": False, "cost": 3.0},
@@ -240,10 +240,11 @@ def test_normalize_costs_to_published_graded_mean():
 
     _normalize_costs_to_target_mean(records, target_mean=10.0)
 
-    assert records[0]["cost"] == 5.0
-    assert records[1]["cost"] == 15.0
-    assert records[2]["cost"] == 500.0
-    assert records[3]["cost"] is None
+    assert records[0]["cost"] == 7.5
+    assert records[1]["cost"] == 22.5
+    assert records[2]["cost"] == 100.0
+    assert records[3]["cost"] == 0.0
+    assert sum(record["cost"] for record in records if record["resolved"] is not None) / 3 == 10.0
 
 
 def test_normalize_assigns_published_cost_when_distribution_missing():
@@ -258,3 +259,17 @@ def test_normalize_assigns_published_cost_when_distribution_missing():
     assert records[0]["cost"] == 0.01
     assert records[1]["cost"] == 0.01
     assert records[2]["cost"] is None
+
+
+def test_normalize_zero_costs_missing_graded_instances():
+    records = [
+        {"instance_id": "a", "resolved": True, "cost": 12.0},
+        {"instance_id": "b", "resolved": False, "cost": None},
+        {"instance_id": "c", "resolved": False, "cost": None},
+    ]
+
+    _normalize_costs_to_target_mean(records, target_mean=4.0)
+
+    assert records[0]["cost"] == 12.0
+    assert records[1]["cost"] == 0.0
+    assert records[2]["cost"] == 0.0
